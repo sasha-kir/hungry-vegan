@@ -1,6 +1,7 @@
 :root {
-  --light-green: #ecffe8;
-  --dark-green: #258d42;
+  --main-green: #00473e;
+  --main-light: #f2f7f5;
+  --main-text: #abd1c6;
 }
 
 @font-face {
@@ -19,7 +20,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--light-green);
+  background-color: var(--main-green);
 }
 
 button {

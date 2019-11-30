@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import './LoginPage.css';
 
-import logo from '../../images/logo.jpg';
+import logo from '../../images/logo.svg';
 
 interface LoginPageProps {
     handleAuth: Function;
