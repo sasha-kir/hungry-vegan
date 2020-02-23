@@ -5,43 +5,43 @@
     align-items: center;
 }
 
-.heading {
+.login-wrapper .heading {
     color: var(--main-light);
     font-size: 4em;
     font-family: 'black-burger';
 }
 
-.logo {
+.login-wrapper .logo {
     height: 300px;
     width: auto;
 }
 
-/* button from https://codepen.io/tmrDevelops/pen/VeRvKX */
-
-button {
-    background: transparent;
-    padding: 1rem 1rem;
-    margin: 0 1rem;
-    color: var(--main-light);
-    font-weight: bold;
-    font-size: 1.4rem;
-    letter-spacing: 1px;
-    outline: none;
-    /* box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2); */
-    border-top-left-radius: 255px 15px;
-    border-top-right-radius: 15px 225px;
-    border-bottom-right-radius: 225px 15px;
-    border-bottom-left-radius: 15px 255px;
-    border: solid 7px var(--main-light);
-    transition: all .5s ease;
+.redirect-btn {
+  background: var(--main-light);
+  font-weight: bold;
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  color: var(--main-green);
+  display: inline-block;
+  padding: 20px 40px;
+  border: 4px solid var(--main-dark);
+  border-radius: 5px;
+  box-shadow: 4px 4px var(--main-light);
+  outline: none;
+  transition: all .2s ease;
 }
 
-button:hover {
-    /* box-shadow:2px 8px 4px -6px hsla(0,0%,0%,.3); */
-    background: var(--main-light);
-    color: var(--main-green)
+.redirect-btn:hover {
+    background: var(--main-highlight);
+    color: var(--main-dark);
 }
 
-button:active {
-    transform: scale(0.9);
+.redirect-btn:active {
+    box-shadow: 2px 2px var(--main-light);
+    transform: translateY(4px);
+}
+
+.redirect-btn a {
+    text-decoration: none;
+    color: inherit;
 }

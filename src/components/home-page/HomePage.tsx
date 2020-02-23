@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HomePage: React.FC = () => {
-    return <div>Home</div>;
+    return <div style={{ color: 'white', fontSize: '30px' }}>Home</div>;
 };
 
 export default HomePage;
