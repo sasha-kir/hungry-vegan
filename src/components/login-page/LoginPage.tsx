@@ -15,11 +15,11 @@ function LoginPage({ redirectUrl }: LoginPageProps): ReactElement {
     useEffect(() => {
         const fetchData = async () => {
             const url: string = config.apiUrl + '/foursquare-client-id';
-            const { data, status } = await axios.get(url);
-            if (status !== 200) {
-                console.error(data);
-            } else {
+            try {
+                const { data } = await axios.get(url);
                 setClientId(data.clientId);
+            } catch (error) {
+                console.error(error);
             }
         };
         fetchData();

@@ -21,30 +21,24 @@ function AuthPage({ handleAuth, redirectUrl }: AuthPageProps): ReactElement {
 
         const fetchToken = async () => {
             const url = config.apiUrl + '/foursquare-token';
-            const { data, status } = await axios.post(url, {
-                code,
-                redirectUrl,
-            });
-            console.log(status);
-            if (status !== 200) {
+            try {
+                const { data } = await axios.post(url, {
+                    code,
+                    redirectUrl,
+                });
+                setLoading(false);
+                setToken(data.accessToken);
+                handleAuth();
+                history.push('/');
+            } catch (error) {
                 setError(true);
                 setLoading(false);
                 console.error('Auth error!');
-            } else {
-                setLoading(false);
-                setToken(data.accessToken);
-                handleSuccess();
             }
         };
 
         fetchToken();
-    }, []);
-
-    const handleSuccess = (): void => {
-        handleAuth();
-        history.push('/');
-        console.log('AccessToken: ', token);
-    };
+    }, [handleAuth, redirectUrl]);
 
     return (
         <div>
