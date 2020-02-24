@@ -4,14 +4,13 @@ import axios from 'axios';
 import config from '../../config';
 
 interface AuthPageProps {
-    handleAuth(): void;
+    handleAuth(token: string): void;
     redirectUrl: string;
 }
 
 function AuthPage({ handleAuth, redirectUrl }: AuthPageProps): ReactElement {
     const [isLoading, setLoading] = useState(true);
     const [isError, setError] = useState(false);
-    const [token, setToken] = useState('');
     const location = useLocation();
     const history = useHistory();
 
@@ -25,10 +24,10 @@ function AuthPage({ handleAuth, redirectUrl }: AuthPageProps): ReactElement {
                 const { data } = await axios.post(url, {
                     code,
                     redirectUrl,
+                    userId: 1,
                 });
                 setLoading(false);
-                setToken(data.accessToken);
-                handleAuth();
+                handleAuth(data.token);
                 history.push('/');
             } catch (error) {
                 setError(true);
@@ -38,13 +37,13 @@ function AuthPage({ handleAuth, redirectUrl }: AuthPageProps): ReactElement {
         };
 
         fetchToken();
-    }, [handleAuth, redirectUrl]);
+    }, []);
 
     return (
         <div>
             {isLoading && <p style={{ color: 'white' }}>Authorization in progress...</p>}
-            {token !== '' && <p style={{ color: 'white' }}>Redirecting you to homepage...</p>}
             {isError && <p style={{ color: 'red' }}>Authentication error</p>}
+            {!isLoading && !isError && <p style={{ color: 'white' }}>Redirecting you to homepage...</p>}
         </div>
     );
 }

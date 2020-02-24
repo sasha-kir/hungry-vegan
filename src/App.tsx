@@ -12,8 +12,9 @@ const App: React.FC = () => {
     const [auth, setAuth] = useState(false);
     const redirectUrl: string = config.baseUrl + '/auth/foursquare';
 
-    const handleAuth = (): void => {
+    const handleAuth = (token: string): void => {
         setAuth(true);
+        localStorage.setItem('token', token);
     };
 
     return (
