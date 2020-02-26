@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Route, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 
+import PrivateRoute from './PrivateRoute';
 import LoginPage from './components/login-page/LoginPage';
 import HomePage from './components/home-page/HomePage';
 import AuthPage from './components/auth-page/AuthPage';
@@ -24,9 +25,9 @@ const App: React.FC = () => {
                     <Route exact path="/login">
                         <LoginPage redirectUrl={redirectUrl} />
                     </Route>
-                    <Route exact path="/">
-                        {auth ? <HomePage /> : <Redirect to="/login" />}
-                    </Route>
+                    <PrivateRoute exact path="/" auth={auth}>
+                        <HomePage />
+                    </PrivateRoute>
                     <Route exact path="/auth/foursquare">
                         <AuthPage redirectUrl={redirectUrl} handleAuth={handleAuth} />
                     </Route>
