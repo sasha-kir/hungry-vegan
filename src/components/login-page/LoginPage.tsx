@@ -1,51 +1,43 @@
 import React, { ReactElement, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 import './LoginPage.css';
-import logo from '../../images/logo.svg';
-import config from '../../config';
 
-interface LoginPageProps {
-    redirectUrl: string;
-}
+const LoginPage = (): ReactElement => {
+    const { register, handleSubmit, errors } = useForm();
 
-function LoginPage({ redirectUrl }: LoginPageProps): ReactElement {
-    const [clientId, setClientId] = useState('');
+    const onSubmit = data => {
+        console.log(data);
+    };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const url: string = config.apiUrl + '/foursquare-client-id';
-            try {
-                const { data } = await axios.get(url);
-                setClientId(data.clientId);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    const renderButton = (): ReactElement => {
-        const foursquareUrl = 'https://foursquare.com/oauth2/authenticate';
-        const authUrl = new URL(foursquareUrl);
-        authUrl.searchParams.append('client_id', clientId);
-        authUrl.searchParams.append('response_type', 'code');
-        authUrl.searchParams.append('redirect_uri', redirectUrl);
-
-        return (
-            <button className="redirect-btn">
-                <a href={authUrl.href}>discover vegan food</a>
-            </button>
-        );
+    const renderError = () => {
+        return <div className="input-error">Required field</div>;
     };
 
     return (
         <div className="login-wrapper">
-            <div className="heading">Hungry Vegan</div>
-            <img className="logo" src={logo} alt="spoon and fork logo" />
-            {renderButton()}
+            <h1 className="heading">Log in</h1>
+
+            <article className="login-form-wrapper">
+                <form className="login-form" onSubmit={() => false}>
+                    <div className="form-input-wrapper">
+                        <label>username</label>
+                        <input name="username" ref={register({ required: true })} />
+                        {errors.username && renderError()}
+                    </div>
+                    <div className="form-input-wrapper">
+                        <label>password</label>
+                        <input name="password" type="password" ref={register({ required: true })} />
+                        {errors.password && renderError()}
+                    </div>
+                    <button onClick={handleSubmit(onSubmit)} className="login-btn">
+                        submit
+                    </button>
+                </form>
+            </article>
         </div>
     );
-}
+};
 
 export default LoginPage;
