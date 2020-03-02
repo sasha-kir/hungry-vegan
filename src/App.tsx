@@ -23,7 +23,7 @@ const App: React.FC = () => {
                 <Router basename="/hungry-vegan">
                     <Switch>
                         <Route exact path="/login">
-                            <LoginPage />
+                            <LoginPage handleAuth={handleAuth} />
                         </Route>
                         <PrivateRoute exact path="/">
                             <HomePage />

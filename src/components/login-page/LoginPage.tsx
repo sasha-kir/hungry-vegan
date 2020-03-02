@@ -1,14 +1,25 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-
+import config from '../../config';
 import './LoginPage.css';
 
-const LoginPage = (): ReactElement => {
+interface LoginPageProps {
+    handleAuth(token: string): void;
+}
+
+const LoginPage = ({ handleAuth }: LoginPageProps): ReactElement => {
     const { register, handleSubmit, errors } = useForm();
 
-    const onSubmit = data => {
-        console.log(data);
+    const onSubmit = async formData => {
+        const url = config.apiUrl + '/login';
+        try {
+            const { data } = await axios.post(url, formData);
+            handleAuth(data.token);
+        } catch (error) {
+            console.error(error.message);
+        }
     };
 
     const renderError = () => {
@@ -35,6 +46,7 @@ const LoginPage = (): ReactElement => {
                         submit
                     </button>
                 </form>
+                <Link to="/register">Don't have an account?</Link>
             </article>
         </div>
     );
