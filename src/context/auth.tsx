@@ -1,6 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useContext } from 'react';
 
-export const AuthContext = createContext(false);
+interface AuthContextProps {
+    authToken: string | null;
+    handleAuth(token: string): void;
+    handleLogout(): void;
+}
+
+const defaultValue: AuthContextProps = {
+    authToken: null,
+    handleAuth: (token: string) => {},
+    handleLogout: () => {},
+};
+
+export const AuthContext = createContext<AuthContextProps>(defaultValue);
 
 export function useAuth() {
     return useContext(AuthContext);

@@ -1,16 +1,17 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../context/auth';
 import config from '../../config';
 
 interface AuthPageProps {
-    handleAuth(token: string): void;
     redirectUrl: string;
 }
 
-function AuthPage({ handleAuth, redirectUrl }: AuthPageProps): ReactElement {
-    const [isLoading, setLoading] = useState(true);
-    const [isError, setError] = useState(false);
+function AuthPage({ redirectUrl }: AuthPageProps): ReactElement {
+    const [isLoading, setLoading] = useState<boolean>(true);
+    const [isError, setError] = useState<boolean>(false);
+    const { handleAuth } = useAuth();
     const location = useLocation();
     const history = useHistory();
 

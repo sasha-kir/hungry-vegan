@@ -1,15 +1,16 @@
-import React, { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import React, { ReactElement, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+
+import { useAuth } from '../../context/auth';
 import config from '../../config';
 import './LoginPage.css';
 
-interface LoginPageProps {
-    handleAuth(token: string): void;
-}
-
-const LoginPage = ({ handleAuth }: LoginPageProps): ReactElement => {
+const LoginPage = (): ReactElement => {
+    const [isError, setError] = useState<boolean>(false);
+    const { handleAuth } = useAuth();
+    const history = useHistory();
     const { register, handleSubmit, errors } = useForm();
 
     const onSubmit = async formData => {
@@ -17,13 +18,27 @@ const LoginPage = ({ handleAuth }: LoginPageProps): ReactElement => {
         try {
             const { data } = await axios.post(url, formData);
             handleAuth(data.token);
+            history.push('/');
         } catch (error) {
-            console.error(error.message);
+            setError(true);
         }
     };
 
-    const renderError = () => {
-        return <div className="input-error">Required field</div>;
+    const clearError = (): void => {
+        if (isError) setError(false);
+    };
+
+    const renderError = (message: string): ReactElement<HTMLDivElement> => {
+        return <div className="input-error">{message}</div>;
+    };
+
+    const renderUsernameError = (): ReactElement | undefined => {
+        if (errors.username) return renderError('Required field');
+    };
+
+    const renderPasswordError = (): ReactElement | undefined => {
+        if (errors.password) return renderError('Required field');
+        if (isError) return renderError('Wrong username or password');
     };
 
     return (
@@ -34,19 +49,24 @@ const LoginPage = ({ handleAuth }: LoginPageProps): ReactElement => {
                 <form className="login-form" onSubmit={() => false}>
                     <div className="form-input-wrapper">
                         <label>username</label>
-                        <input name="username" ref={register({ required: true })} />
-                        {errors.username && renderError()}
+                        <input name="username" ref={register({ required: 'Required field' })} />
+                        {renderUsernameError()}
                     </div>
                     <div className="form-input-wrapper">
                         <label>password</label>
-                        <input name="password" type="password" ref={register({ required: true })} />
-                        {errors.password && renderError()}
+                        <input
+                            name="password"
+                            onFocus={clearError}
+                            type="password"
+                            ref={register({ required: true })}
+                        />
+                        {renderPasswordError()}
                     </div>
                     <button onClick={handleSubmit(onSubmit)} className="login-btn">
                         submit
                     </button>
                 </form>
-                <Link to="/register">Don't have an account?</Link>
+                <Link to="/register">Login with Foursquare</Link>
             </article>
         </div>
     );
