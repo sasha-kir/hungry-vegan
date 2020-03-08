@@ -1,16 +1,18 @@
 import React, { ReactElement, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
 import { useAuth } from '../../context/auth';
 import config from '../../config';
+import { FancyButton } from '../common';
 import './LoginPage.css';
 
 const LoginPage = (): ReactElement => {
     const [isError, setError] = useState<boolean>(false);
     const { handleAuth } = useAuth();
     const history = useHistory();
+    const location = useLocation();
     const { register, handleSubmit, errors } = useForm();
 
     const onSubmit = async formData => {
@@ -18,7 +20,11 @@ const LoginPage = (): ReactElement => {
         try {
             const { data } = await axios.post(url, formData);
             handleAuth(data.token);
-            history.push('/');
+            let referer = '/home';
+            if (location.state) {
+                referer = location.state['from']['pathname'] || '/home';
+            }
+            history.push(referer);
         } catch (error) {
             setError(true);
         }
@@ -62,11 +68,12 @@ const LoginPage = (): ReactElement => {
                         />
                         {renderPasswordError()}
                     </div>
-                    <button onClick={handleSubmit(onSubmit)} className="login-btn">
+                    <FancyButton onClick={handleSubmit(onSubmit)} className="login-btn">
                         submit
-                    </button>
+                    </FancyButton>
                 </form>
-                <Link to="/register">Login with Foursquare</Link>
+                <Link to="/fsq-login">Login with Foursquare</Link>
+                <Link to="/register">Register</Link>
             </article>
         </div>
     );
