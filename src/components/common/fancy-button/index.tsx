@@ -1,5 +1,5 @@
 import React, { ReactElement, DetailedHTMLProps, ButtonHTMLAttributes } from 'react';
-import './FancyButton.css';
+import './style.css';
 
 const FancyButton = ({
     children,

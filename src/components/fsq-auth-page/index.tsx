@@ -4,8 +4,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import config from '../../config';
 import { FoursquareButton } from '../common';
-import './FsqAuthPage.css';
-import { useForm } from 'react-hook-form';
+import './style.css';
 
 enum FsqAuthStatus {
     idle,

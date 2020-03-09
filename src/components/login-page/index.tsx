@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import config from '../../config';
 import { FancyButton, FormInput } from '../common';
-import './LoginPage.css';
+import './style.css';
 
 const LoginPage = (): ReactElement => {
     const [isError, setError] = useState<boolean>(false);

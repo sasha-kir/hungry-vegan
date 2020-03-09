@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-import './PublicHomePage.css';
+import './style.css';
 import logo from '../../images/logo.svg';
 import { FancyButton } from '../common';
 

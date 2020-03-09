@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import config from '../../config';
 import { FancyButton, FoursquareButton } from '../common';
-import './HomePage.css';
+import './style.css';
 
 interface ListData {
     name: string;

@@ -1,9 +1,9 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
-import FancyButton from '../fancy-button/FancyButton';
+import FancyButton from '../fancy-button';
 import { useAuth } from '../../../context/auth';
 import config from '../../../config';
-import './FoursquareButton.css';
+import './style.css';
 
 const FoursquareButton = ({ children, style }: React.HTMLProps<HTMLButtonElement>): ReactElement<HTMLButtonElement> => {
     const [clientId, setClientId] = useState<string>('');

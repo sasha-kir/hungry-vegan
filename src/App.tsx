@@ -3,11 +3,11 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 
 import PrivateRoute from './PrivateRoute';
-import PublicHomePage from './components/public-home-page/PublicHomePage';
-import LoginPage from './components/login-page/LoginPage';
-import HomePage from './components/home-page/HomePage';
-import FsqAuthPage from './components/fsq-auth-page/FsqAuthPage';
-import NotFoundPage from './components/404-page/NotFoundPage';
+import PublicHomePage from './components/public-home-page';
+import LoginPage from './components/login-page';
+import HomePage from './components/home-page';
+import FsqAuthPage from './components/fsq-auth-page';
+import NotFoundPage from './components/404-page';
 import { AuthContext } from './context/auth';
 
 const App: React.FC = () => {
