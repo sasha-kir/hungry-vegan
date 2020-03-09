@@ -33,7 +33,9 @@ const FoursquareButton = ({ children, style }: React.HTMLProps<HTMLButtonElement
 
     return (
         <FancyButton style={style} className="foursquare-btn">
-            <a href={authUrl.href}>{children}</a>
+            <a className="foursquare-link" href={authUrl.href}>
+                {children}
+            </a>
         </FancyButton>
     );
 };

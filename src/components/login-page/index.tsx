@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { useAuth } from '../../context/auth';
 import config from '../../config';
-import { FancyButton, FormInput } from '../common';
+import { FancyButton, FormInput, FormWrapper } from '../common';
 import './style.css';
 
 const LoginPage = (): ReactElement => {
@@ -50,9 +50,7 @@ const LoginPage = (): ReactElement => {
 
     return (
         <div className="login-wrapper">
-            <h1 className="heading">Log in</h1>
-
-            <article className="login-form-wrapper">
+            <FormWrapper>
                 <form className="login-form" onSubmit={() => false}>
                     <Controller
                         as={FormInput}
@@ -79,7 +77,7 @@ const LoginPage = (): ReactElement => {
                 </form>
                 <Link to="/fsq-login">Login with Foursquare</Link>
                 <Link to="/register">Register</Link>
-            </article>
+            </FormWrapper>
         </div>
     );
 };

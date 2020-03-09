@@ -1,9 +1,9 @@
 import React, { ReactElement, useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import config from '../../config';
-import { FoursquareButton } from '../common';
+import { FoursquareButton, FormWrapper } from '../common';
 import './style.css';
 
 enum FsqAuthStatus {
@@ -55,7 +55,15 @@ function FsqAuthPage(): ReactElement {
     }, []);
 
     const renderAuthForm = (): ReactElement => {
-        return <FoursquareButton>login to foursquare</FoursquareButton>;
+        return (
+            <div className="fsq-login-wrapper">
+                <FormWrapper className="fsq-form-wrapper">
+                    <FoursquareButton>login with foursquare</FoursquareButton>
+                    <Link to="/login">Login to existing account</Link>
+                    <Link to="/register">Register</Link>
+                </FormWrapper>
+            </div>
+        );
     };
 
     return (
