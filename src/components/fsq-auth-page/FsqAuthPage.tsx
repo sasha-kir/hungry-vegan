@@ -3,12 +3,9 @@ import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import config from '../../config';
-import { FancyButton } from '../common';
+import { FoursquareButton } from '../common';
 import './FsqAuthPage.css';
-
-interface FsqAuthPageProps {
-    fsqAuthRoute: string;
-}
+import { useForm } from 'react-hook-form';
 
 enum FsqAuthStatus {
     idle,
@@ -17,39 +14,36 @@ enum FsqAuthStatus {
     error,
 }
 
-function FsqAuthPage({ fsqAuthRoute }: FsqAuthPageProps): ReactElement {
+function FsqAuthPage(): ReactElement {
     const [authStatus, setAuthStatus] = useState<FsqAuthStatus>(FsqAuthStatus.idle);
-    const [clientId, setClientId] = useState<string>('');
-    const { handleAuth } = useAuth();
+    const { authToken, handleAuth, fsqAuthRoute } = useAuth();
     const location = useLocation();
     const history = useHistory();
     const redirectUrl: string = config.baseUrl + fsqAuthRoute;
 
-    const fetchAuthData = async () => {
-        const url: string = config.apiUrl + '/foursquare-client-id';
-        try {
-            const { data } = await axios.get(url);
-            setClientId(data.clientId);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const fetchToken = async (code: string) => {
-        const url = config.apiUrl + '/foursquare-token';
+    const connectToFoursquare = async (code: string) => {
+        const url = config.apiUrl + '/foursquare-connect';
         setAuthStatus(FsqAuthStatus.pending);
         try {
-            const { data } = await axios.post(url, {
-                code,
-                redirectUrl,
-                userId: 1,
-            });
+            const { data } = await axios.post(
+                url,
+                {
+                    code,
+                    redirectUrl,
+                },
+                {
+                    headers: {
+                        Authentication: authToken,
+                    },
+                },
+            );
             setAuthStatus(FsqAuthStatus.success);
+            console.log(data);
             handleAuth(data.token);
             history.push('/home');
         } catch (error) {
             setAuthStatus(FsqAuthStatus.error);
-            console.error('Auth error!');
+            console.error(error);
         }
     };
 
@@ -57,24 +51,12 @@ function FsqAuthPage({ fsqAuthRoute }: FsqAuthPageProps): ReactElement {
         if (location.pathname === fsqAuthRoute) {
             const searchParams = new URLSearchParams(location.search);
             const code = searchParams.get('code') || '';
-            fetchToken(code);
-        } else {
-            fetchAuthData();
+            connectToFoursquare(code);
         }
     }, []);
 
-    const renderFoursquareButton = (): ReactElement => {
-        const foursquareUrl = 'https://foursquare.com/oauth2/authenticate';
-        const authUrl = new URL(foursquareUrl);
-        authUrl.searchParams.append('client_id', clientId);
-        authUrl.searchParams.append('response_type', 'code');
-        authUrl.searchParams.append('redirect_uri', redirectUrl);
-
-        return (
-            <FancyButton className="fsq-btn">
-                <a href={authUrl.href}>login with foursquare</a>
-            </FancyButton>
-        );
+    const renderAuthForm = (): ReactElement => {
+        return <FoursquareButton>login to foursquare</FoursquareButton>;
     };
 
     return (
@@ -82,7 +64,7 @@ function FsqAuthPage({ fsqAuthRoute }: FsqAuthPageProps): ReactElement {
             {authStatus === FsqAuthStatus.pending && <p style={{ color: 'white' }}>Authorization in progress...</p>}
             {authStatus === FsqAuthStatus.error && <p style={{ color: 'red' }}>Authentication error</p>}
             {authStatus === FsqAuthStatus.success && <p style={{ color: 'white' }}>Redirecting you to homepage...</p>}
-            {authStatus === FsqAuthStatus.idle && <p style={{ color: 'white' }}>{renderFoursquareButton()}</p>}
+            {authStatus === FsqAuthStatus.idle && renderAuthForm()}
         </div>
     );
 }

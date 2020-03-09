@@ -2,6 +2,8 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import config from '../../config';
+import { FancyButton, FoursquareButton } from '../common';
+import './HomePage.css';
 
 interface ListData {
     name: string;
@@ -17,7 +19,7 @@ enum FsqStatus {
 const HomePage: React.FC = () => {
     const [lists, setLists] = useState<ListData[]>([]);
     const [foursquareStatus, setFoursquareStatus] = useState<FsqStatus>(FsqStatus.pending);
-    const { handleLogout } = useAuth();
+    const { authToken, handleLogout } = useAuth();
 
     useEffect(() => {
         const fetchLists = async (): Promise<void> => {
@@ -26,7 +28,7 @@ const HomePage: React.FC = () => {
             try {
                 const { data } = await axios.get(url, {
                     headers: {
-                        Authentication: localStorage.getItem('token'),
+                        Authentication: authToken,
                     },
                 });
                 const listNames = data.data.map(listData => ({
@@ -35,7 +37,7 @@ const HomePage: React.FC = () => {
                 setFoursquareStatus(FsqStatus.success);
                 setLists(listNames);
             } catch (error) {
-                if (error.response.status === 400) {
+                if (error.response?.status === 400) {
                     setFoursquareStatus(FsqStatus.rejected);
                 } else {
                     setFoursquareStatus(FsqStatus.error);
@@ -54,17 +56,29 @@ const HomePage: React.FC = () => {
             </ul>
         );
     };
+
+    const renderFoursquareAuth = (): ReactElement => {
+        return (
+            <>
+                <p className="foursquare-message">You should authorize on Foursqaure</p>
+                <FoursquareButton style={{ width: '300px' }}>connect to foursquare</FoursquareButton>
+            </>
+        );
+    };
+
     return (
-        <>
-            <div style={{ color: 'white', fontSize: '30px' }}>Home</div>
-            {foursquareStatus === FsqStatus.pending && <div style={{ color: 'white' }}>Loading...</div>}
-            {foursquareStatus === FsqStatus.success && <div style={{ color: 'white' }}>{renderLists()}</div>}
-            {foursquareStatus === FsqStatus.rejected && (
-                <div style={{ color: 'white' }}>You should authorize on Foursqaure</div>
-            )}
-            {foursquareStatus === FsqStatus.error && <div style={{ color: 'red' }}>Error fetching Foursquare data</div>}
-            <button onClick={handleLogout}>Logout</button>
-        </>
+        <div className="home-page-wrapper">
+            <h1 className="home-page-header">Home</h1>
+            <div className="home-page-content">
+                {foursquareStatus === FsqStatus.pending && <div style={{ color: 'white' }}>Loading...</div>}
+                {foursquareStatus === FsqStatus.success && <div style={{ color: 'white' }}>{renderLists()}</div>}
+                {foursquareStatus === FsqStatus.rejected && renderFoursquareAuth()}
+                {foursquareStatus === FsqStatus.error && (
+                    <div style={{ color: 'red' }}>Error fetching Foursquare data</div>
+                )}
+            </div>
+            <FancyButton onClick={handleLogout}>Logout</FancyButton>
+        </div>
     );
 };
 

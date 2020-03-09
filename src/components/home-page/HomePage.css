@@ -1,0 +1,24 @@
+.home-page-wrapper {
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    row-gap: 10px;
+    height: 100vh;
+    justify-items: center;
+}
+
+.home-page-header {
+    color: var(--main-light);
+    font-size: 3em;
+    font-family: 'black-burger';
+}
+
+.home-page-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-page-content .foursquare-message {
+    color: var(--main-light);
+    font-size: 20px;
+    margin-bottom: 10px;
+}

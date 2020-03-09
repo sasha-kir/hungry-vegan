@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
     return (
         <div className="body">
-            <AuthContext.Provider value={{ authToken, handleAuth, handleLogout }}>
+            <AuthContext.Provider value={{ authToken, handleAuth, handleLogout, fsqAuthRoute }}>
                 <Router basename="/hungry-vegan">
                     <Switch>
                         <Route exact path="/">
@@ -40,7 +40,7 @@ const App: React.FC = () => {
                             <HomePage />
                         </PrivateRoute>
                         <Route exact path={['/fsq-login', fsqAuthRoute]}>
-                            <FsqAuthPage fsqAuthRoute={fsqAuthRoute} />
+                            <FsqAuthPage />
                         </Route>
                         <Route>
                             <NotFoundPage />
