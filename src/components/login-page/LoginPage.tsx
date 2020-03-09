@@ -1,11 +1,11 @@
 import React, { ReactElement, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 
 import { useAuth } from '../../context/auth';
 import config from '../../config';
-import { FancyButton } from '../common';
+import { FancyButton, FormInput } from '../common';
 import './LoginPage.css';
 
 const LoginPage = (): ReactElement => {
@@ -13,7 +13,7 @@ const LoginPage = (): ReactElement => {
     const { handleAuth } = useAuth();
     const history = useHistory();
     const location = useLocation();
-    const { register, handleSubmit, errors } = useForm();
+    const { handleSubmit, clearError, setValue, control, errors } = useForm();
 
     const onSubmit = async formData => {
         const url = config.apiUrl + '/login';
@@ -30,7 +30,8 @@ const LoginPage = (): ReactElement => {
         }
     };
 
-    const clearError = (): void => {
+    const clearInputError = (): void => {
+        clearError();
         if (isError) setError(false);
     };
 
@@ -53,21 +54,25 @@ const LoginPage = (): ReactElement => {
 
             <article className="login-form-wrapper">
                 <form className="login-form" onSubmit={() => false}>
-                    <div className="form-input-wrapper">
-                        <label>username</label>
-                        <input name="username" ref={register({ required: 'Required field' })} />
-                        {renderUsernameError()}
-                    </div>
-                    <div className="form-input-wrapper">
-                        <label>password</label>
-                        <input
-                            name="password"
-                            onFocus={clearError}
-                            type="password"
-                            ref={register({ required: true })}
-                        />
-                        {renderPasswordError()}
-                    </div>
+                    <Controller
+                        as={FormInput}
+                        name="username"
+                        control={control}
+                        rules={{ required: 'Required field' }}
+                        setValue={setValue}
+                        onFocus={clearInputError}
+                        renderError={renderUsernameError}
+                    />
+                    <Controller
+                        as={FormInput}
+                        name="password"
+                        type="password"
+                        control={control}
+                        rules={{ required: 'Required field' }}
+                        onFocus={clearInputError}
+                        setValue={setValue}
+                        renderError={renderPasswordError}
+                    />
                     <FancyButton onClick={handleSubmit(onSubmit)} className="login-btn">
                         submit
                     </FancyButton>

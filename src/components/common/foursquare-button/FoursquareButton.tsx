@@ -5,7 +5,7 @@ import { useAuth } from '../../../context/auth';
 import config from '../../../config';
 import './FoursquareButton.css';
 
-const FoursquareButton = ({ children, style }: React.HTMLProps<HTMLButtonElement>): ReactElement => {
+const FoursquareButton = ({ children, style }: React.HTMLProps<HTMLButtonElement>): ReactElement<HTMLButtonElement> => {
     const [clientId, setClientId] = useState<string>('');
     const { fsqAuthRoute } = useAuth();
 
