@@ -1,10 +1,9 @@
 import React, { ReactElement, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
 
 import { useAuth } from '../../context/auth';
-import config from '../../config';
+import { loginWithCredentials } from '../../api/users';
 import { FancyButton, FormInput, FormWrapper } from '../common';
 import './style.css';
 
@@ -16,18 +15,17 @@ const LoginPage = (): ReactElement => {
     const { handleSubmit, clearError, setValue, control, errors } = useForm();
 
     const onSubmit = async formData => {
-        const url = config.apiUrl + '/login';
-        try {
-            const { data } = await axios.post(url, formData);
-            handleAuth(data.token);
-            let referer = '/home';
-            if (location.state) {
-                referer = location.state['from']['pathname'] || '/home';
-            }
-            history.push(referer);
-        } catch (error) {
+        const { token, error } = await loginWithCredentials(formData);
+        if (error !== undefined || token === null) {
             setError(true);
+            return;
         }
+        handleAuth(token);
+        let referer = '/home';
+        if (location.state) {
+            referer = location.state['from']['pathname'] || '/home';
+        }
+        history.push(referer);
     };
 
     const clearInputError = (): void => {

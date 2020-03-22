@@ -1,13 +1,15 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
 import FancyButton from '../fancy-button';
-import { useAuth } from '../../../context/auth';
 import config from '../../../config';
 import './style.css';
 
-const FoursquareButton = ({ children, style }: React.HTMLProps<HTMLButtonElement>): ReactElement<HTMLButtonElement> => {
+interface FsqButtonProps extends React.HTMLProps<HTMLButtonElement> {
+    redirectPath: string;
+}
+
+const FoursquareButton = ({ redirectPath, children, style }: FsqButtonProps): ReactElement<HTMLButtonElement> => {
     const [clientId, setClientId] = useState<string>('');
-    const { fsqAuthRoute } = useAuth();
 
     const fetchAuthData = async () => {
         const url: string = config.apiUrl + '/foursquare-client-id';
@@ -24,7 +26,7 @@ const FoursquareButton = ({ children, style }: React.HTMLProps<HTMLButtonElement
     }, []);
 
     const foursquareUrl = 'https://foursquare.com/oauth2/authenticate';
-    const redirectUrl: string = config.baseUrl + fsqAuthRoute;
+    const redirectUrl: string = config.baseUrl + redirectPath;
 
     const authUrl = new URL(foursquareUrl);
     authUrl.searchParams.append('client_id', clientId);

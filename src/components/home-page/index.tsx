@@ -1,19 +1,11 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '../../context/auth';
-import config from '../../config';
+import { FsqStatus, getListsData } from '../../api/foursquare';
 import { FancyButton, FoursquareButton } from '../common';
 import './style.css';
 
 interface ListData {
     name: string;
-}
-
-enum FsqStatus {
-    pending,
-    success,
-    rejected,
-    error,
 }
 
 const HomePage: React.FC = () => {
@@ -23,31 +15,34 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         const fetchLists = async (): Promise<void> => {
-            const url = config.apiUrl + '/foursquare-lists';
             setFoursquareStatus(FsqStatus.pending);
-            try {
-                const { data } = await axios.get(url, {
-                    headers: {
-                        Authentication: authToken,
-                    },
-                });
-                const listNames = data.data.map(listData => ({
-                    name: listData.name,
-                }));
-                setFoursquareStatus(FsqStatus.success);
-                setLists(listNames);
-            } catch (error) {
-                if (error.response?.status === 400) {
-                    setFoursquareStatus(FsqStatus.rejected);
-                } else {
-                    setFoursquareStatus(FsqStatus.error);
-                }
+            if (authToken === null) {
+                handleLogout();
+                return;
             }
+            const { status, listsData } = await getListsData(authToken);
+            switch (status) {
+                case FsqStatus.success:
+                    const listNames = listsData.map(list => ({
+                        name: list['name'],
+                    }));
+                    setLists(listNames);
+                    break;
+                case FsqStatus.unauthorized:
+                    handleLogout();
+                    break;
+                default:
+                    break;
+            }
+            setFoursquareStatus(status);
         };
         fetchLists();
     }, []);
 
     const renderLists = (): ReactElement<HTMLUListElement> => {
+        if (lists.length === 0) {
+            return <p style={{ color: 'white' }}>No lists yet</p>;
+        }
         return (
             <ul>
                 {lists.map(list => (
@@ -61,7 +56,9 @@ const HomePage: React.FC = () => {
         return (
             <>
                 <p className="foursquare-message">You should authorize on Foursqaure</p>
-                <FoursquareButton style={{ width: '300px' }}>connect to foursquare</FoursquareButton>
+                <FoursquareButton redirectPath="/connect/foursquare" style={{ width: '300px' }}>
+                    connect to foursquare
+                </FoursquareButton>
             </>
         );
     };

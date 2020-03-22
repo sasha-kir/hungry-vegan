@@ -3,16 +3,18 @@ import { createContext, useContext } from 'react';
 
 interface AuthContextProps {
     authToken: string | null;
+    fsqLoginPath: string;
+    fsqConnectPath: string;
     handleAuth(token: string): void;
     handleLogout(): void;
-    fsqAuthRoute: string;
 }
 
 const defaultValue: AuthContextProps = {
     authToken: null,
+    fsqLoginPath: '',
+    fsqConnectPath: '',
     handleAuth: (token: string) => {},
     handleLogout: () => {},
-    fsqAuthRoute: '',
 };
 
 export const AuthContext = createContext<AuthContextProps>(defaultValue);
