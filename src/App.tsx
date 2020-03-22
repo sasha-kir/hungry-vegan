@@ -6,14 +6,15 @@ import PrivateRoute from './PrivateRoute';
 import PublicHomePage from './components/public-home-page';
 import LoginPage from './components/login-page';
 import HomePage from './components/home-page';
+import ProfilePage from './components/profile-page';
 import FsqAuthPage from './components/fsq-auth-page';
 import NotFoundPage from './components/404-page';
 import { AuthContext } from './context/auth';
 
 const App: React.FC = () => {
     const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('token'));
-
-    const fsqAuthRoute = '/auth/foursquare';
+    const fsqLoginPath = '/auth/foursquare';
+    const fsqConnectPath = '/connect/foursquare';
 
     const handleAuth = (token: string): void => {
         localStorage.setItem('token', token);
@@ -25,9 +26,17 @@ const App: React.FC = () => {
         setAuthToken(null);
     };
 
+    const AuthContextValue = {
+        authToken,
+        fsqLoginPath,
+        fsqConnectPath,
+        handleAuth,
+        handleLogout,
+    };
+
     return (
         <div className="body">
-            <AuthContext.Provider value={{ authToken, handleAuth, handleLogout, fsqAuthRoute }}>
+            <AuthContext.Provider value={AuthContextValue}>
                 <Router basename="/hungry-vegan">
                     <Switch>
                         <Route exact path="/">
@@ -39,7 +48,10 @@ const App: React.FC = () => {
                         <PrivateRoute exact path="/home">
                             <HomePage />
                         </PrivateRoute>
-                        <Route exact path={['/fsq-login', fsqAuthRoute]}>
+                        <PrivateRoute exact path="/profile">
+                            <ProfilePage />
+                        </PrivateRoute>
+                        <Route exact path={['/fsq-login', fsqLoginPath, fsqConnectPath]}>
                             <FsqAuthPage />
                         </Route>
                         <Route>

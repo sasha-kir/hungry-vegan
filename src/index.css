@@ -1,10 +1,12 @@
 :root {
     --main-green: #00473e;
-    --main-light: #f2f7f5;
     --light-green: #abd1c6;
+    --main-light: #f2f7f5;
     --secondary-light: #e8e4e6;
     --main-dark: #001e1d;
     --main-highlight: #f9bc60;
+    --secondary-highlight: #a786df;
+    --light-gray: #d3d3d3;
     --error: #790604;
 }
 

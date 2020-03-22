@@ -1,56 +1,55 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import { useLocation, useHistory, Link } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import config from '../../config';
+import { FsqStatus, foursquareLogin, foursquareConnect } from '../../api/foursquare';
 import { FoursquareButton, FormWrapper } from '../common';
 import './style.css';
 
-enum FsqAuthStatus {
-    idle,
-    pending,
-    success,
-    error,
-}
-
 function FsqAuthPage(): ReactElement {
-    const [authStatus, setAuthStatus] = useState<FsqAuthStatus>(FsqAuthStatus.idle);
-    const { authToken, handleAuth, fsqAuthRoute } = useAuth();
+    const [authStatus, setAuthStatus] = useState<FsqStatus>(FsqStatus.idle);
+    const { authToken, handleAuth, fsqLoginPath, fsqConnectPath } = useAuth();
     const location = useLocation();
     const history = useHistory();
-    const redirectUrl: string = config.baseUrl + fsqAuthRoute;
+
+    const loginRedirectUrl: string = config.baseUrl + fsqLoginPath;
+    const connectRedirectUrl: string = config.baseUrl + fsqConnectPath;
+
+    const loginToFoursquare = async (code: string) => {
+        setAuthStatus(FsqStatus.pending);
+        const { status, token, isEmailValid } = await foursquareLogin(code, loginRedirectUrl);
+        if (status === FsqStatus.success && token !== null) {
+            handleAuth(token);
+            const redirectPath = isEmailValid ? '/home' : '/profile?empty_email=true';
+            history.push(redirectPath);
+        }
+        setAuthStatus(status);
+    };
 
     const connectToFoursquare = async (code: string) => {
-        const url = config.apiUrl + '/foursquare-connect';
-        setAuthStatus(FsqAuthStatus.pending);
-        try {
-            const { data } = await axios.post(
-                url,
-                {
-                    code,
-                    redirectUrl,
-                },
-                {
-                    headers: {
-                        Authentication: authToken,
-                    },
-                },
-            );
-            setAuthStatus(FsqAuthStatus.success);
-            console.log(data);
-            handleAuth(data.token);
+        setAuthStatus(FsqStatus.pending);
+        const { status, token } = await foursquareConnect(code, connectRedirectUrl, authToken);
+        if (status === FsqStatus.success && token !== null) {
+            handleAuth(token);
             history.push('/home');
-        } catch (error) {
-            setAuthStatus(FsqAuthStatus.error);
-            console.error(error);
         }
+        setAuthStatus(status);
     };
 
     useEffect(() => {
-        if (location.pathname === fsqAuthRoute) {
+        if ([fsqLoginPath, fsqConnectPath].includes(location.pathname)) {
             const searchParams = new URLSearchParams(location.search);
             const code = searchParams.get('code') || '';
-            connectToFoursquare(code);
+            switch (location.pathname) {
+                case fsqLoginPath:
+                    loginToFoursquare(code);
+                    break;
+                case fsqConnectPath:
+                    connectToFoursquare(code);
+                    break;
+                default:
+                    throw new Error('Unhandled pathname for Foursqaure Auth');
+            }
         }
     }, []);
 
@@ -58,7 +57,9 @@ function FsqAuthPage(): ReactElement {
         return (
             <div className="fsq-login-wrapper">
                 <FormWrapper className="fsq-form-wrapper">
-                    <FoursquareButton>login with foursquare</FoursquareButton>
+                    <FoursquareButton style={{ margin: '50px 0' }} redirectPath={fsqLoginPath}>
+                        login with foursquare
+                    </FoursquareButton>
                     <Link to="/login">Login to existing account</Link>
                     <Link to="/register">Register</Link>
                 </FormWrapper>
@@ -68,10 +69,10 @@ function FsqAuthPage(): ReactElement {
 
     return (
         <div>
-            {authStatus === FsqAuthStatus.pending && <p style={{ color: 'white' }}>Authorization in progress...</p>}
-            {authStatus === FsqAuthStatus.error && <p style={{ color: 'red' }}>Authentication error</p>}
-            {authStatus === FsqAuthStatus.success && <p style={{ color: 'white' }}>Redirecting you to homepage...</p>}
-            {authStatus === FsqAuthStatus.idle && renderAuthForm()}
+            {authStatus === FsqStatus.pending && <p style={{ color: 'white' }}>Authorization in progress...</p>}
+            {authStatus === FsqStatus.error && <p style={{ color: 'red' }}>Authentication error</p>}
+            {authStatus === FsqStatus.success && <p style={{ color: 'white' }}>Redirecting you to homepage...</p>}
+            {authStatus === FsqStatus.idle && renderAuthForm()}
         </div>
     );
 }
