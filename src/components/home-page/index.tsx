@@ -64,7 +64,7 @@ const HomePage: React.FC = () => {
                     <div style={{ color: 'red' }}>Error fetching Foursquare data</div>
                 )}
             </div>
-            <FancyButton onClick={handleLogout}>Logout</FancyButton>
+            <FancyButton onClick={handleLogout}>logout</FancyButton>
         </div>
     );
 };

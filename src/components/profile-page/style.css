@@ -14,8 +14,10 @@
 }
 
 .user-info-header .username {
+    color: var(--main-dark);
     font-size: 3em;
-    font-family: 'black-burger';
+    text-transform: uppercase;
+    font-family: 'Boogaloo', cursive;
 }
 
 .user-info-header .foursquare-status {
@@ -34,7 +36,6 @@
 
 .user-info-form {
     display: grid;
-    gap: 20px;
 }
 
 .user-info-actions-btn,

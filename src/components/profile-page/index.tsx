@@ -54,7 +54,7 @@ const ProfilePage = (): React.ReactElement => {
     }, []);
 
     const renderActionsButton = (): ReactElement => {
-        const text = isEditingMode ? 'Save' : 'Edit';
+        const text = isEditingMode ? 'save' : 'edit';
         const handleClick = e => {
             e.preventDefault();
             isEditingMode ? setEditingMode(false) : setEditingMode(true);
@@ -102,7 +102,7 @@ const ProfilePage = (): React.ReactElement => {
                         {renderActionsButton()}
                     </form>
                     <FancyButton className="logout-btn" onClick={handleLogout}>
-                        Logout
+                        logout
                     </FancyButton>
                 </FormWrapper>
             </div>

@@ -9,7 +9,9 @@
 .home-page-header {
     color: var(--main-light);
     font-size: 3em;
-    font-family: 'black-burger';
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: 'Boogaloo';
 }
 
 .home-page-content {
