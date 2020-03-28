@@ -3,16 +3,14 @@ import { createContext, useContext } from 'react';
 
 interface AuthContextProps {
     authToken: string | null;
-    fsqLoginPath: string;
-    fsqConnectPath: string;
+    foursquarePaths: { [key: string]: string };
     handleAuth(token: string): void;
     handleLogout(): void;
 }
 
 const defaultValue: AuthContextProps = {
     authToken: null,
-    fsqLoginPath: '',
-    fsqConnectPath: '',
+    foursquarePaths: {},
     handleAuth: (token: string) => {},
     handleLogout: () => {},
 };

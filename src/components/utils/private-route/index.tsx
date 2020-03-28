@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
-import { useAuth } from './context/auth';
+import { useAuth } from '../../../context/auth';
 
 const PrivateRoute = ({ children, ...rest }: RouteProps): ReactElement => {
     const { authToken } = useAuth();

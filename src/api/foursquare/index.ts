@@ -1,87 +1,37 @@
-import axios from 'axios';
-import config from '../../config';
-
-export enum FsqStatus {
-    idle,
-    pending,
-    success,
-    rejected,
-    unauthorized,
-    error,
-}
+import { api, ResponseStatus } from '../';
 
 interface ListsResponse {
-    status: FsqStatus;
+    status: ResponseStatus;
     listsData: object[];
 }
 
-interface LoginResponse {
-    status: FsqStatus;
-    token: string | null;
-    isEmailValid: boolean | null;
-}
-
 interface ConnectResponse {
-    status: FsqStatus;
+    status: ResponseStatus;
     token: string | null;
 }
 
-export const getListsData = async (authToken: string): Promise<ListsResponse> => {
-    const url = config.apiUrl + '/foursquare-lists';
+export const getListsData = async (): Promise<ListsResponse> => {
     try {
-        const { data } = await axios.get(url, {
-            headers: {
-                Authentication: authToken,
-            },
-        });
-        return { status: FsqStatus.success, listsData: data.data };
+        const { data } = await api.get('/foursquare-lists');
+        return { status: ResponseStatus.success, listsData: data.data };
     } catch (error) {
         switch (error.response?.status) {
             case 400:
-                return { status: FsqStatus.rejected, listsData: [] };
-            case 401:
-                return { status: FsqStatus.unauthorized, listsData: [] };
+                return { status: ResponseStatus.rejected, listsData: [] };
             default:
-                return { status: FsqStatus.error, listsData: [] };
+                return { status: ResponseStatus.error, listsData: [] };
         }
     }
 };
 
-export const foursquareLogin = async (code: string, redirectUrl: string): Promise<LoginResponse> => {
-    const url = config.apiUrl + '/foursquare-login';
+export const foursquareConnect = async (code: string, redirectUrl: string): Promise<ConnectResponse> => {
     try {
-        const { data } = await axios.post(url, {
+        const { data } = await api.post('/foursquare-connect', {
             code,
             redirectUrl,
         });
-        const { token, isEmailValid } = data;
-        return { status: FsqStatus.success, token, isEmailValid };
+        return { status: ResponseStatus.success, token: data.token };
     } catch (error) {
-        return { status: FsqStatus.error, token: null, isEmailValid: null };
-    }
-};
-
-export const foursquareConnect = async (
-    code: string,
-    redirectUrl: string,
-    authToken: string | null,
-): Promise<ConnectResponse> => {
-    const url = config.apiUrl + '/foursquare-connect';
-    try {
-        const { data } = await axios.post(
-            url,
-            {
-                code,
-                redirectUrl,
-            },
-            {
-                headers: {
-                    Authentication: authToken,
-                },
-            },
-        );
-        return { status: FsqStatus.success, token: data.token };
-    } catch (error) {
-        return { status: FsqStatus.error, token: null };
+        return { status: ResponseStatus.error, token: null };
     }
 };

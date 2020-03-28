@@ -2,7 +2,7 @@ import React, { useState, useEffect, ReactElement } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
-import { useAuth } from '../../context/auth';
+import { ResponseStatus } from '../../api';
 import { UserData, getUserData } from '../../api/users';
 import { FancyButton, FormInput, FormWrapper } from '../common';
 import './style.css';
@@ -18,10 +18,8 @@ const ProfilePage = (): React.ReactElement => {
     const [userInfo, setUserInfo] = useState<UserData>(defaultInfo);
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
     const [isEmailEmpty, setEmailEmpty] = useState<boolean>(false);
-    const [isLoading, setLoading] = useState<boolean>(true);
-    const [isError, setError] = useState<boolean>(false);
+    const [dataStatus, setDataStatus] = useState<ResponseStatus>(ResponseStatus.pending);
 
-    const { authToken, handleLogout } = useAuth();
     const { setValue, control } = useForm();
     const location = useLocation();
 
@@ -38,17 +36,10 @@ const ProfilePage = (): React.ReactElement => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            setLoading(true);
-            if (authToken === null) {
-                handleLogout();
-                return;
-            }
-            const { user, error } = await getUserData(authToken);
-            if (error !== undefined || user === null) {
-                setError(true);
-                setLoading(false);
-            } else {
-                setLoading(false);
+            setDataStatus(ResponseStatus.pending);
+            const { status, user } = await getUserData();
+            setDataStatus(status);
+            if (status === ResponseStatus.success && user !== null) {
                 setUserInfo(user);
                 const formValues = Object.keys(user).map(key => ({
                     [key]: user[key],
@@ -116,9 +107,9 @@ const ProfilePage = (): React.ReactElement => {
 
     return (
         <div>
-            {isError && <p style={{ color: 'red' }}>Error fetching user info</p>}
-            {isLoading && <p style={{ color: 'white' }}>Loading...</p>}
-            {!isError && !isLoading && renderUserInfo()}
+            {dataStatus === ResponseStatus.pending && <p style={{ color: 'white' }}>Loading...</p>}
+            {dataStatus === ResponseStatus.error && <p style={{ color: 'red' }}>Error fetching user info</p>}
+            {dataStatus === ResponseStatus.success && renderUserInfo()}
         </div>
     );
 };

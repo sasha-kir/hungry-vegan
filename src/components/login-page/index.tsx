@@ -3,7 +3,8 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
 import { useAuth } from '../../context/auth';
-import { loginWithCredentials } from '../../api/users';
+import { ResponseStatus } from '../../api/';
+import { loginWithCredentials } from '../../api/login';
 import { FancyButton, FormInput, FormWrapper } from '../common';
 import './style.css';
 
@@ -15,8 +16,8 @@ const LoginPage = (): ReactElement => {
     const { handleSubmit, clearError, setValue, control, errors } = useForm();
 
     const onSubmit = async formData => {
-        const { token, error } = await loginWithCredentials(formData);
-        if (error !== undefined || token === null) {
+        const { status, token } = await loginWithCredentials(formData);
+        if (token === null || status === ResponseStatus.error) {
             setError(true);
             return;
         }

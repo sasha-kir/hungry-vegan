@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { useAuth } from '../../context/auth';
-import { FsqStatus, getListsData } from '../../api/foursquare';
+import { ResponseStatus } from '../../api';
+import { getListsData } from '../../api/foursquare';
 import { FancyButton, FoursquareButton } from '../common';
 import './style.css';
 
@@ -10,29 +11,18 @@ interface ListData {
 
 const HomePage: React.FC = () => {
     const [lists, setLists] = useState<ListData[]>([]);
-    const [foursquareStatus, setFoursquareStatus] = useState<FsqStatus>(FsqStatus.pending);
-    const { authToken, handleLogout } = useAuth();
+    const [foursquareStatus, setFoursquareStatus] = useState<ResponseStatus>(ResponseStatus.pending);
+    const { handleLogout } = useAuth();
 
     useEffect(() => {
         const fetchLists = async (): Promise<void> => {
-            setFoursquareStatus(FsqStatus.pending);
-            if (authToken === null) {
-                handleLogout();
-                return;
-            }
-            const { status, listsData } = await getListsData(authToken);
-            switch (status) {
-                case FsqStatus.success:
-                    const listNames = listsData.map(list => ({
-                        name: list['name'],
-                    }));
-                    setLists(listNames);
-                    break;
-                case FsqStatus.unauthorized:
-                    handleLogout();
-                    break;
-                default:
-                    break;
+            setFoursquareStatus(ResponseStatus.pending);
+            const { status, listsData } = await getListsData();
+            if (status === ResponseStatus.success) {
+                const listNames = listsData.map(list => ({
+                    name: list['name'],
+                }));
+                setLists(listNames);
             }
             setFoursquareStatus(status);
         };
@@ -67,10 +57,10 @@ const HomePage: React.FC = () => {
         <div className="home-page-wrapper">
             <h1 className="home-page-header">Home</h1>
             <div className="home-page-content">
-                {foursquareStatus === FsqStatus.pending && <div style={{ color: 'white' }}>Loading...</div>}
-                {foursquareStatus === FsqStatus.success && <div style={{ color: 'white' }}>{renderLists()}</div>}
-                {foursquareStatus === FsqStatus.rejected && renderFoursquareAuth()}
-                {foursquareStatus === FsqStatus.error && (
+                {foursquareStatus === ResponseStatus.pending && <div style={{ color: 'white' }}>Loading...</div>}
+                {foursquareStatus === ResponseStatus.success && <div style={{ color: 'white' }}>{renderLists()}</div>}
+                {foursquareStatus === ResponseStatus.rejected && renderFoursquareAuth()}
+                {foursquareStatus === ResponseStatus.error && (
                     <div style={{ color: 'red' }}>Error fetching Foursquare data</div>
                 )}
             </div>

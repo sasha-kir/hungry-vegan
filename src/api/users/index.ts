@@ -1,10 +1,4 @@
-import axios from 'axios';
-import config from '../../config';
-
-interface LoginResponse {
-    token: string | null;
-    error?: string;
-}
+import { api, ResponseStatus } from '../';
 
 export interface UserData {
     id: number;
@@ -14,30 +8,15 @@ export interface UserData {
 }
 
 interface UserDataResponse {
+    status: ResponseStatus;
     user: UserData | null;
-    error?: string;
 }
 
-export const loginWithCredentials = async (loginFormData): Promise<LoginResponse> => {
-    const url = config.apiUrl + '/login';
+export const getUserData = async (): Promise<UserDataResponse> => {
     try {
-        const { data } = await axios.post(url, loginFormData);
-        return { token: data.token };
+        const { data } = await api.get('/user_data');
+        return { status: ResponseStatus.success, user: data.user };
     } catch (error) {
-        return { token: null, error: error.message };
-    }
-};
-
-export const getUserData = async (authToken: string): Promise<UserDataResponse> => {
-    const url = config.apiUrl + '/user_data';
-    try {
-        const { data } = await axios.get(url, {
-            headers: {
-                Authentication: authToken,
-            },
-        });
-        return { user: data.user };
-    } catch (error) {
-        return { user: null, error: error.message };
+        return { status: ResponseStatus.error, user: null };
     }
 };
