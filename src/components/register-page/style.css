@@ -1,0 +1,7 @@
+.register-form {
+    display: grid;
+    grid-template-rows: repeat(3, 1.5fr) 1fr;
+    row-gap: 10px;
+    justify-items: center;
+    margin-top: 20px;
+}

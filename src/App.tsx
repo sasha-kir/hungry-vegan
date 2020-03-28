@@ -5,6 +5,7 @@ import './App.css';
 import { PrivateRoute, AuthProvider } from './components/utils';
 import PublicHomePage from './components/public-home-page';
 import LoginPage from './components/login-page';
+import RegisterPage from './components/register-page';
 import HomePage from './components/home-page';
 import ProfilePage from './components/profile-page';
 import FsqAuthPage from './components/fsq-auth-page';
@@ -26,6 +27,9 @@ const App: React.FC = () => {
                         </Route>
                         <Route exact path="/login">
                             <LoginPage />
+                        </Route>
+                        <Route exact path="/register">
+                            <RegisterPage />
                         </Route>
                         <PrivateRoute exact path="/home">
                             <HomePage />

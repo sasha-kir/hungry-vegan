@@ -1,32 +1,29 @@
 import React, { ReactElement, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
 import { useAuth } from '../../context/auth';
 import { ResponseStatus } from '../../api/';
-import { loginWithCredentials } from '../../api/login';
+import { register } from '../../api/login';
 import { FancyButton, FormInput, FormWrapper } from '../common';
 import './style.css';
 
-const LoginPage = (): ReactElement => {
+const RegisterPage = (): ReactElement => {
     const [isError, setError] = useState<boolean>(false);
     const { handleAuth } = useAuth();
     const history = useHistory();
-    const location = useLocation();
     const { handleSubmit, clearError, setValue, control, errors } = useForm();
 
+    const emailPattern = /^[^@\s]+@[^@\s\.]+\.[^@\s\.]+$/;
+
     const onSubmit = async formData => {
-        const { status, token } = await loginWithCredentials(formData);
+        const { status, token } = await register(formData);
         if (token === null || status === ResponseStatus.error) {
             setError(true);
             return;
         }
         handleAuth(token);
-        let referer = '/home';
-        if (location.state) {
-            referer = location.state['from']['pathname'] || '/home';
-        }
-        history.push(referer);
+        history.push('/home');
     };
 
     const clearInputError = (): void => {
@@ -42,30 +39,52 @@ const LoginPage = (): ReactElement => {
         if (errors.username) return renderError(errors.username['message']);
     };
 
+    const renderEmailError = (): ReactElement | undefined => {
+        if (errors.email) return renderError(errors.email['message']);
+    };
+
     const renderPasswordError = (): ReactElement | undefined => {
         if (errors.password) return renderError(errors.password['message']);
-        if (isError) return renderError('Wrong username or password');
+        if (isError) return renderError('User already exists');
     };
 
     return (
         <div className="login-wrapper">
             <FormWrapper>
-                <form className="login-form" onSubmit={() => false}>
+                <form className="register-form" onSubmit={() => false}>
                     <Controller
                         as={FormInput}
                         name="username"
                         control={control}
-                        rules={{ required: 'Required field' }}
+                        rules={{
+                            required: 'Required field',
+                            minLength: { value: 3, message: 'Minimum 3 characters' },
+                        }}
                         setValue={setValue}
                         onFocus={clearInputError}
                         renderError={renderUsernameError}
                     />
                     <Controller
                         as={FormInput}
+                        name="email"
+                        control={control}
+                        rules={{
+                            required: 'Required field',
+                            pattern: { value: emailPattern, message: 'Invalid email' },
+                        }}
+                        setValue={setValue}
+                        onFocus={clearInputError}
+                        renderError={renderEmailError}
+                    />
+                    <Controller
+                        as={FormInput}
                         name="password"
                         type="password"
                         control={control}
-                        rules={{ required: 'Required field' }}
+                        rules={{
+                            required: 'Required field',
+                            minLength: { value: 5, message: 'Minimum 5 characters' },
+                        }}
                         onFocus={clearInputError}
                         setValue={setValue}
                         renderError={renderPasswordError}
@@ -75,10 +94,10 @@ const LoginPage = (): ReactElement => {
                     </FancyButton>
                 </form>
                 <Link to="/fsq-login">Login with Foursquare</Link>
-                <Link to="/register">Register</Link>
+                <Link to="/login">Login to existing account</Link>
             </FormWrapper>
         </div>
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

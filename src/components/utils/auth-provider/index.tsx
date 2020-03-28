@@ -28,7 +28,13 @@ const AuthProvider = ({ children, foursquarePaths }: AuthProviderProps) => {
     api.interceptors.response.use(
         response => response,
         error => {
-            if (error.response?.status === 401) handleLogout();
+            switch (error.response?.status) {
+                case 401:
+                    handleLogout();
+                    break;
+                default:
+                    return Promise.reject(error);
+            }
         },
     );
 

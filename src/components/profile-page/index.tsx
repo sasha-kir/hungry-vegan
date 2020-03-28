@@ -2,6 +2,7 @@ import React, { useState, useEffect, ReactElement } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
+import { useAuth } from '../../context/auth';
 import { ResponseStatus } from '../../api';
 import { UserData, getUserData } from '../../api/users';
 import { FancyButton, FormInput, FormWrapper } from '../common';
@@ -19,7 +20,7 @@ const ProfilePage = (): React.ReactElement => {
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
     const [isEmailEmpty, setEmailEmpty] = useState<boolean>(false);
     const [dataStatus, setDataStatus] = useState<ResponseStatus>(ResponseStatus.pending);
-
+    const { handleLogout } = useAuth();
     const { setValue, control } = useForm();
     const location = useLocation();
 
@@ -53,7 +54,7 @@ const ProfilePage = (): React.ReactElement => {
     }, []);
 
     const renderActionsButton = (): ReactElement => {
-        const text = isEditingMode ? 'save' : 'edit';
+        const text = isEditingMode ? 'Save' : 'Edit';
         const handleClick = e => {
             e.preventDefault();
             isEditingMode ? setEditingMode(false) : setEditingMode(true);
@@ -100,6 +101,9 @@ const ProfilePage = (): React.ReactElement => {
                         />
                         {renderActionsButton()}
                     </form>
+                    <FancyButton className="logout-btn" onClick={handleLogout}>
+                        Logout
+                    </FancyButton>
                 </FormWrapper>
             </div>
         );
