@@ -7,7 +7,7 @@ const FancyButton = ({
 }: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>): ReactElement<HTMLButtonElement> => {
     let className = 'fancy-btn';
     if (props.className) {
-        className = className + ' ' + props.className;
+        className = `${props.className} ${className}`;
     }
     return (
         <button {...props} className={className}>

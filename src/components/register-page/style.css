@@ -1,3 +1,7 @@
+.register-form-wrapper {
+    margin-top: 70px;
+}
+
 .register-form {
     display: grid;
     grid-template-rows: repeat(3, 1.5fr) 1fr;

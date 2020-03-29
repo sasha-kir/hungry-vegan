@@ -1,29 +1,14 @@
 .public-home-wrapper {
     display: grid;
-    grid-template-rows: 3fr 5fr 2fr;
     justify-items: center;
     align-items: center;
+    height: 100vh;
 }
 
 .public-home-wrapper .heading {
+    margin-top: 70px;
     color: var(--main-light);
     font-size: 4em;
-    font-family: 'black-burger';
-}
-
-.public-home-wrapper .logo {
-    height: 300px;
-    width: auto;
-}
-
-.public-home-btn {
-    font-size: 1.4rem;
-    display: inline-block;
-    padding: 15px;
-    width: 350px;
-}
-
-.public-home-btn a {
-    text-decoration: none;
-    color: inherit;
+    text-transform: uppercase;
+    font-family: 'Frijole', cursive;
 }

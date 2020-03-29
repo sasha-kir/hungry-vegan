@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-import './App.css';
 
 import { PrivateRoute, AuthProvider } from './components/utils';
+import NavigationBar from './components/navigation-bar';
 import PublicHomePage from './components/public-home-page';
 import LoginPage from './components/login-page';
 import RegisterPage from './components/register-page';
@@ -21,6 +21,7 @@ const App: React.FC = () => {
         <div className="body">
             <AuthProvider foursquarePaths={fsqPaths}>
                 <Router basename="/hungry-vegan">
+                    <NavigationBar />
                     <Switch>
                         <Route exact path="/">
                             <PublicHomePage />

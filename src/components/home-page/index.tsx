@@ -1,8 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useAuth } from '../../context/auth';
 import { ResponseStatus } from '../../api';
 import { getListsData } from '../../api/foursquare';
-import { FancyButton, FoursquareButton } from '../common';
+import { FoursquareButton } from '../common';
 import './style.css';
 
 interface ListData {
@@ -12,7 +11,6 @@ interface ListData {
 const HomePage: React.FC = () => {
     const [lists, setLists] = useState<ListData[]>([]);
     const [foursquareStatus, setFoursquareStatus] = useState<ResponseStatus>(ResponseStatus.pending);
-    const { handleLogout } = useAuth();
 
     useEffect(() => {
         const fetchLists = async (): Promise<void> => {
@@ -55,7 +53,6 @@ const HomePage: React.FC = () => {
 
     return (
         <div className="home-page-wrapper">
-            <h1 className="home-page-header">Home</h1>
             <div className="home-page-content">
                 {foursquareStatus === ResponseStatus.pending && <div style={{ color: 'white' }}>Loading...</div>}
                 {foursquareStatus === ResponseStatus.success && <div style={{ color: 'white' }}>{renderLists()}</div>}
@@ -64,7 +61,6 @@ const HomePage: React.FC = () => {
                     <div style={{ color: 'red' }}>Error fetching Foursquare data</div>
                 )}
             </div>
-            <FancyButton onClick={handleLogout}>logout</FancyButton>
         </div>
     );
 };

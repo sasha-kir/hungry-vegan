@@ -50,7 +50,7 @@ const RegisterPage = (): ReactElement => {
 
     return (
         <div className="login-wrapper">
-            <FormWrapper>
+            <FormWrapper className="register-form-wrapper">
                 <form className="register-form" onSubmit={() => false}>
                     <Controller
                         as={FormInput}

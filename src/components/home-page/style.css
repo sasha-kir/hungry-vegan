@@ -6,17 +6,10 @@
     justify-items: center;
 }
 
-.home-page-header {
-    color: var(--main-light);
-    font-size: 3em;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    font-family: 'Boogaloo';
-}
-
 .home-page-content {
     display: flex;
     flex-direction: column;
+    margin-top: 200px;
 }
 
 .home-page-content .foursquare-message {
