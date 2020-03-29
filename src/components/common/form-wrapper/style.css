@@ -9,7 +9,12 @@
 
 .form-wrapper a {
     color: var(--main-dark);
+    letter-spacing: 0.05rem;
     text-align: center;
-    font-size: 18px;
+    font-size: 17px;
     margin-top: 15px;
+}
+
+.form-wrapper a:hover {
+    color: var(--dark-gray);
 }

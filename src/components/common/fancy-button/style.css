@@ -1,14 +1,13 @@
 .fancy-btn {
     background: var(--main-green);
     color: var(--main-light);
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     border-radius: 5px;
     border: none;
     outline: none;
     transition: all 0.2s ease;
     align-self: center;
-    font-size: 1.2rem;
+    font-size: 20px;
     display: inline-block;
     padding: 10px;
     width: 300px;

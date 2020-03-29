@@ -16,9 +16,8 @@
 
 .user-info-header .username {
     color: var(--main-dark);
-    font-size: 3em;
-    text-transform: uppercase;
-    font-family: 'Comic Neue', sans-serif;
+    font-size: 2.5em;
+    font-weight: 300;
 }
 
 .user-info-header .foursquare-status {

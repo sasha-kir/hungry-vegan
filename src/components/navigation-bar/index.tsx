@@ -10,7 +10,7 @@ const NavigationBar = (): ReactElement => {
     const { authToken, handleLogout } = useAuth();
 
     const handleLogoClick = (): void => {
-        history.push('/home');
+        history.push('/');
     };
 
     const renderNavLinks = (): ReactElement<HTMLDivElement> => {
