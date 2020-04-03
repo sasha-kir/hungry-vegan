@@ -1,7 +1,13 @@
 import React from 'react';
+import placeholder from '../../images/404.svg';
+import './style.css';
 
 const NotFoundPage: React.FC = () => {
-    return <div style={{ color: 'white', fontSize: '30px' }}>404 not found</div>;
+    return (
+        <div className="page-wrapper">
+            <img src={placeholder} className="placeholder-image" />
+        </div>
+    );
 };
 
 export default NotFoundPage;

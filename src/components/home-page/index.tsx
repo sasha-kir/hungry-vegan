@@ -52,7 +52,7 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <div className="home-page-wrapper">
+        <div className="page-wrapper home-page-wrapper">
             <div className="home-page-content">
                 {foursquareStatus === ResponseStatus.pending && <div style={{ color: 'white' }}>Loading...</div>}
                 {foursquareStatus === ResponseStatus.success && <div style={{ color: 'white' }}>{renderLists()}</div>}

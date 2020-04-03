@@ -57,7 +57,7 @@ function FsqAuthPage(): ReactElement {
 
     const renderAuthForm = (): ReactElement => {
         return (
-            <div className="fsq-login-wrapper">
+            <div className="page-wrapper">
                 <FormWrapper className="fsq-form-wrapper">
                     <FoursquareButton style={{ margin: '50px 0' }} redirectPath={foursquarePaths.login}>
                         login with foursquare

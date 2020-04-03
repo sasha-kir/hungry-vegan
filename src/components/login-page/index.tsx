@@ -34,21 +34,17 @@ const LoginPage = (): ReactElement => {
         if (isError) setError(false);
     };
 
-    const renderError = (message: string): ReactElement<HTMLDivElement> => {
-        return <div className="input-error">{message}</div>;
+    const getUsernameError = (): string | undefined => {
+        if (errors.username) return errors.username['message'];
     };
 
-    const renderUsernameError = (): ReactElement | undefined => {
-        if (errors.username) return renderError(errors.username['message']);
-    };
-
-    const renderPasswordError = (): ReactElement | undefined => {
-        if (errors.password) return renderError(errors.password['message']);
-        if (isError) return renderError('Wrong username or password');
+    const getPasswordError = (): string | undefined => {
+        if (errors.password) return errors.password['message'];
+        if (isError) return 'Wrong username or password';
     };
 
     return (
-        <div className="login-wrapper">
+        <div className="page-wrapper">
             <FormWrapper>
                 <form className="login-form" onSubmit={() => false}>
                     <Controller
@@ -58,7 +54,7 @@ const LoginPage = (): ReactElement => {
                         rules={{ required: 'Required field' }}
                         setValue={setValue}
                         onFocus={clearInputError}
-                        renderError={renderUsernameError}
+                        errorMessage={getUsernameError()}
                     />
                     <Controller
                         as={FormInput}
@@ -68,7 +64,7 @@ const LoginPage = (): ReactElement => {
                         rules={{ required: 'Required field' }}
                         onFocus={clearInputError}
                         setValue={setValue}
-                        renderError={renderPasswordError}
+                        errorMessage={getPasswordError()}
                     />
                     <FancyButton onClick={handleSubmit(onSubmit)} className="login-btn">
                         submit

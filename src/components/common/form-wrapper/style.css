@@ -1,5 +1,5 @@
 .form-wrapper {
-    background-color: var(--secondary-light);
+    background-color: var(--main-light);
     display: flex;
     flex-direction: column;
     padding: 15px 50px 20px;

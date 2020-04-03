@@ -1,23 +1,9 @@
-.login-wrapper {
-    display: grid;
-    justify-items: center;
-    align-items: center;
-    height: 100vh;
-}
-
 .login-form {
     display: grid;
     grid-template-rows: 1.5fr 1.5fr 1fr;
     row-gap: 10px;
     justify-items: center;
     margin-top: 20px;
-}
-
-.input-error {
-    color: var(--error);
-    font-size: 16px;
-    letter-spacing: 0.05em;
-    margin-top: 5px;
 }
 
 .login-btn {

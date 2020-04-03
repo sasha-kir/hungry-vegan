@@ -5,6 +5,7 @@ export interface UserData {
     username?: string;
     email: string;
     foursquareId?: string;
+    location?: string;
 }
 
 interface UserDataResponse {

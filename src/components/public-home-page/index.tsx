@@ -11,7 +11,7 @@ const PublicHomePage = (): ReactElement => {
     }
 
     return (
-        <div className="public-home-wrapper">
+        <div className="page-wrapper public-home-wrapper">
             <div className="heading">Hungry Vegan</div>
         </div>
     );

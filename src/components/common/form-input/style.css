@@ -15,7 +15,7 @@
 }
 
 .form-input-wrapper input {
-    background: var(--main-light);
+    background: #ffffff;
     color: var(--main-dark);
     text-indent: 5px;
     box-sizing: border-box;
@@ -36,4 +36,11 @@
     background: var(--light-gray);
     color: var(--dark-gray);
     box-shadow: none;
+}
+
+.input-error {
+    color: var(--error);
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    margin-top: 5px;
 }

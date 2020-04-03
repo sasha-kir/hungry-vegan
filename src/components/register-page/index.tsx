@@ -31,21 +31,17 @@ const RegisterPage = (): ReactElement => {
         if (isError) setError(false);
     };
 
-    const renderError = (message: string): ReactElement<HTMLDivElement> => {
-        return <div className="input-error">{message}</div>;
+    const getUsernameError = (): string | undefined => {
+        if (errors.username) return errors.username['message'];
     };
 
-    const renderUsernameError = (): ReactElement | undefined => {
-        if (errors.username) return renderError(errors.username['message']);
+    const getEmailError = (): string | undefined => {
+        if (errors.email) return errors.email['message'];
     };
 
-    const renderEmailError = (): ReactElement | undefined => {
-        if (errors.email) return renderError(errors.email['message']);
-    };
-
-    const renderPasswordError = (): ReactElement | undefined => {
-        if (errors.password) return renderError(errors.password['message']);
-        if (isError) return renderError('User already exists');
+    const getPasswordError = (): string | undefined => {
+        if (errors.password) return errors.password['message'];
+        if (isError) return 'User already exists';
     };
 
     return (
@@ -62,7 +58,7 @@ const RegisterPage = (): ReactElement => {
                         }}
                         setValue={setValue}
                         onFocus={clearInputError}
-                        renderError={renderUsernameError}
+                        errorMessage={getUsernameError()}
                     />
                     <Controller
                         as={FormInput}
@@ -74,7 +70,7 @@ const RegisterPage = (): ReactElement => {
                         }}
                         setValue={setValue}
                         onFocus={clearInputError}
-                        renderError={renderEmailError}
+                        errorMessage={getEmailError()}
                     />
                     <Controller
                         as={FormInput}
@@ -87,7 +83,7 @@ const RegisterPage = (): ReactElement => {
                         }}
                         onFocus={clearInputError}
                         setValue={setValue}
-                        renderError={renderPasswordError}
+                        errorMessage={getPasswordError()}
                     />
                     <FancyButton onClick={handleSubmit(onSubmit)} className="login-btn">
                         submit

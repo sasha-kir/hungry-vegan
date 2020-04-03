@@ -4,11 +4,11 @@ import './style.css';
 interface FormInputProps extends React.HTMLProps<HTMLInputElement> {
     name: string;
     setValue(name: string, value: string): void;
-    renderError?(): void;
+    errorMessage?: string;
 }
 
 const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
-    const { name, setValue, type = 'text', value = '', disabled = false } = { ...props };
+    const { name, setValue, errorMessage = '', type = 'text', value = '', disabled = false } = { ...props };
 
     const handleInput = event => {
         setValue(name, event.target.value);
@@ -29,7 +29,7 @@ const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
         <div className="form-input-wrapper">
             <label>{name}</label>
             <input onChange={handleInput} {...inputAttributes} />
-            {props.renderError !== undefined ? props.renderError() : null}
+            {Boolean(errorMessage) && <div className="input-error">{errorMessage}</div>}
         </div>
     );
 };

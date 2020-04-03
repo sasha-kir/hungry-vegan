@@ -1,9 +1,6 @@
 .home-page-wrapper {
-    display: grid;
     grid-template-rows: 1fr 2fr 1fr;
     row-gap: 10px;
-    height: 100vh;
-    justify-items: center;
 }
 
 .home-page-content {

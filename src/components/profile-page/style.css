@@ -1,13 +1,14 @@
 .user-info-wrapper {
-    display: grid;
-    justify-items: center;
-    align-items: center;
-    height: 100vh;
+    justify-items: initial;
+    margin: 0 50px;
 }
 
 .user-info-form-wrapper {
     padding: 30px 150px;
-    margin-top: 70px;
+    margin-top: 100px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .user-info-header {
@@ -36,8 +37,19 @@
 
 .user-info-form {
     display: grid;
+    gap: 10px;
+    justify-items: start;
 }
 
 .user-info-actions-btn {
-    margin-top: 30px;
+    margin-top: 10px;
+}
+
+.user-info-placeholder {
+    align-self: center;
+}
+
+.user-info-placeholder img {
+    height: 400px;
+    width: auto;
 }

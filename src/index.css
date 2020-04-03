@@ -23,3 +23,10 @@ body {
 button {
     cursor: pointer;
 }
+
+.page-wrapper {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    height: 100vh;
+}
