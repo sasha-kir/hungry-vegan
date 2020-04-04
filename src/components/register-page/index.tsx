@@ -44,7 +44,7 @@ const RegisterPage = (): ReactElement => {
     };
 
     return (
-        <div className="login-wrapper">
+        <div className="page-wrapper">
             <FormWrapper className="register-form-wrapper">
                 <form className="register-form" onSubmit={() => false}>
                     <Controller

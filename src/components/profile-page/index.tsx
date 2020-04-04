@@ -5,6 +5,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { ResponseStatus } from '../../api';
 import { UserData, getUser, updateUser } from '../../api/users';
 import { FancyButton, FormInput, FormWrapper } from '../common';
+import ProfileHeader from './header';
+import ProfileActions from './profile-actions';
 import { useAuth } from '../../context/auth';
 import { emailPattern } from '../utils/validation/patterns';
 
@@ -83,7 +85,12 @@ const ProfilePage = (): React.ReactElement => {
         fetchUserData();
     }, []);
 
-    const handleFormSubmit = async () => {
+    const handleStartEdit = () => {
+        clearEmailError();
+        setEditingMode(true);
+    };
+
+    const handleSaveEdit = async () => {
         const isFormValid = await triggerValidation();
         if (isFormValid) {
             const updatedValues = watch();
@@ -95,57 +102,16 @@ const ProfilePage = (): React.ReactElement => {
         }
     };
 
-    const renderEditButton = (): ReactElement => {
-        const handleClick = e => {
-            e.preventDefault();
-            clearEmailError();
-            setEditingMode(true);
-        };
-        return (
-            <FancyButton onClick={handleClick} className="user-info-actions">
-                edit
-            </FancyButton>
-        );
-    };
-
-    const renderEditingActions = (): ReactElement => {
-        const handleSave = async e => {
-            e.preventDefault();
-            await handleFormSubmit();
-        };
-        const handleCancel = e => {
-            e.preventDefault();
-            setFormValues(userInfo);
-            setEditingMode(false);
-        };
-        return (
-            <div className="user-info-actions user-info-editing-actions">
-                <FancyButton onClick={handleCancel} className="user-info-editing-btn cancel-btn">
-                    cancel
-                </FancyButton>
-                <FancyButton onClick={handleSave} className="user-info-editing-btn">
-                    save
-                </FancyButton>
-            </div>
-        );
+    const handleCancelEdit = () => {
+        setFormValues(userInfo);
+        setEditingMode(false);
     };
 
     const renderUserInfo = (): ReactElement => {
         return (
             <div className="user-info-content">
                 <div className="user-info-content-main">
-                    <div className="user-info-header">
-                        <div className="username">{userInfo.username}</div>
-                        <div className="foursquare-status">
-                            {userInfo.foursquareId !== '' ? (
-                                <p>
-                                    <i className="fi-check"></i> Authorized on Foursquare
-                                </p>
-                            ) : (
-                                <p>No Foursquare account connected</p>
-                            )}
-                        </div>
-                    </div>
+                    <ProfileHeader user={userInfo} />
                     <form className="user-info-form" autoComplete="off" onSubmit={() => false}>
                         <Controller
                             as={FormInput}
@@ -167,7 +133,12 @@ const ProfilePage = (): React.ReactElement => {
                             disabled={!isEditingMode}
                             setValue={setValue}
                         />
-                        {isEditingMode ? renderEditingActions() : renderEditButton()}
+                        <ProfileActions
+                            isEditingMode={isEditingMode}
+                            handleStartEdit={handleStartEdit}
+                            handleSave={handleSaveEdit}
+                            handleCancel={handleCancelEdit}
+                        />
                     </form>
                 </div>
                 <div className="user-info-placeholder">

@@ -16,53 +16,10 @@
     grid-template-columns: 1fr 1fr;
 }
 
-.user-info-header {
-    margin-bottom: 20px;
-}
-
-.user-info-header .username {
-    color: var(--main-dark);
-    font-size: 2.5em;
-    font-weight: 300;
-}
-
-.user-info-header .foursquare-status {
-    display: flex;
-    align-items: center;
-    height: 35px;
-    font-size: 18px;
-    letter-spacing: 0.05em;
-    color: var(--main-green);
-}
-
-.user-info-header .foursquare-status .fi-check::before {
-    content: '☑︎';
-    font-style: normal;
-}
-
 .user-info-form {
     display: grid;
     gap: 10px;
     justify-items: start;
-}
-
-.user-info-actions {
-    margin-top: 10px;
-}
-
-.user-info-editing-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.user-info-editing-btn {
-    width: 145px;
-}
-
-.cancel-btn {
-    background-color: var(--light-gray);
-    color: var(--main-dark);
 }
 
 .user-info-placeholder {

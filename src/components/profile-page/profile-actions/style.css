@@ -1,0 +1,18 @@
+.user-info-actions {
+    margin-top: 10px;
+}
+
+.user-info-editing-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.user-info-editing-btn {
+    width: 145px;
+}
+
+.cancel-btn {
+    background-color: var(--light-gray);
+    color: var(--main-dark);
+}

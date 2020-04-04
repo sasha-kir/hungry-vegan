@@ -1,0 +1,23 @@
+.user-info-header {
+    margin-bottom: 20px;
+}
+
+.user-info-header .username {
+    color: var(--main-dark);
+    font-size: 2.5em;
+    font-weight: 300;
+}
+
+.user-info-header .foursquare-status {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    color: var(--main-green);
+}
+
+.user-info-header .foursquare-status .fi-check::before {
+    content: '☑︎';
+    font-style: normal;
+}
