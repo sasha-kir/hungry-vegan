@@ -6,6 +6,7 @@ import { useAuth } from '../../context/auth';
 import { ResponseStatus } from '../../api/';
 import { register } from '../../api/login';
 import { FancyButton, FormInput, FormWrapper } from '../common';
+import { emailPattern } from '../utils/validation/patterns';
 import './style.css';
 
 const RegisterPage = (): ReactElement => {
@@ -13,8 +14,6 @@ const RegisterPage = (): ReactElement => {
     const { handleAuth } = useAuth();
     const history = useHistory();
     const { handleSubmit, clearError, setValue, control, errors } = useForm();
-
-    const emailPattern = /^[^@\s]+@[^@\s\.]+\.[^@\s\.]+$/;
 
     const onSubmit = async formData => {
         const { status, token } = await register(formData);
