@@ -1,13 +1,23 @@
-import { authApi, ResponseStatus } from '../';
-
-interface LoginResponse {
-    status: ResponseStatus;
-    token: string | null;
-}
+import { authApi, api, ResponseStatus } from '../..';
+import { LoginResponse } from '..';
 
 interface FsqLoginResponse extends LoginResponse {
     isEmailValid: boolean | null;
 }
+
+interface ConnectResponse {
+    status: ResponseStatus;
+    token: string | null;
+}
+
+export const getClientId = async (): Promise<string> => {
+    try {
+        const { data } = await api.get('/foursquare-client-id');
+        return data.clientId;
+    } catch (error) {
+        return '';
+    }
+};
 
 export const foursquareLogin = async (code: string, redirectUrl: string): Promise<FsqLoginResponse> => {
     try {
@@ -22,18 +32,12 @@ export const foursquareLogin = async (code: string, redirectUrl: string): Promis
     }
 };
 
-export const loginWithCredentials = async (loginFormData): Promise<LoginResponse> => {
+export const foursquareConnect = async (code: string, redirectUrl: string): Promise<ConnectResponse> => {
     try {
-        const { data } = await authApi.post('/login', loginFormData);
-        return { status: ResponseStatus.success, token: data.token };
-    } catch (error) {
-        return { status: ResponseStatus.error, token: null };
-    }
-};
-
-export const register = async (registerFormData): Promise<LoginResponse> => {
-    try {
-        const { data } = await authApi.post('/register', registerFormData);
+        const { data } = await api.post('/foursquare-connect', {
+            code,
+            redirectUrl,
+        });
         return { status: ResponseStatus.success, token: data.token };
     } catch (error) {
         return { status: ResponseStatus.error, token: null };

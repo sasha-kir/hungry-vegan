@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { UserData } from '../../../api/users';
+import { UserData } from '../../../api/user';
 import './style.css';
 
 interface ProfileHeaderProps {

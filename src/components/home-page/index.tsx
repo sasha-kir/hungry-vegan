@@ -1,26 +1,21 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ResponseStatus } from '../../api';
-import { getListsData } from '../../api/foursquare';
+import { getUserLists } from '../../api/foursquare';
+import { useAuth } from '../../context/auth';
 import { FoursquareButton } from '../common';
 import './style.css';
 
-interface ListData {
-    name: string;
-}
-
 const HomePage: React.FC = () => {
-    const [lists, setLists] = useState<ListData[]>([]);
+    const [lists, setLists] = useState<FoursquareList[]>([]);
     const [foursquareStatus, setFoursquareStatus] = useState<ResponseStatus>(ResponseStatus.pending);
+    const { foursquarePaths } = useAuth();
 
     useEffect(() => {
         const fetchLists = async (): Promise<void> => {
             setFoursquareStatus(ResponseStatus.pending);
-            const { status, listsData } = await getListsData();
-            if (status === ResponseStatus.success) {
-                const listNames = listsData.map(list => ({
-                    name: list['name'],
-                }));
-                setLists(listNames);
+            const { status, userLists } = await getUserLists();
+            if (status === ResponseStatus.success && userLists !== null) {
+                setLists(userLists);
             }
             setFoursquareStatus(status);
         };
@@ -34,7 +29,7 @@ const HomePage: React.FC = () => {
         return (
             <ul>
                 {lists.map(list => (
-                    <li key={list['name']}>{list['name']}</li>
+                    <li key={list.id}>{list.name}</li>
                 ))}
             </ul>
         );
@@ -44,7 +39,7 @@ const HomePage: React.FC = () => {
         return (
             <>
                 <p className="foursquare-message">You should authorize on Foursqaure</p>
-                <FoursquareButton redirectPath="/connect/foursquare" style={{ width: '300px' }}>
+                <FoursquareButton redirectPath={foursquarePaths.connect} style={{ width: '300px' }}>
                     connect to foursquare
                 </FoursquareButton>
             </>

@@ -3,8 +3,7 @@ import { useLocation, useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 import config from '../../config';
 import { ResponseStatus } from '../../api';
-import { foursquareLogin } from '../../api/login';
-import { foursquareConnect } from '../../api/foursquare';
+import { foursquareLogin, foursquareConnect } from '../../api/auth';
 import { FoursquareButton, FormWrapper } from '../common';
 import './style.css';
 

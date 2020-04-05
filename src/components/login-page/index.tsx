@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { useAuth } from '../../context/auth';
 import { ResponseStatus } from '../../api/';
-import { loginWithCredentials } from '../../api/login';
+import { loginWithCredentials } from '../../api/auth';
 import { FancyButton, FormInput, FormWrapper } from '../common';
 import './style.css';
 

@@ -2,36 +2,33 @@ import { api, ResponseStatus } from '../';
 
 interface ListsResponse {
     status: ResponseStatus;
-    listsData: object[];
+    userLists: FoursquareList[] | null;
 }
 
-interface ConnectResponse {
+interface ListResponse {
     status: ResponseStatus;
-    token: string | null;
+    listData: FoursquareList | null;
 }
 
-export const getListsData = async (): Promise<ListsResponse> => {
+export const getUserLists = async (): Promise<ListsResponse> => {
     try {
-        const { data } = await api.get('/foursquare-lists');
-        return { status: ResponseStatus.success, listsData: data.data };
+        const { data } = await api.get('/user_lists');
+        return { status: ResponseStatus.success, userLists: data.data };
     } catch (error) {
         switch (error.response?.status) {
             case 400:
-                return { status: ResponseStatus.rejected, listsData: [] };
+                return { status: ResponseStatus.rejected, userLists: null };
             default:
-                return { status: ResponseStatus.error, listsData: [] };
+                return { status: ResponseStatus.error, userLists: null };
         }
     }
 };
 
-export const foursquareConnect = async (code: string, redirectUrl: string): Promise<ConnectResponse> => {
+export const getListData = async (listId: string): Promise<ListResponse> => {
     try {
-        const { data } = await api.post('/foursquare-connect', {
-            code,
-            redirectUrl,
-        });
-        return { status: ResponseStatus.success, token: data.token };
+        const { data } = await api.post('/list_data', { listId });
+        return { status: ResponseStatus.success, listData: data.data };
     } catch (error) {
-        return { status: ResponseStatus.error, token: null };
+        return { status: ResponseStatus.error, listData: null };
     }
 };

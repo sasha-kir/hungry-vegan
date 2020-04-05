@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
 import { ResponseStatus } from '../../api';
-import { UserData, getUser, updateUser } from '../../api/users';
+import { UserData, getUser, updateUser } from '../../api/user';
 import { FancyButton, FormInput, FormWrapper } from '../common';
 import ProfileHeader from './header';
 import ProfileActions from './profile-actions';
