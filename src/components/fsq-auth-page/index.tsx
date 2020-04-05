@@ -54,26 +54,39 @@ function FsqAuthPage(): ReactElement {
         }
     }, []);
 
+    const renderLoadingState = (): ReactElement => {
+        return <p className="fsq-auth-message">Authorization in progress...</p>;
+    };
+
+    const renderErrorState = (): ReactElement => {
+        return (
+            <>
+                <p className="fsq-auth-message">Something went wrong!</p>
+                <Link to="/login">Login to existing account</Link>
+                <Link to="/register">Register</Link>
+            </>
+        );
+    };
+
     const renderAuthForm = (): ReactElement => {
         return (
-            <div className="page-wrapper">
-                <FormWrapper className="fsq-form-wrapper">
-                    <FoursquareButton style={{ margin: '50px 0' }} redirectPath={foursquarePaths.login}>
-                        login with foursquare
-                    </FoursquareButton>
-                    <Link to="/login">Login to existing account</Link>
-                    <Link to="/register">Register</Link>
-                </FormWrapper>
-            </div>
+            <>
+                <FoursquareButton style={{ margin: '50px 0' }} redirectPath={foursquarePaths.login}>
+                    login with foursquare
+                </FoursquareButton>
+                <Link to="/login">Login to existing account</Link>
+                <Link to="/register">Register</Link>
+            </>
         );
     };
 
     return (
-        <div>
-            {authStatus === ResponseStatus.pending && <p style={{ color: 'white' }}>Authorization in progress...</p>}
-            {authStatus === ResponseStatus.error && <p style={{ color: 'red' }}>Authentication error</p>}
-            {authStatus === ResponseStatus.success && <p style={{ color: 'white' }}>Redirecting you to homepage...</p>}
-            {authStatus === ResponseStatus.idle && renderAuthForm()}
+        <div className="page-wrapper">
+            <FormWrapper className="fsq-form-wrapper">
+                {authStatus === ResponseStatus.pending && renderLoadingState()}
+                {authStatus === ResponseStatus.error && renderErrorState()}
+                {authStatus === ResponseStatus.idle && renderAuthForm()}
+            </FormWrapper>
         </div>
     );
 }

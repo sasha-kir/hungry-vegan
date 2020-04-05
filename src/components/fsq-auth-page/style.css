@@ -2,3 +2,11 @@
     width: 300px;
     height: 300px;
 }
+
+.fsq-auth-message {
+    color: var(--main-dark);
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    align-self: center;
+}

@@ -1,4 +1,9 @@
 .foursquare-btn .foursquare-link {
     text-decoration: none;
     color: inherit;
+    font-size: 18px;
+}
+
+.foursquare-btn .foursquare-link:hover {
+    color: inherit;
 }
