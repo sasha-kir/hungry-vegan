@@ -5,7 +5,7 @@ import './style.css';
 const NotFoundPage: React.FC = () => {
     return (
         <div className="page-wrapper">
-            <img src={placeholder} className="placeholder-image" />
+            <img src={placeholder} className="404-placeholder-image" data-testid="404-image" />
         </div>
     );
 };
