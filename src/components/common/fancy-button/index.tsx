@@ -1,16 +1,23 @@
 import React, { ReactElement, DetailedHTMLProps, ButtonHTMLAttributes } from 'react';
 import './style.css';
 
+interface FancyButonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+    'data-testid'?: string;
+}
+
 const FancyButton = ({
     children,
+    className,
+    'data-testid': testId = '',
     ...props
-}: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>): ReactElement<HTMLButtonElement> => {
-    let className = 'fancy-btn';
-    if (props.className) {
-        className = `${props.className} ${className}`;
+}: FancyButonProps): ReactElement<HTMLButtonElement> => {
+    const buttonClasses = ['fancy-btn'];
+    if (className) {
+        buttonClasses.push(className);
     }
+    const buttonClass = buttonClasses.join(' ');
     return (
-        <button {...props} className={className}>
+        <button {...props} className={buttonClass} data-testid={testId}>
             {children}
         </button>
     );

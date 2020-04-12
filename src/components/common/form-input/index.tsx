@@ -28,8 +28,12 @@ const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
     return (
         <div className="form-input-wrapper">
             <label>{name}</label>
-            <input onChange={handleInput} {...inputAttributes} />
-            {Boolean(errorMessage) && <div className="input-error">{errorMessage}</div>}
+            <input onChange={handleInput} {...inputAttributes} data-testid={`${name}-input`} />
+            {Boolean(errorMessage) && (
+                <div className="input-error" data-testid={`${name}-input-error`}>
+                    {errorMessage}
+                </div>
+            )}
         </div>
     );
 };

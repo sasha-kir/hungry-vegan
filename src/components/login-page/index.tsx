@@ -46,7 +46,7 @@ const LoginPage = (): ReactElement => {
     return (
         <div className="page-wrapper">
             <FormWrapper>
-                <form className="login-form" onSubmit={() => false}>
+                <form className="login-form" onSubmit={() => false} data-testid="login-form">
                     <Controller
                         as={FormInput}
                         name="username"
@@ -66,7 +66,11 @@ const LoginPage = (): ReactElement => {
                         setValue={setValue}
                         errorMessage={getPasswordError()}
                     />
-                    <FancyButton onClick={handleSubmit(onSubmit)} className="login-btn">
+                    <FancyButton
+                        onClick={handleSubmit(onSubmit)}
+                        className="login-btn"
+                        data-testid="login-submit-btn"
+                    >
                         submit
                     </FancyButton>
                 </form>
