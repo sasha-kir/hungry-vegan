@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState, useCallback, useEffect } from 'react';
 import { useLocation, useHistory, Link } from 'react-router-dom';
 import { useAuth } from 'context/auth';
 import config from 'config';
@@ -13,29 +13,34 @@ function FsqAuthPage(): ReactElement {
     const location = useLocation();
     const history = useHistory();
 
-    const loginRedirectUrl: string = config.baseUrl + foursquarePaths.login;
-    const connectRedirectUrl: string = config.baseUrl + foursquarePaths.connect;
+    const loginToFoursquare = useCallback(
+        async (code: string) => {
+            const loginRedirectUrl: string = config.baseUrl + foursquarePaths.login;
+            setAuthStatus(ResponseStatus.pending);
+            const { status, token, isEmailValid } = await foursquareLogin(code, loginRedirectUrl);
+            if (status === ResponseStatus.success && token !== null) {
+                handleAuth(token);
+                const redirectPath = isEmailValid ? '/home' : '/profile?empty_email=true';
+                history.push(redirectPath);
+            }
+            setAuthStatus(status);
+        },
+        [handleAuth, history, foursquarePaths],
+    );
 
-    const loginToFoursquare = async (code: string) => {
-        setAuthStatus(ResponseStatus.pending);
-        const { status, token, isEmailValid } = await foursquareLogin(code, loginRedirectUrl);
-        if (status === ResponseStatus.success && token !== null) {
-            handleAuth(token);
-            const redirectPath = isEmailValid ? '/home' : '/profile?empty_email=true';
-            history.push(redirectPath);
-        }
-        setAuthStatus(status);
-    };
-
-    const connectToFoursquare = async (code: string) => {
-        setAuthStatus(ResponseStatus.pending);
-        const { status, token } = await foursquareConnect(code, connectRedirectUrl);
-        if (status === ResponseStatus.success && token !== null) {
-            handleAuth(token);
-            history.push('/home');
-        }
-        setAuthStatus(status);
-    };
+    const connectToFoursquare = useCallback(
+        async (code: string) => {
+            const connectRedirectUrl: string = config.baseUrl + foursquarePaths.connect;
+            setAuthStatus(ResponseStatus.pending);
+            const { status, token } = await foursquareConnect(code, connectRedirectUrl);
+            if (status === ResponseStatus.success && token !== null) {
+                handleAuth(token);
+                history.push('/home');
+            }
+            setAuthStatus(status);
+        },
+        [handleAuth, history, foursquarePaths],
+    );
 
     useEffect(() => {
         if (Object.values(foursquarePaths).includes(location.pathname)) {
@@ -52,7 +57,7 @@ function FsqAuthPage(): ReactElement {
                     throw new Error('Unhandled pathname for Foursqaure Auth');
             }
         }
-    }, []);
+    }, [foursquarePaths, location, connectToFoursquare, loginToFoursquare]);
 
     const renderLoadingState = (): ReactElement => {
         return <p className="fsq-auth-message">Authorization in progress...</p>;

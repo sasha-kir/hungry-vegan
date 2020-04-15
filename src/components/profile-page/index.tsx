@@ -46,23 +46,26 @@ const ProfilePage = (): React.ReactElement => {
         setEmailEmpty(false);
     };
 
-    const setFormValues = (userData: UserData) => {
-        const formValues = Object.keys(userData).map(key => ({
-            [key]: userData[key],
-        }));
-        setValue(formValues);
-    };
+    const setFormValues = useCallback(
+        (userData: UserData) => {
+            const formValues = Object.keys(userData).map(key => ({
+                [key]: userData[key],
+            }));
+            setValue(formValues);
+        },
+        [setValue],
+    );
 
-    const fetchUserData = async () => {
+    const fetchUserData = useCallback(async () => {
         setDataStatus(ResponseStatus.pending);
         const { status, user } = await getUser();
         setDataStatus(status);
         if (status === ResponseStatus.success && user !== null) {
-            const userData = { ...userInfo, ...user };
+            const userData = { ...defaultInfo, ...user };
             setUserInfo(userData);
             setFormValues(userData);
         }
-    };
+    }, [setFormValues]);
 
     const updateUserData = async (updatedUserInfo: UserData) => {
         setDataStatus(ResponseStatus.pending);
@@ -83,7 +86,7 @@ const ProfilePage = (): React.ReactElement => {
         const emptyEmail = Boolean(searchParams.get('empty_email'));
         setEmailEmpty(emptyEmail);
         fetchUserData();
-    }, []);
+    }, [fetchUserData, location.search]);
 
     const handleStartEdit = () => {
         clearEmailError();
