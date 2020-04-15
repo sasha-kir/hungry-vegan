@@ -1,10 +1,10 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import { useLocation, useHistory, Link } from 'react-router-dom';
-import { useAuth } from '../../context/auth';
-import config from '../../config';
-import { ResponseStatus } from '../../api';
-import { foursquareLogin, foursquareConnect } from '../../api/auth';
-import { FoursquareButton, FormWrapper } from '../common';
+import { useAuth } from 'context/auth';
+import config from 'config';
+import { ResponseStatus } from 'api';
+import { foursquareLogin, foursquareConnect } from 'api/auth';
+import { FoursquareButton, FormWrapper } from 'components/common';
 import './style.css';
 
 function FsqAuthPage(): ReactElement {

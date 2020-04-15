@@ -1,7 +1,8 @@
 import React, { ReactElement, DetailedHTMLProps, ButtonHTMLAttributes } from 'react';
 import './style.css';
 
-interface FancyButonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+interface FancyButonProps
+    extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     'data-testid'?: string;
 }
 

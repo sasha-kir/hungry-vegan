@@ -1,15 +1,19 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
-import FancyButton from '../fancy-button';
-import { getClientId } from '../../../api/auth';
-import config from '../../../config';
+import { FancyButton } from 'components/common';
+import { getClientId } from 'api/auth';
+import config from 'config';
 import './style.css';
 
 interface FsqButtonProps extends React.HTMLProps<HTMLButtonElement> {
     redirectPath: string;
 }
 
-const FoursquareButton = ({ redirectPath, children, style }: FsqButtonProps): ReactElement<HTMLButtonElement> => {
+const FoursquareButton = ({
+    redirectPath,
+    children,
+    style,
+}: FsqButtonProps): ReactElement<HTMLButtonElement> => {
     const [clientId, setClientId] = useState<string>('');
 
     useEffect(() => {

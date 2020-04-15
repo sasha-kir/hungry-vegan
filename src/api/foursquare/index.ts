@@ -1,4 +1,4 @@
-import { api, ResponseStatus } from '../';
+import { api, ResponseStatus } from 'api';
 
 interface ListsResponse {
     status: ResponseStatus;

@@ -2,11 +2,11 @@ import React, { ReactElement, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
-import { useAuth } from '../../context/auth';
-import { ResponseStatus } from '../../api/';
-import { register } from '../../api/auth';
-import { FancyButton, FormInput, FormWrapper } from '../common';
-import { emailPattern } from '../utils/validation/patterns';
+import { useAuth } from 'context/auth';
+import { ResponseStatus } from 'api';
+import { register } from 'api/auth';
+import { FancyButton, FormInput, FormWrapper } from 'components/common';
+import { emailPattern } from 'utils/validation/patterns';
 import './style.css';
 
 const RegisterPage = (): ReactElement => {

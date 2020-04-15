@@ -1,17 +1,17 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, { useState, useEffect, useCallback, ReactElement } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
-import { ResponseStatus } from '../../api';
-import { UserData, getUser, updateUser } from '../../api/user';
-import { FancyButton, FormInput, FormWrapper } from '../common';
+import { ResponseStatus } from 'api';
+import { UserData, getUser, updateUser } from 'api/user';
+import { FancyButton, FormInput, FormWrapper } from 'components/common';
 import ProfileHeader from './header';
 import ProfileActions from './profile-actions';
-import { useAuth } from '../../context/auth';
-import { emailPattern } from '../utils/validation/patterns';
+import { useAuth } from 'context/auth';
+import { emailPattern } from 'utils/validation/patterns';
 
-import illustration from '../../images/watering-plant.svg';
-import errorIllustration from '../../images/profile-empty.svg';
+import illustration from 'images/watering-plant.svg';
+import errorIllustration from 'images/profile-empty.svg';
 import './style.css';
 
 const defaultInfo: UserData = {
@@ -94,7 +94,9 @@ const ProfilePage = (): React.ReactElement => {
         const isFormValid = await triggerValidation();
         if (isFormValid) {
             const updatedValues = watch();
-            const isDirty = Object.keys(updatedValues).some(key => userInfo[key] !== updatedValues[key]);
+            const isDirty = Object.keys(updatedValues).some(
+                key => userInfo[key] !== updatedValues[key],
+            );
             if (isDirty) {
                 await updateUserData({ ...userInfo, ...updatedValues });
             }

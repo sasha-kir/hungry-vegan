@@ -1,5 +1,5 @@
-import { authApi, api, ResponseStatus } from '../..';
-import { LoginResponse } from '..';
+import { authApi, api, ResponseStatus } from 'api';
+import { LoginResponse } from 'api/auth';
 
 interface FsqLoginResponse extends LoginResponse {
     isEmailValid: boolean | null;
@@ -19,7 +19,10 @@ export const getClientId = async (): Promise<string> => {
     }
 };
 
-export const foursquareLogin = async (code: string, redirectUrl: string): Promise<FsqLoginResponse> => {
+export const foursquareLogin = async (
+    code: string,
+    redirectUrl: string,
+): Promise<FsqLoginResponse> => {
     try {
         const { data } = await authApi.post('/foursquare-login', {
             code,
@@ -32,7 +35,10 @@ export const foursquareLogin = async (code: string, redirectUrl: string): Promis
     }
 };
 
-export const foursquareConnect = async (code: string, redirectUrl: string): Promise<ConnectResponse> => {
+export const foursquareConnect = async (
+    code: string,
+    redirectUrl: string,
+): Promise<ConnectResponse> => {
     try {
         const { data } = await api.post('/foursquare-connect', {
             code,

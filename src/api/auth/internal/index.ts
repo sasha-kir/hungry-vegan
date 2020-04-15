@@ -1,5 +1,5 @@
-import { authApi, ResponseStatus } from '../..';
-import { LoginResponse } from '..';
+import { authApi, ResponseStatus } from 'api';
+import { LoginResponse } from 'api/auth';
 
 export const loginWithCredentials = async (loginFormData): Promise<LoginResponse> => {
     try {

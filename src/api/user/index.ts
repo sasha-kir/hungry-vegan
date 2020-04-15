@@ -1,4 +1,4 @@
-import { api, ResponseStatus } from '..';
+import { api, ResponseStatus } from 'api';
 
 export interface UserData {
     id: number;

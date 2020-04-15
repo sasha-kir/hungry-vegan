@@ -1,4 +1,4 @@
-import { ResponseStatus } from '..';
+import { ResponseStatus } from 'api';
 import { loginWithCredentials, register } from './internal';
 import { foursquareLogin, foursquareConnect, getClientId } from './foursquare';
 

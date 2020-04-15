@@ -1,13 +1,15 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { ResponseStatus } from '../../api';
-import { getUserLists } from '../../api/foursquare';
-import { useAuth } from '../../context/auth';
-import { FoursquareButton } from '../common';
+import { ResponseStatus } from 'api';
+import { getUserLists } from 'api/foursquare';
+import { useAuth } from 'context/auth';
+import { FoursquareButton } from 'components/common';
 import './style.css';
 
 const HomePage: React.FC = () => {
     const [lists, setLists] = useState<FoursquareList[]>([]);
-    const [foursquareStatus, setFoursquareStatus] = useState<ResponseStatus>(ResponseStatus.pending);
+    const [foursquareStatus, setFoursquareStatus] = useState<ResponseStatus>(
+        ResponseStatus.pending,
+    );
     const { foursquarePaths } = useAuth();
 
     useEffect(() => {
@@ -49,8 +51,12 @@ const HomePage: React.FC = () => {
     return (
         <div className="page-wrapper home-page-wrapper">
             <div className="home-page-content">
-                {foursquareStatus === ResponseStatus.pending && <div style={{ color: 'white' }}>Loading...</div>}
-                {foursquareStatus === ResponseStatus.success && <div style={{ color: 'white' }}>{renderLists()}</div>}
+                {foursquareStatus === ResponseStatus.pending && (
+                    <div style={{ color: 'white' }}>Loading...</div>
+                )}
+                {foursquareStatus === ResponseStatus.success && (
+                    <div style={{ color: 'white' }}>{renderLists()}</div>
+                )}
                 {foursquareStatus === ResponseStatus.rejected && renderFoursquareAuth()}
                 {foursquareStatus === ResponseStatus.error && (
                     <div style={{ color: 'red' }}>Error fetching Foursquare data</div>

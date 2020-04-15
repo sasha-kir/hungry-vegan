@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useAuth } from '../../context/auth';
-import logo from '../../images/logo.png';
+import { useAuth } from 'context/auth';
+import logo from 'images/logo.png';
 import './style.css';
 
 const NavigationBar = (): ReactElement => {

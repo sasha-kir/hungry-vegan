@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import NotFoundPage from '../components/404-page';
+import NotFoundPage from 'components/404-page';
 
 describe('NotFoundPage', () => {
     it('renders and displays placeholder image', async () => {
