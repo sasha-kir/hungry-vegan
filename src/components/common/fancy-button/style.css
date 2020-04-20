@@ -2,7 +2,7 @@
     background: var(--main-green);
     color: var(--main-light);
     letter-spacing: 0.05em;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
     outline: none;
     transition: all 0.2s ease;

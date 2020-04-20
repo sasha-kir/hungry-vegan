@@ -14,9 +14,8 @@ function FsqAuthPage(): ReactElement {
     const history = useHistory();
 
     const loginToFoursquare = useCallback(
-        async (code: string) => {
+        async (code: string): Promise<void> => {
             const loginRedirectUrl: string = config.baseUrl + foursquarePaths.login;
-            setAuthStatus(ResponseStatus.pending);
             const { status, token, isEmailValid } = await foursquareLogin(code, loginRedirectUrl);
             if (status === ResponseStatus.success && token !== null) {
                 handleAuth(token);
@@ -29,9 +28,8 @@ function FsqAuthPage(): ReactElement {
     );
 
     const connectToFoursquare = useCallback(
-        async (code: string) => {
+        async (code: string): Promise<void> => {
             const connectRedirectUrl: string = config.baseUrl + foursquarePaths.connect;
-            setAuthStatus(ResponseStatus.pending);
             const { status, token } = await foursquareConnect(code, connectRedirectUrl);
             if (status === ResponseStatus.success && token !== null) {
                 handleAuth(token);
@@ -44,8 +42,10 @@ function FsqAuthPage(): ReactElement {
 
     useEffect(() => {
         if (Object.values(foursquarePaths).includes(location.pathname)) {
+            setAuthStatus(ResponseStatus.pending);
             const searchParams = new URLSearchParams(location.search);
             const code = searchParams.get('code') || '';
+            setAuthStatus(ResponseStatus.pending);
             switch (location.pathname) {
                 case foursquarePaths.login:
                     loginToFoursquare(code);

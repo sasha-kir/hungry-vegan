@@ -12,8 +12,12 @@
     --secondary-error: #ffcccc;
 }
 
-body {
+* {
     margin: 0;
+    padding: 0;
+}
+
+body {
     font-family: 'Lato', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -30,4 +34,9 @@ button {
     justify-items: center;
     align-items: center;
     height: 100vh;
+}
+
+ol,
+ul {
+    list-style: none;
 }

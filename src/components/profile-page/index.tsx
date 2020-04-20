@@ -47,7 +47,7 @@ const ProfilePage = (): React.ReactElement => {
     };
 
     const setFormValues = useCallback(
-        (userData: UserData) => {
+        (userData: UserData): void => {
             const formValues = Object.keys(userData).map(key => ({
                 [key]: userData[key],
             }));
@@ -56,7 +56,7 @@ const ProfilePage = (): React.ReactElement => {
         [setValue],
     );
 
-    const fetchUserData = useCallback(async () => {
+    const fetchUserData = useCallback(async (): Promise<void> => {
         setDataStatus(ResponseStatus.pending);
         const { status, user } = await getUser();
         setDataStatus(status);
@@ -67,7 +67,7 @@ const ProfilePage = (): React.ReactElement => {
         }
     }, [setFormValues]);
 
-    const updateUserData = async (updatedUserInfo: UserData) => {
+    const updateUserData = async (updatedUserInfo: UserData): Promise<void> => {
         setDataStatus(ResponseStatus.pending);
         const { status, token, user } = await updateUser(updatedUserInfo);
         setDataStatus(status);
@@ -93,7 +93,7 @@ const ProfilePage = (): React.ReactElement => {
         setEditingMode(true);
     };
 
-    const handleSaveEdit = async () => {
+    const handleSaveEdit = async (): Promise<void> => {
         const isFormValid = await triggerValidation();
         if (isFormValid) {
             const updatedValues = watch();
