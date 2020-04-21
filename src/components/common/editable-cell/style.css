@@ -1,0 +1,19 @@
+.editable-cell {
+    background-color: var(--main-light);
+    position: absolute;
+    top: -8px;
+    left: -5px;
+    border: 1px solid var(--light-gray);
+    border-radius: 1.5em;
+    padding: 10px;
+    outline: none;
+}
+
+.editable-cell:focus {
+    border-color: var(--main-green);
+}
+
+.editable-cell::placeholder {
+    color: var(--dark-gray);
+    font-size: 14px;
+}

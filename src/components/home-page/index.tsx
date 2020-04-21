@@ -3,6 +3,7 @@ import { ResponseStatus } from 'api';
 import { getUserLists } from 'api/foursquare';
 import { useAuth } from 'context/auth';
 import { FoursquareButton } from 'components/common';
+import ListsTable from './lists-table';
 import './style.css';
 
 const HomePage: React.FC = () => {
@@ -24,38 +25,6 @@ const HomePage: React.FC = () => {
         fetchLists();
     }, []);
 
-    const renderLists = (): ReactElement<HTMLUListElement> => {
-        if (lists.length === 0) {
-            return <p style={{ color: 'white' }}>No lists yet</p>;
-        }
-        return (
-            <ul className="responsive-table">
-                <li className="table-header">
-                    <div className="col col-1">List</div>
-                    <div className="col col-2">City</div>
-                    <div className="col col-3"># of places</div>
-                    <div className="col col-4">Date created</div>
-                </li>
-                {lists.map(list => (
-                    <li className="table-row" key={list.id}>
-                        <div className="col col-1" data-label="List">
-                            {list.name}
-                        </div>
-                        <div className="col col-2" data-label="City">
-                            Moscow
-                        </div>
-                        <div className="col col-3" data-label="# of places">
-                            {list.itemsCount}
-                        </div>
-                        <div className="col col-4" data-label="Date created">
-                            {new Date(list.createdAt * 1000).toLocaleDateString('ru-RU')}
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        );
-    };
-
     const renderFoursquareAuth = (): ReactElement => {
         return (
             <>
@@ -74,7 +43,9 @@ const HomePage: React.FC = () => {
                     <div style={{ color: 'white', textAlign: 'center' }}>Loading...</div>
                 )}
                 {foursquareStatus === ResponseStatus.success && (
-                    <div className="lists-wrapper">{renderLists()}</div>
+                    <div className="lists-wrapper">
+                        <ListsTable lists={lists} />
+                    </div>
                 )}
                 {foursquareStatus === ResponseStatus.rejected && renderFoursquareAuth()}
                 {foursquareStatus === ResponseStatus.error && (
