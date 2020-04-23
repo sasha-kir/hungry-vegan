@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { FiEdit2, FiSave } from 'react-icons/fi';
 import { EditableCell } from 'components/common';
 import './style.css';
@@ -8,12 +8,8 @@ interface ListsTableProps {
 }
 
 const ListsTable = ({ lists }: ListsTableProps): ReactElement<HTMLUListElement> => {
-    const [cities, setCities] = useState<string[]>([]);
+    const [cities, setCities] = useState<string[]>(lists.map(l => l.city));
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
-
-    useEffect(() => {
-        setCities(Array(lists.length).fill('—'));
-    }, []);
 
     const updateCellData = (rowIndex, value) => {
         setCities(old =>
@@ -59,13 +55,13 @@ const ListsTable = ({ lists }: ListsTableProps): ReactElement<HTMLUListElement> 
                     <div className="col col-2" data-label="City">
                         {isEditingMode ? (
                             <EditableCell
-                                value=""
+                                value={list.city}
                                 placeholder="List city"
                                 row={index}
                                 updateData={updateCellData}
                             />
                         ) : (
-                            cities[index]
+                            list.city || '-'
                         )}
                     </div>
                     <div className="col col-3" data-label="# of places">

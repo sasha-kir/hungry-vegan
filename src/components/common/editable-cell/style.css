@@ -7,6 +7,7 @@
     border-radius: 1.5em;
     padding: 10px;
     outline: none;
+    font-size: 14px;
 }
 
 .editable-cell:focus {
@@ -15,5 +16,4 @@
 
 .editable-cell::placeholder {
     color: var(--dark-gray);
-    font-size: 14px;
 }
