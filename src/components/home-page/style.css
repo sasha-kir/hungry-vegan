@@ -5,12 +5,26 @@
 .home-page-content {
     margin: 110px 0 50px;
     width: 100%;
+    display: grid;
 }
 
 .home-page-content .foursquare-message {
     color: var(--main-light);
     font-size: 20px;
     margin-bottom: 10px;
+    text-align: center;
+}
+
+.home-page-content .connect-btn {
+    color: var(--main-dark);
+    background-color: var(--main-highlight);
+    justify-self: center;
+    margin-top: 10px;
+}
+
+.home-page-content .connect-btn:hover {
+    color: var(--main-light);
+    background-color: var(--main-green);
 }
 
 .lists-wrapper {

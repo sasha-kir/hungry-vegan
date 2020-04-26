@@ -12,6 +12,7 @@ interface FsqButtonProps extends React.HTMLProps<HTMLButtonElement> {
 const FoursquareButton = ({
     redirectPath,
     children,
+    className,
     style,
 }: FsqButtonProps): ReactElement<HTMLButtonElement> => {
     const [clientId, setClientId] = useState<string>('');
@@ -33,7 +34,7 @@ const FoursquareButton = ({
     authUrl.searchParams.append('redirect_uri', redirectUrl);
 
     return (
-        <FancyButton style={style} className="foursquare-btn">
+        <FancyButton style={style} className={`foursquare-btn ${className}`}>
             <a className="foursquare-link" href={authUrl.href}>
                 {children}
             </a>

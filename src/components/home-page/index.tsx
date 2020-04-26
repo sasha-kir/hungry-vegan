@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
         return (
             <>
                 <p className="foursquare-message">You should authorize on Foursqaure</p>
-                <FoursquareButton redirectPath={foursquarePaths.connect} style={{ width: '300px' }}>
+                <FoursquareButton redirectPath={foursquarePaths.connect} className="connect-btn">
                     connect to foursquare
                 </FoursquareButton>
             </>
