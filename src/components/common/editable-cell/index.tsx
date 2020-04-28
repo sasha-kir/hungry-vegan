@@ -6,10 +6,10 @@ interface EditableCellProps {
     value: string;
     placeholder: string;
     row: number;
-    updateData(row, value): void;
+    recordData(row, value): void;
 }
 
-const EditableCell = ({ value: initialValue, placeholder, row, updateData }: EditableCellProps) => {
+const EditableCell = ({ value: initialValue, placeholder, row, recordData }: EditableCellProps) => {
     const [value, setValue] = useState(initialValue);
 
     const onChange = e => {
@@ -17,13 +17,13 @@ const EditableCell = ({ value: initialValue, placeholder, row, updateData }: Edi
     };
 
     const onBlur = () => {
-        updateData(row, value);
+        recordData(row, value);
     };
 
     return (
         <input
             className="editable-cell"
-            autoComplete="off"
+            autoComplete="no"
             placeholder={placeholder}
             value={value}
             onChange={onChange}

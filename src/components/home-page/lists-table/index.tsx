@@ -8,12 +8,13 @@ interface ListsTableProps {
 }
 
 const ListsTable = ({ lists }: ListsTableProps): ReactElement<HTMLUListElement> => {
-    const [cities, setCities] = useState<string[]>(lists.map(l => l.city));
+    const initialCities = lists.map(l => l.city);
+    const [cities, setCities] = useState<string[]>(initialCities);
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
 
-    const updateCellData = (rowIndex, value) => {
-        setCities(old =>
-            old.map((row, index) => {
+    const recordCellData = (rowIndex, value) => {
+        setCities(currentCities =>
+            currentCities.map((row, index) => {
                 if (index === rowIndex) return value;
                 return row;
             }),
@@ -25,6 +26,9 @@ const ListsTable = ({ lists }: ListsTableProps): ReactElement<HTMLUListElement> 
     };
 
     const saveEdit = (): void => {
+        if (!cities.every((city, index) => initialCities[index] === city)) {
+            console.log('needs update');
+        }
         setEditingMode(false);
     };
 
@@ -36,8 +40,8 @@ const ListsTable = ({ lists }: ListsTableProps): ReactElement<HTMLUListElement> 
         <ul className="responsive-table">
             <li className="table-header">
                 <div className="col col-1">List</div>
-                <div className="col col-2">
-                    City
+                <div className="col-2 col-with-icon">
+                    <div className="col">City</div>
                     {isEditingMode ? (
                         <FiSave className="table-header-icon" onClick={saveEdit} />
                     ) : (
@@ -47,31 +51,34 @@ const ListsTable = ({ lists }: ListsTableProps): ReactElement<HTMLUListElement> 
                 <div className="col col-3"># of places</div>
                 <div className="col col-4">Date created</div>
             </li>
-            {lists.map((list, index) => (
-                <li className="table-row" key={list.id}>
-                    <div className="col col-1" data-label="List">
-                        {list.name}
-                    </div>
-                    <div className="col col-2" data-label="City">
-                        {isEditingMode ? (
-                            <EditableCell
-                                value={list.city}
-                                placeholder="List city"
-                                row={index}
-                                updateData={updateCellData}
-                            />
-                        ) : (
-                            list.city || '-'
-                        )}
-                    </div>
-                    <div className="col col-3" data-label="# of places">
-                        {list.itemsCount}
-                    </div>
-                    <div className="col col-4" data-label="Date created">
-                        {new Date(list.createdAt * 1000).toLocaleDateString('ru-RU')}
-                    </div>
-                </li>
-            ))}
+            {lists.map((list, index) => {
+                const city = cities[index];
+                return (
+                    <li className="table-row" key={list.id}>
+                        <div className="col col-1" data-label="List">
+                            {list.name}
+                        </div>
+                        <div className="col col-2" data-label="City">
+                            {isEditingMode ? (
+                                <EditableCell
+                                    value={city}
+                                    placeholder="List city"
+                                    row={index}
+                                    recordData={recordCellData}
+                                />
+                            ) : (
+                                city || '-'
+                            )}
+                        </div>
+                        <div className="col col-3" data-label="# of places">
+                            {list.itemsCount}
+                        </div>
+                        <div className="col col-4" data-label="Date created">
+                            {new Date(list.createdAt * 1000).toLocaleDateString('ru-RU')}
+                        </div>
+                    </li>
+                );
+            })}
         </ul>
     );
 };
