@@ -32,3 +32,12 @@ export const getListData = async (listId: string): Promise<ListResponse> => {
         return { status: ResponseStatus.error, listData: null };
     }
 };
+
+export const updateUserLists = async (lists: FoursquareList[]): Promise<ListsResponse> => {
+    try {
+        const { data } = await api.post('/update_lists', { lists });
+        return { status: ResponseStatus.success, userLists: data.data };
+    } catch (error) {
+        return { status: ResponseStatus.error, userLists: null };
+    }
+};

@@ -5,9 +5,10 @@ import './style.css';
 
 interface ListsTableProps {
     lists: FoursquareList[];
+    updateLists(lists: FoursquareList[]): Promise<void>;
 }
 
-const ListsTable = ({ lists }: ListsTableProps): ReactElement<HTMLUListElement> => {
+const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLUListElement> => {
     const initialCities = lists.map(l => l.city);
     const [cities, setCities] = useState<string[]>(initialCities);
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
@@ -27,7 +28,8 @@ const ListsTable = ({ lists }: ListsTableProps): ReactElement<HTMLUListElement> 
 
     const saveEdit = (): void => {
         if (!cities.every((city, index) => initialCities[index] === city)) {
-            console.log('needs update');
+            const listsForUpdate = lists.map((list, index) => ({ ...list, city: cities[index] }));
+            updateLists(listsForUpdate);
         }
         setEditingMode(false);
     };

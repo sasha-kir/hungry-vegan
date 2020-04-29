@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ResponseStatus } from 'api';
-import { getUserLists } from 'api/foursquare';
+import { getUserLists, updateUserLists } from 'api/foursquare';
 import { useAuth } from 'context/auth';
 import { FoursquareButton } from 'components/common';
 import ListsTable from './lists-table';
@@ -8,22 +8,29 @@ import './style.css';
 
 const HomePage: React.FC = () => {
     const [lists, setLists] = useState<FoursquareList[]>([]);
-    const [foursquareStatus, setFoursquareStatus] = useState<ResponseStatus>(
-        ResponseStatus.pending,
-    );
+    const [responseStatus, setResponseStatus] = useState<ResponseStatus>(ResponseStatus.pending);
     const { foursquarePaths } = useAuth();
 
     useEffect(() => {
         const fetchLists = async (): Promise<void> => {
-            setFoursquareStatus(ResponseStatus.pending);
+            setResponseStatus(ResponseStatus.pending);
             const { status, userLists } = await getUserLists();
             if (status === ResponseStatus.success && userLists !== null) {
                 setLists(userLists);
             }
-            setFoursquareStatus(status);
+            setResponseStatus(status);
         };
         fetchLists();
     }, []);
+
+    const updateLists = async (lists: FoursquareList[]): Promise<void> => {
+        setResponseStatus(ResponseStatus.pending);
+        const { status, userLists } = await updateUserLists(lists);
+        if (status === ResponseStatus.success && userLists !== null) {
+            setLists(userLists);
+        }
+        setResponseStatus(status);
+    };
 
     const renderFoursquareAuth = (): ReactElement => {
         return (
@@ -39,16 +46,16 @@ const HomePage: React.FC = () => {
     return (
         <div className="page-wrapper home-page-wrapper">
             <div className="home-page-content">
-                {foursquareStatus === ResponseStatus.pending && (
+                {responseStatus === ResponseStatus.pending && (
                     <div style={{ color: 'white', textAlign: 'center' }}>Loading...</div>
                 )}
-                {foursquareStatus === ResponseStatus.success && (
+                {responseStatus === ResponseStatus.success && (
                     <div className="lists-wrapper">
-                        <ListsTable lists={lists} />
+                        <ListsTable lists={lists} updateLists={updateLists} />
                     </div>
                 )}
-                {foursquareStatus === ResponseStatus.rejected && renderFoursquareAuth()}
-                {foursquareStatus === ResponseStatus.error && (
+                {responseStatus === ResponseStatus.rejected && renderFoursquareAuth()}
+                {responseStatus === ResponseStatus.error && (
                     <div style={{ color: 'red' }}>Error fetching Foursquare data</div>
                 )}
             </div>
