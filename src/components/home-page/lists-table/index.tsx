@@ -9,13 +9,13 @@ interface ListsTableProps {
 }
 
 const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLUListElement> => {
-    const initialCities = lists.map(l => l.city);
-    const [cities, setCities] = useState<string[]>(initialCities);
+    const initialLocations = lists.map(l => l.location);
+    const [locations, setLocations] = useState<string[]>(initialLocations);
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
 
     const recordCellData = (rowIndex, value) => {
-        setCities(currentCities =>
-            currentCities.map((row, index) => {
+        setLocations(currentLocations =>
+            currentLocations.map((row, index) => {
                 if (index === rowIndex) return value;
                 return row;
             }),
@@ -27,8 +27,11 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
     };
 
     const saveEdit = (): void => {
-        if (!cities.every((city, index) => initialCities[index] === city)) {
-            const listsForUpdate = lists.map((list, index) => ({ ...list, city: cities[index] }));
+        if (!locations.every((location, index) => initialLocations[index] === location)) {
+            const listsForUpdate = lists.map((list, index) => ({
+                ...list,
+                location: locations[index],
+            }));
             updateLists(listsForUpdate);
         }
         setEditingMode(false);
@@ -43,7 +46,7 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
             <li className="table-header">
                 <div className="col col-1">List</div>
                 <div className="col-2 col-with-icon">
-                    <div className="col">City</div>
+                    <div className="col">Location</div>
                     {isEditingMode ? (
                         <FiSave className="table-header-icon" onClick={saveEdit} />
                     ) : (
@@ -54,22 +57,22 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
                 <div className="col col-4">Date created</div>
             </li>
             {lists.map((list, index) => {
-                const city = cities[index];
+                const location = locations[index];
                 return (
                     <li className="table-row" key={list.id}>
                         <div className="col col-1" data-label="List">
                             {list.name}
                         </div>
-                        <div className="col col-2" data-label="City">
+                        <div className="col col-2" data-label="Location">
                             {isEditingMode ? (
                                 <EditableCell
-                                    value={city}
-                                    placeholder="List city"
+                                    value={location}
+                                    placeholder="List location"
                                     row={index}
                                     recordData={recordCellData}
                                 />
                             ) : (
-                                city || '-'
+                                location || '-'
                             )}
                         </div>
                         <div className="col col-3" data-label="# of places">

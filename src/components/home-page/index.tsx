@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { ResponseStatus } from 'api';
-import { getUserLists, updateUserLists } from 'api/foursquare';
+import { getUserLists, updateUserLists } from 'api/lists';
 import { useAuth } from 'context/auth';
 import { FoursquareButton } from 'components/common';
 import ListsTable from './lists-table';

@@ -19,7 +19,8 @@ interface FoursquareList {
     id: string;
     name: string;
     url: string;
-    city: string;
+    location: string;
+    coordinates: Coordinates | null;
     createdAt: number;
     updatedAt: number;
     itemsCount: number;
