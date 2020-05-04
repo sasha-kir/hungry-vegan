@@ -1,0 +1,37 @@
+.user-info-content {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.user-info-form {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+}
+
+.user-info-placeholder {
+    align-self: end;
+}
+
+.user-info-placeholder img {
+    height: 350px;
+    width: auto;
+}
+
+@media only screen and (max-width: 1200px) {
+    .user-info-placeholder img {
+        height: 300px;
+        width: auto;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .user-info-content {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+    .user-info-placeholder img {
+        display: none;
+    }
+}

@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
 import { FancyButton } from 'components/common';
-import { getClientId } from 'api/auth';
+import AuthApi from 'api/auth';
 import config from 'config';
 import './style.css';
 
@@ -19,7 +19,7 @@ const FoursquareButton = ({
 
     useEffect(() => {
         const fetchAuthData = async () => {
-            const clientId = await getClientId();
+            const clientId = await AuthApi.getClientId();
             setClientId(clientId);
         };
         fetchAuthData();

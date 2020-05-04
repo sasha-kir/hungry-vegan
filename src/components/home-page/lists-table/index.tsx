@@ -4,8 +4,8 @@ import { EditableCell } from 'components/common';
 import './style.css';
 
 interface ListsTableProps {
-    lists: FoursquareList[];
-    updateLists(lists: FoursquareList[]): Promise<void>;
+    lists: UserList[];
+    updateLists(lists: UserList[]): Promise<void>;
 }
 
 const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLUListElement> => {

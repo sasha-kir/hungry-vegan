@@ -1,33 +1,42 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState, useCallback } from 'react';
+
 import { ResponseStatus } from 'api';
 import { getUserLists, updateUserLists } from 'api/lists';
 import { useAuth } from 'context/auth';
 import { FoursquareButton, FormWrapper, FancyButton } from 'components/common';
 import ListsTable from './lists-table';
+//import { sortByLocation } from 'utils/calc/coordinates';
 import listsPlaceholder from 'images/checklist.svg';
 import './style.css';
 
 const HomePage: React.FC = () => {
-    const [lists, setLists] = useState<FoursquareList[]>([]);
+    const [lists, setLists] = useState<UserList[]>([]);
     const [responseStatus, setResponseStatus] = useState<ResponseStatus>(ResponseStatus.pending);
     const { foursquarePaths } = useAuth();
 
-    const fetchLists = async (): Promise<void> => {
+    const fetchLists = useCallback(async (): Promise<void> => {
         setResponseStatus(ResponseStatus.pending);
-        const { status, userLists } = await getUserLists();
+        const { status, data: userLists } = await getUserLists();
         if (status === ResponseStatus.success && userLists !== null) {
             setLists(userLists);
+            // if (!geoLoading && !geoError && latitude && longitude) {
+            //     const l = userLists.filter(list => list.coordinates !== null);
+            //     sortByLocation(
+            //         { latitude, longitude },
+            //         l as (UserList & { coordinates: ListCoordinates })[],
+            //     );
+            // }
         }
         setResponseStatus(status);
-    };
+    }, []);
 
     useEffect(() => {
         fetchLists();
-    }, []);
+    }, [fetchLists]);
 
-    const updateLists = async (lists: FoursquareList[]): Promise<void> => {
+    const updateLists = async (lists: UserList[]): Promise<void> => {
         setResponseStatus(ResponseStatus.pending);
-        const { status, userLists } = await updateUserLists(lists);
+        const { status, data: userLists } = await updateUserLists(lists);
         if (status === ResponseStatus.success && userLists !== null) {
             setLists(userLists);
         }
