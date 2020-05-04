@@ -12,7 +12,7 @@ interface ConnectResponse {
 
 export const getClientId = async (): Promise<string> => {
     try {
-        const { data } = await api.get('/foursquare-client-id');
+        const { data } = await api.get('/oauth_id');
         return data.clientId;
     } catch (error) {
         return '';
@@ -24,7 +24,7 @@ export const foursquareLogin = async (
     redirectUrl: string,
 ): Promise<FsqLoginResponse> => {
     try {
-        const { data } = await authApi.post('/foursquare-login', {
+        const { data } = await authApi.post('/foursquare_login', {
             code,
             redirectUrl,
         });
@@ -40,7 +40,7 @@ export const foursquareConnect = async (
     redirectUrl: string,
 ): Promise<ConnectResponse> => {
     try {
-        const { data } = await api.post('/foursquare-connect', {
+        const { data } = await api.post('/foursquare_connect', {
             code,
             redirectUrl,
         });

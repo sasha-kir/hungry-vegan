@@ -5,6 +5,7 @@ nav {
     right: 50px;
     background: rgba(255, 255, 255, 0.2);
     height: 60px;
+    min-width: 550px;
     border-radius: 3px;
     margin-top: 30px;
     color: var(--main-light);

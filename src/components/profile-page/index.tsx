@@ -158,7 +158,9 @@ const ProfilePage = (): React.ReactElement => {
             <div className="user-info-error">
                 <img src={errorIllustration} alt="personal profile card" />
                 <div className="error-message">Something went wrong!</div>
-                <FancyButton onClick={fetchUserData}>retry</FancyButton>
+                <FancyButton styleType="small" onClick={fetchUserData}>
+                    retry
+                </FancyButton>
             </div>
         );
     };
