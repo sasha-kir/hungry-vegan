@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { useAuth } from 'context/auth';
 import { ResponseStatus } from 'api';
-import { loginWithCredentials } from 'api/auth';
+import AuthApi from 'api/auth';
 import { FancyButton, FormInput, FormWrapper } from 'components/common';
 import './style.css';
 
@@ -16,7 +16,7 @@ const LoginPage = (): ReactElement => {
     const { handleSubmit, clearError, setValue, control, errors } = useForm();
 
     const onSubmit = async formData => {
-        const { status, token } = await loginWithCredentials(formData);
+        const { status, data: token } = await AuthApi.loginWithCredentials(formData);
         if (token === null || status === ResponseStatus.error) {
             setError(true);
             return;

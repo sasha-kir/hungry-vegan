@@ -1,26 +1,26 @@
-type Coordinates = { latitude: number; longitude: number };
+type ListCoordinates = { latitude: number; longitude: number };
 
 interface VenueLocation {
     address: string;
-    coordinates: Coordinates;
+    coordinates: ListCoordinates;
     countryCode: string;
     city: string;
     country: string;
 }
 
-interface FoursquareListItem {
+interface UserListItem {
     id: string;
     name: string;
     addedAt: number;
     location: VenueLocation;
 }
 
-interface FoursquareList {
+interface UserList {
     id: string;
     name: string;
     url: string;
     location: string;
-    coordinates: Coordinates | null;
+    coordinates: ListCoordinates | null;
     createdAt: number;
     updatedAt: number;
     itemsCount: number;

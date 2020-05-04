@@ -1,18 +1,17 @@
-import { api, ResponseStatus } from 'api';
+import { api, ResponseStatus, DataResponse } from 'api';
+import { fetchUserLocation } from 'utils/location';
 
 export interface UserData {
     id: number;
     username?: string;
     email: string;
     foursquareId?: string;
-    location?: string;
 }
 
-interface UserDataResponse {
-    status: ResponseStatus;
-    user: UserData | null;
-}
+export type ExtendedUserData = UserData & { location?: string };
 
+type UserDataResponse = DataResponse<UserData>;
+type UserLocationResponse = DataResponse<string>;
 interface UpdatedUserResponse extends UserDataResponse {
     token: string | null;
 }
@@ -20,17 +19,27 @@ interface UpdatedUserResponse extends UserDataResponse {
 export const getUser = async (): Promise<UserDataResponse> => {
     try {
         const { data } = await api.get('/user_data');
-        return { status: ResponseStatus.success, user: data.user };
+        return { status: ResponseStatus.success, data: data.user };
     } catch (error) {
-        return { status: ResponseStatus.error, user: null };
+        return { status: ResponseStatus.error, data: null };
+    }
+};
+
+export const getUserLocation = async (): Promise<UserLocationResponse> => {
+    try {
+        const coords = await fetchUserLocation();
+        const { data } = await api.post('/user_location', coords);
+        return { status: ResponseStatus.success, data: data.location };
+    } catch (error) {
+        return { status: ResponseStatus.error, data: null };
     }
 };
 
 export const updateUser = async (userData: UserData): Promise<UpdatedUserResponse> => {
     try {
         const { data } = await api.post('/update_user', userData);
-        return { status: ResponseStatus.success, user: data.user, token: data.token };
+        return { status: ResponseStatus.success, data: data.user, token: data.token };
     } catch (error) {
-        return { status: ResponseStatus.error, user: null, token: null };
+        return { status: ResponseStatus.error, data: null, token: null };
     }
 };

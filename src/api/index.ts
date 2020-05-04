@@ -10,6 +10,11 @@ export enum ResponseStatus {
     error,
 }
 
+export type DataResponse<T> = {
+    status: ResponseStatus;
+    data: T | null;
+};
+
 export const authApi = axios.create({
     baseURL: config.apiUrl,
 });

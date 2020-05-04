@@ -1,13 +1,9 @@
-import { authApi, api, ResponseStatus } from 'api';
-import { LoginResponse } from 'api/auth';
+import { authApi, api, ResponseStatus, DataResponse } from 'api';
 
-interface FsqLoginResponse extends LoginResponse {
+type ConnectResponse = DataResponse<string>;
+
+interface LoginResponse extends ConnectResponse {
     isEmailValid: boolean | null;
-}
-
-interface ConnectResponse {
-    status: ResponseStatus;
-    token: string | null;
 }
 
 export const getClientId = async (): Promise<string> => {
@@ -22,16 +18,16 @@ export const getClientId = async (): Promise<string> => {
 export const foursquareLogin = async (
     code: string,
     redirectUrl: string,
-): Promise<FsqLoginResponse> => {
+): Promise<LoginResponse> => {
     try {
         const { data } = await authApi.post('/foursquare_login', {
             code,
             redirectUrl,
         });
         const { token, isEmailValid } = data;
-        return { status: ResponseStatus.success, token, isEmailValid };
+        return { status: ResponseStatus.success, data: token, isEmailValid };
     } catch (error) {
-        return { status: ResponseStatus.error, token: null, isEmailValid: null };
+        return { status: ResponseStatus.error, data: null, isEmailValid: null };
     }
 };
 
@@ -44,8 +40,8 @@ export const foursquareConnect = async (
             code,
             redirectUrl,
         });
-        return { status: ResponseStatus.success, token: data.token };
+        return { status: ResponseStatus.success, data: data.token };
     } catch (error) {
-        return { status: ResponseStatus.error, token: null };
+        return { status: ResponseStatus.error, data: null };
     }
 };

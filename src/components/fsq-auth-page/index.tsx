@@ -3,7 +3,7 @@ import { useLocation, useHistory, Link } from 'react-router-dom';
 import { useAuth } from 'context/auth';
 import config from 'config';
 import { ResponseStatus } from 'api';
-import { foursquareLogin, foursquareConnect } from 'api/auth';
+import AuthApi from 'api/auth';
 import { FoursquareButton, FormWrapper } from 'components/common';
 import './style.css';
 
@@ -16,7 +16,10 @@ function FsqAuthPage(): ReactElement {
     const loginToFoursquare = useCallback(
         async (code: string): Promise<void> => {
             const loginRedirectUrl: string = config.baseUrl + foursquarePaths.login;
-            const { status, token, isEmailValid } = await foursquareLogin(code, loginRedirectUrl);
+            const { status, data: token, isEmailValid } = await AuthApi.foursquareLogin(
+                code,
+                loginRedirectUrl,
+            );
             if (status === ResponseStatus.success && token !== null) {
                 handleAuth(token);
                 const redirectPath = isEmailValid ? '/home' : '/profile?empty_email=true';
@@ -30,7 +33,10 @@ function FsqAuthPage(): ReactElement {
     const connectToFoursquare = useCallback(
         async (code: string): Promise<void> => {
             const connectRedirectUrl: string = config.baseUrl + foursquarePaths.connect;
-            const { status, token } = await foursquareConnect(code, connectRedirectUrl);
+            const { status, data: token } = await AuthApi.foursquareConnect(
+                code,
+                connectRedirectUrl,
+            );
             if (status === ResponseStatus.success && token !== null) {
                 handleAuth(token);
                 history.push('/home');
