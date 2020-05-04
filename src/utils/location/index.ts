@@ -12,18 +12,6 @@ const estimateDistance = (
     return Math.asin(Math.sqrt(a));
 };
 
-export const sortByLocation = (
-    currentLocation: ListCoordinates,
-    locations: (UserList & { coordinates: ListCoordinates })[],
-): void => {
-    locations.sort(
-        (a, b) =>
-            estimateDistance(currentLocation, a.coordinates) -
-            estimateDistance(currentLocation, b.coordinates),
-    );
-    console.log(locations);
-};
-
 export const fetchUserLocation = async (): Promise<ListCoordinates> => {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
@@ -38,4 +26,14 @@ export const fetchUserLocation = async (): Promise<ListCoordinates> => {
             },
         );
     });
+};
+
+export const sortByLocation = async (locations: ExtendedList[]): Promise<ExtendedList[]> => {
+    const currentLocation = await fetchUserLocation();
+    const sorted = [...locations].sort(
+        (a, b) =>
+            estimateDistance(currentLocation, a.coordinates) -
+            estimateDistance(currentLocation, b.coordinates),
+    );
+    return sorted;
 };

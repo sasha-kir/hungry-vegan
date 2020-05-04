@@ -26,3 +26,5 @@ interface UserList {
     itemsCount: number;
     items?: ListItem[];
 }
+
+type ExtendedList = List & { coordinates: ListCoordinates };

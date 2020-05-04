@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { FiEdit2, FiSave } from 'react-icons/fi';
+import { FiInfo, FiEdit2, FiSave } from 'react-icons/fi';
 import { EditableCell } from 'components/common';
 import './style.css';
 
@@ -44,7 +44,11 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
     return (
         <ul className="responsive-table">
             <li className="table-header">
-                <div className="col col-1">List</div>
+                <div className="col-1 col-with-icon">
+                    <div className="col">List</div>
+                    <FiInfo className="table-header-icon" />
+                    <div className="tooltip">sorted by closest to your location</div>
+                </div>
                 <div className="col-2 col-with-icon">
                     <div className="col">Location</div>
                     {isEditingMode ? (
@@ -57,9 +61,13 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
                 <div className="col col-4">Date created</div>
             </li>
             {lists.map((list, index) => {
-                const location = locations[index];
+                const location = locations[index] || '-';
+                const noLocation = location.length <= 1;
                 return (
-                    <li className="table-row" key={list.id}>
+                    <li
+                        className={`table-row ${noLocation ? 'table-row-disabled' : ''}`}
+                        key={list.id}
+                    >
                         <div className="col col-1" data-label="List">
                             {list.name}
                         </div>
@@ -72,7 +80,7 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
                                     recordData={recordCellData}
                                 />
                             ) : (
-                                location || '-'
+                                location
                             )}
                         </div>
                         <div className="col col-3" data-label="# of places">

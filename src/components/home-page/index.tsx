@@ -5,7 +5,7 @@ import { getUserLists, updateUserLists } from 'api/lists';
 import { useAuth } from 'context/auth';
 import { FoursquareButton, FormWrapper, FancyButton } from 'components/common';
 import ListsTable from './lists-table';
-//import { sortByLocation } from 'utils/calc/coordinates';
+import { sortByLocation } from 'utils/location';
 import listsPlaceholder from 'images/checklist.svg';
 import './style.css';
 
@@ -14,18 +14,24 @@ const HomePage: React.FC = () => {
     const [responseStatus, setResponseStatus] = useState<ResponseStatus>(ResponseStatus.pending);
     const { foursquarePaths } = useAuth();
 
+    const partitionLists = async (userLists: UserList[]): Promise<UserList[]> => {
+        const [noLocation, withLocation] = userLists.reduce(
+            (res: UserList[][], list) => {
+                list.coordinates === null ? res[0].push(list) : res[1].push(list);
+                return res;
+            },
+            [[], []],
+        );
+        const sortedLists = await sortByLocation(withLocation);
+        return [...sortedLists, ...noLocation];
+    };
+
     const fetchLists = useCallback(async (): Promise<void> => {
         setResponseStatus(ResponseStatus.pending);
         const { status, data: userLists } = await getUserLists();
         if (status === ResponseStatus.success && userLists !== null) {
-            setLists(userLists);
-            // if (!geoLoading && !geoError && latitude && longitude) {
-            //     const l = userLists.filter(list => list.coordinates !== null);
-            //     sortByLocation(
-            //         { latitude, longitude },
-            //         l as (UserList & { coordinates: ListCoordinates })[],
-            //     );
-            // }
+            const lists = await partitionLists(userLists);
+            setLists(lists);
         }
         setResponseStatus(status);
     }, []);
@@ -38,7 +44,8 @@ const HomePage: React.FC = () => {
         setResponseStatus(ResponseStatus.pending);
         const { status, data: userLists } = await updateUserLists(lists);
         if (status === ResponseStatus.success && userLists !== null) {
-            setLists(userLists);
+            const lists = await partitionLists(userLists);
+            setLists(lists);
         }
         setResponseStatus(status);
     };
@@ -64,9 +71,9 @@ const HomePage: React.FC = () => {
 
     const renderLists = (): ReactElement => {
         return (
-            <div className="lists-wrapper">
+            <FormWrapper className="lists-wrapper">
                 <ListsTable lists={lists} updateLists={updateLists} />
-            </div>
+            </FormWrapper>
         );
     };
 
