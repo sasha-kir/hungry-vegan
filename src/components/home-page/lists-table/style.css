@@ -29,8 +29,8 @@
 
 .table-header .tooltip {
     display: none;
-    background-color: var(--main-green);
-    color: var(--main-light);
+    background-color: var(--main-light);
+    color: var(--main-dark);
     padding: 10px;
     border-radius: 3px;
     letter-spacing: 0.05em;
@@ -40,6 +40,7 @@
     left: 130px;
     max-width: 115px;
     z-index: 5;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
 }
 
 .table-header-icon:hover ~ .tooltip {

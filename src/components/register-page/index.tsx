@@ -26,7 +26,9 @@ const RegisterPage = (): ReactElement => {
     };
 
     const clearInputError = (): void => {
-        clearError();
+        if (Object.keys(errors).length !== 0) {
+            clearError();
+        }
         if (isError) setError(false);
     };
 

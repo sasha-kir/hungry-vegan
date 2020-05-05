@@ -1,9 +1,10 @@
 import React, { ReactElement, useEffect, useState, useCallback } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 
 import { ExtendedUserData } from 'api/user';
 import { FormInput } from 'components/common';
-import ProfileHeader from './form-header';
+import FormHeader from './form-header';
 import ProfileActions from './form-actions';
 import { emailPattern } from 'utils/validation/patterns';
 import illustration from 'images/watering-plant.svg';
@@ -19,6 +20,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
     const [isEmailEmpty, setEmailEmpty] = useState<boolean>(emptyEmail);
     const { setValue, errors, control, watch, triggerValidation, clearError } = useForm();
+    const history = useHistory();
 
     const setFormValues = useCallback(
         (userData: ExtendedUserData): void => {
@@ -45,8 +47,12 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
     };
 
     const clearEmailError = (): void => {
-        clearError();
-        setEmailEmpty(false);
+        if (errors.email) {
+            clearError();
+        }
+        if (isEmailEmpty) {
+            setEmailEmpty(false);
+        }
     };
 
     const handleStartEdit = () => {
@@ -64,6 +70,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
             if (isDirty) {
                 await updateData({ ...user, ...updatedValues });
             }
+            history.push('/profile');
             setEditingMode(false);
         }
     };
@@ -71,12 +78,16 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
     const handleCancelEdit = () => {
         setFormValues(user);
         setEditingMode(false);
+        if (Object.keys(errors).length !== 0) {
+            clearError();
+        }
+        setEmailEmpty(emptyEmail);
     };
 
     return (
         <div className="user-info-content">
             <div className="user-info-content-main">
-                <ProfileHeader user={user} />
+                <FormHeader user={user} />
                 <form className="user-info-form" autoComplete="off" onSubmit={() => false}>
                     <Controller
                         as={FormInput}

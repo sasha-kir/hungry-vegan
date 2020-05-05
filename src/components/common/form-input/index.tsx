@@ -8,7 +8,9 @@ interface FormInputProps extends React.HTMLProps<HTMLInputElement> {
 }
 
 const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
-    const { name, setValue, errorMessage = '', type = 'text', value = '', disabled = false } = { ...props };
+    const { name, setValue, errorMessage = '', type = 'text', value = '', disabled = false } = {
+        ...props,
+    };
 
     const handleInput = event => {
         setValue(name, event.target.value);

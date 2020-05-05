@@ -28,7 +28,6 @@ const ProfilePage = (): React.ReactElement => {
         setDataStatus(ResponseStatus.pending);
         const { status, data: user } = await getUser();
         const { status: locationStatus, data: location } = await getUserLocation();
-        setDataStatus(status);
         if (status === ResponseStatus.success && user !== null) {
             let userData: ExtendedUserData = { ...user };
             if (locationStatus === ResponseStatus.success && location !== null) {
@@ -36,18 +35,21 @@ const ProfilePage = (): React.ReactElement => {
             }
             setUserInfo(u => ({ ...u, ...userData }));
         }
+        setDataStatus(status);
     }, []);
 
-    const updateUserData = async (updatedUserInfo: ExtendedUserData): Promise<void> => {
-        setDataStatus(ResponseStatus.pending);
-        const { status, token, data: user } = await updateUser(updatedUserInfo);
-        setDataStatus(status);
-        if (status === ResponseStatus.success && token !== null && user !== null) {
-            handleAuth(token);
-            const userData = { ...userInfo, ...user };
-            setUserInfo(userData);
-        }
-    };
+    const updateUserData = useCallback(
+        async (updatedUserInfo: ExtendedUserData): Promise<void> => {
+            setDataStatus(ResponseStatus.pending);
+            const { status, token, data: user } = await updateUser(updatedUserInfo);
+            if (status === ResponseStatus.success && token !== null && user !== null) {
+                handleAuth(token);
+                setUserInfo(u => ({ ...u, ...user }));
+            }
+            setDataStatus(status);
+        },
+        [handleAuth],
+    );
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);

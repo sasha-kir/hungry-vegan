@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, memo } from 'react';
 import { UserData } from 'api/user';
 import './style.css';
 
@@ -6,7 +6,7 @@ interface ProfileHeaderProps {
     user: UserData;
 }
 
-const ProfileHeader = ({ user }: ProfileHeaderProps): ReactElement => {
+const UserInfoHeader = ({ user }: ProfileHeaderProps): ReactElement => {
     return (
         <div className="user-info-header">
             <div className="username">{user.username}</div>
@@ -23,4 +23,4 @@ const ProfileHeader = ({ user }: ProfileHeaderProps): ReactElement => {
     );
 };
 
-export default ProfileHeader;
+export default memo(UserInfoHeader);
