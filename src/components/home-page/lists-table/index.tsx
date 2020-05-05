@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
-import { FiInfo, FiEdit2, FiSave } from 'react-icons/fi';
-import { EditableCell } from 'components/common';
+import TableHeader from './table-header';
+import TableRow from './table-row';
 import './style.css';
 
 interface ListsTableProps {
@@ -13,7 +13,7 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
     const [locations, setLocations] = useState<string[]>(initialLocations);
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
 
-    const recordCellData = (rowIndex, value) => {
+    const recordCellData = (rowIndex, value): void => {
         setLocations(currentLocations =>
             currentLocations.map((row, index) => {
                 if (index === rowIndex) return value;
@@ -38,58 +38,23 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
     };
 
     if (lists.length === 0) {
-        return <p style={{ color: 'white' }}>No lists yet</p>;
+        return <p style={{ color: 'black', textAlign: 'center' }}>No lists yet</p>;
     }
 
     return (
         <ul className="responsive-table">
-            <li className="table-header">
-                <div className="col-1 col-with-icon">
-                    <div className="col">List</div>
-                    <FiInfo className="table-header-icon" />
-                    <div className="tooltip">sorted by closest to your location</div>
-                </div>
-                <div className="col-2 col-with-icon">
-                    <div className="col">Location</div>
-                    {isEditingMode ? (
-                        <FiSave className="table-header-icon" onClick={saveEdit} />
-                    ) : (
-                        <FiEdit2 className="table-header-icon" onClick={startEdit} />
-                    )}
-                </div>
-                <div className="col col-3"># of places</div>
-                <div className="col col-4">Date created</div>
-            </li>
+            <TableHeader isEditingMode={isEditingMode} saveEdit={saveEdit} startEdit={startEdit} />
             {lists.map((list, index) => {
                 const location = locations[index] || '-';
-                const noLocation = location.length <= 1;
                 return (
-                    <li
-                        className={`table-row ${noLocation ? 'table-row-disabled' : ''}`}
+                    <TableRow
                         key={list.id}
-                    >
-                        <div className="col col-1" data-label="List">
-                            {list.name}
-                        </div>
-                        <div className="col col-2" data-label="Location">
-                            {isEditingMode ? (
-                                <EditableCell
-                                    value={location}
-                                    placeholder="List location"
-                                    row={index}
-                                    recordData={recordCellData}
-                                />
-                            ) : (
-                                location
-                            )}
-                        </div>
-                        <div className="col col-3" data-label="# of places">
-                            {list.itemsCount}
-                        </div>
-                        <div className="col col-4" data-label="Date created">
-                            {new Date(list.createdAt * 1000).toLocaleDateString('ru-RU')}
-                        </div>
-                    </li>
+                        isEditingMode={isEditingMode}
+                        list={list}
+                        listIndex={index}
+                        location={location}
+                        recordData={recordCellData}
+                    />
                 );
             })}
         </ul>

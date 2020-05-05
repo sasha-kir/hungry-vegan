@@ -1,0 +1,16 @@
+.responsive-table .table-row {
+    background-color: var(--main-light);
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.responsive-table .table-row-disabled {
+    background-color: var(--light-gray);
+    box-shadow: none;
+}
+
+@media all and (max-width: 900px) {
+    .responsive-table .table-row .editable-cell {
+        position: relative;
+        margin-bottom: -15px;
+    }
+}
