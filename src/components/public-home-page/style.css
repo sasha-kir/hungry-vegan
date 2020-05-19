@@ -1,7 +1,7 @@
 .public-home-wrapper .heading {
-    margin-top: 70px;
     color: var(--main-light);
     font-size: 4em;
     text-transform: uppercase;
     font-family: 'Frijole', sans-serif;
+    text-shadow: 10px 10px rgba(0, 0, 0, 0.75);
 }

@@ -3,7 +3,7 @@ nav {
     position: absolute;
     left: 50px;
     right: 50px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.2);
     height: 60px;
     min-width: 550px;
     border-radius: 3px;
@@ -16,10 +16,14 @@ nav {
 .nav-highlight {
     display: grid;
     align-items: center;
-    background-color: var(--main-light);
+    border: 2px solid var(--main-light);
     border-radius: 3px;
-    padding: 0 15px;
+    padding: 0 10px;
     cursor: pointer;
+}
+
+.nav-highlight:hover {
+    border-color: var(--main-green);
 }
 
 .nav-highlight .logo {
@@ -41,5 +45,5 @@ nav {
 }
 
 .nav-links a:hover {
-    color: var(--main-green);
+    text-decoration: underline;
 }
