@@ -1,5 +1,6 @@
-.placeholder-image {
-    height: 400px;
+.not-found-placeholder-image {
+    height: 350px;
+    margin-top: 50px;
     width: auto;
     filter: drop-shadow(12px 20px 0 rgba(0, 0, 0, 0.2));
 }

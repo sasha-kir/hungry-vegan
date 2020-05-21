@@ -21,11 +21,13 @@ body {
     font-family: 'Lato', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--main-green);
+    background-color: var(--main-light);
     /* background-image: linear-gradient(315deg, var(--main-highlight) 0%, var(--main-green) 74%); */
     background-image: url('images/vegan-food-small.jpg');
     background-size: cover;
     min-height: 100vh;
+    display: grid;
+    grid-template-rows: 100px auto;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -42,7 +44,6 @@ button {
     display: grid;
     justify-items: center;
     align-items: center;
-    height: 100vh;
 }
 
 ol,

@@ -8,7 +8,7 @@ const NotFoundPage: React.FC = () => {
             <img
                 src={placeholder}
                 alt="page not found placeholder"
-                className="404-placeholder-image"
+                className="not-found-placeholder-image"
                 data-testid="404-image"
             />
         </div>

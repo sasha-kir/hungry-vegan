@@ -47,7 +47,7 @@ const LoginPage = (): ReactElement => {
 
     return (
         <div className="page-wrapper">
-            <FormWrapper>
+            <FormWrapper className="login-form-wrapper">
                 <form className="login-form" onSubmit={() => false} data-testid="login-form">
                     <Controller
                         as={FormInput}

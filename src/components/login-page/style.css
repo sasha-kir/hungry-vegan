@@ -1,3 +1,7 @@
+.login-form-wrapper {
+    margin-top: 50px;
+}
+
 .login-form {
     display: grid;
     grid-template-rows: 1.5fr 1.5fr 1fr;
