@@ -53,7 +53,7 @@
         "jest-environment-jsdom-sixteen": "1.0.3",
         "lint-staged": "10.2.9",
         "prettier": "1.19.1",
-        "typescript": "3.8.3"
+        "typescript": "3.9.5"
     },
     "husky": {
         "hooks": {
