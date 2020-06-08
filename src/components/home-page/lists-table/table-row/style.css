@@ -1,16 +1,39 @@
 .responsive-table .table-row {
     background-color: var(--main-light);
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+    min-height: 0px;
+    transition: min-height 2s ease;
 }
 
-.responsive-table .table-row-disabled {
+.responsive-table .table-row:hover {
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
+}
+
+.responsive-table .table-row-disabled,
+.responsive-table .table-row-disabled:hover {
     background-color: var(--light-gray);
     box-shadow: none;
 }
 
+.responsive-table .table-row-open {
+    min-height: 100px;
+}
+
 @media all and (max-width: 900px) {
+    .responsive-table .table-row {
+        transition: min-height 0.1s ease;
+    }
+
     .responsive-table .table-row .editable-cell {
         position: relative;
         margin-bottom: -15px;
+    }
+
+    .responsive-table .table-row-open {
+        min-height: 250px;
+    }
+
+    .responsive-table .table-row-open .table-icon {
+        transform: rotate(180deg);
     }
 }

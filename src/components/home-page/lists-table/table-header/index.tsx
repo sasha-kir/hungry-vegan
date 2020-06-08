@@ -13,15 +13,15 @@ const TableHeader = ({ isEditingMode, startEdit, saveEdit }: TableHeaderProps): 
         <li className="table-header">
             <div className="col-1 col-with-icon">
                 <div className="col">List</div>
-                <FiInfo className="table-header-icon" />
+                <FiInfo className="table-icon" />
                 <div className="tooltip">sorted by closest to your location</div>
             </div>
             <div className="col-2 col-with-icon">
                 <div className="col">Location</div>
                 {isEditingMode ? (
-                    <FiSave className="table-header-icon" onClick={saveEdit} />
+                    <FiSave className="table-icon" onClick={saveEdit} />
                 ) : (
-                    <FiEdit2 className="table-header-icon" onClick={startEdit} />
+                    <FiEdit2 className="table-icon" onClick={startEdit} />
                 )}
             </div>
             <div className="col col-3"># of places</div>
