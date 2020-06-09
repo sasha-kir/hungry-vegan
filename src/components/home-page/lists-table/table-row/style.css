@@ -2,7 +2,7 @@
     background-color: var(--main-light);
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
     min-height: 0px;
-    transition: min-height 2s ease;
+    transition: min-height 0.5s ease;
 }
 
 .responsive-table .table-row:hover {
@@ -16,7 +16,8 @@
 }
 
 .responsive-table .table-row-open {
-    min-height: 100px;
+    min-height: 90px;
+    background: linear-gradient(180deg, var(--pastel-green) 50%, transparent 50%);
 }
 
 @media all and (max-width: 900px) {
@@ -31,9 +32,11 @@
 
     .responsive-table .table-row-open {
         min-height: 250px;
+        background: none;
     }
 
-    .responsive-table .table-row-open .table-icon {
+    .responsive-table .table-row-open .table-icon.mobile-icon {
         transform: rotate(180deg);
+        margin-top: 100px;
     }
 }
