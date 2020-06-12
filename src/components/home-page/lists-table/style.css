@@ -2,11 +2,10 @@
 .responsive-table li {
     display: grid;
     grid-template-columns: repeat(4, 1fr) 20px;
-    border-radius: 3px;
     padding: 25px 50px;
-    margin-bottom: 15px;
     color: var(--main-dark);
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 .responsive-table .col {
@@ -32,10 +31,6 @@
     color: var(--main-green);
 }
 
-.responsive-table .table-icon.mobile-icon {
-    display: none;
-}
-
 @media all and (max-width: 900px) {
     .responsive-table li {
         display: block;
@@ -53,12 +48,5 @@
     }
     .responsive-table .table-icon {
         margin-left: auto;
-    }
-    .responsive-table .table-icon.desktop-icon {
-        display: none;
-    }
-    .responsive-table .table-icon.mobile-icon {
-        display: block;
-        margin: 10px auto 0;
     }
 }

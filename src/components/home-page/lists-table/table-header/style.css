@@ -4,6 +4,8 @@
     text-transform: uppercase;
     letter-spacing: 0.03em;
     position: relative;
+    margin-bottom: 15px;
+    border-radius: 3px;
 }
 
 .table-header .tooltip {
