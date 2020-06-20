@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useAuth } from 'context/auth';
 import { ResponseStatus } from 'api';
 import AuthApi from 'api/auth';
-import { FancyButton, FormInput, FormWrapper } from 'components/common';
+import { FancyButton, FormInput, CardWrapper } from 'components/common';
 import { emailPattern } from 'utils/validation/patterns';
 import './style.css';
 
@@ -15,7 +15,7 @@ const RegisterPage = (): ReactElement => {
     const history = useHistory();
     const { handleSubmit, clearError, setValue, control, errors } = useForm();
 
-    const onSubmit = async formData => {
+    const onSubmit = async (formData) => {
         const { status, data: token } = await AuthApi.register(formData);
         if (token === null || status === ResponseStatus.error) {
             setError(true);
@@ -47,7 +47,7 @@ const RegisterPage = (): ReactElement => {
 
     return (
         <div className="page-wrapper">
-            <FormWrapper className="register-form-wrapper">
+            <CardWrapper className="register-form-wrapper">
                 <form className="register-form" onSubmit={() => false}>
                     <Controller
                         as={FormInput}
@@ -92,7 +92,7 @@ const RegisterPage = (): ReactElement => {
                 </form>
                 <Link to="/fsq-login">Login with Foursquare</Link>
                 <Link to="/login">Login to existing account</Link>
-            </FormWrapper>
+            </CardWrapper>
         </div>
     );
 };

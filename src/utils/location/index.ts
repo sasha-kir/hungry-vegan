@@ -15,20 +15,20 @@ const estimateDistance = (
 export const fetchUserLocation = async (): Promise<ListCoordinates> => {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
-            position => {
+            (position) => {
                 resolve({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                 });
             },
-            error => {
+            (error) => {
                 reject(error);
             },
         );
     });
 };
 
-export const sortByLocation = async (locations: ExtendedList[]): Promise<ExtendedList[]> => {
+export const sortByLocation = async <T extends WithCoordinates>(locations: T[]): Promise<T[]> => {
     const currentLocation = await fetchUserLocation();
     const sorted = [...locations].sort(
         (a, b) =>

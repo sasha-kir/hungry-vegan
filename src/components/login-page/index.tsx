@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useAuth } from 'context/auth';
 import { ResponseStatus } from 'api';
 import AuthApi from 'api/auth';
-import { FancyButton, FormInput, FormWrapper } from 'components/common';
+import { FancyButton, FormInput, CardWrapper } from 'components/common';
 import './style.css';
 
 const LoginPage = (): ReactElement => {
@@ -15,7 +15,7 @@ const LoginPage = (): ReactElement => {
     const location = useLocation();
     const { handleSubmit, clearError, setValue, control, errors } = useForm();
 
-    const onSubmit = async formData => {
+    const onSubmit = async (formData) => {
         const { status, data: token } = await AuthApi.loginWithCredentials(formData);
         if (token === null || status === ResponseStatus.error) {
             setError(true);
@@ -47,7 +47,7 @@ const LoginPage = (): ReactElement => {
 
     return (
         <div className="page-wrapper">
-            <FormWrapper className="login-form-wrapper">
+            <CardWrapper className="login-form-wrapper">
                 <form className="login-form" onSubmit={() => false} data-testid="login-form">
                     <Controller
                         as={FormInput}
@@ -78,7 +78,7 @@ const LoginPage = (): ReactElement => {
                 </form>
                 <Link to="/fsq-login">Login with Foursquare</Link>
                 <Link to="/register">Register</Link>
-            </FormWrapper>
+            </CardWrapper>
         </div>
     );
 };

@@ -13,6 +13,7 @@ interface UserListItem {
     name: string;
     addedAt: number;
     location: VenueLocation;
+    instagram: string | null;
 }
 
 interface UserList {
@@ -24,7 +25,10 @@ interface UserList {
     createdAt: number;
     updatedAt: number;
     itemsCount: number;
-    items?: ListItem[];
+    items?: UserListItem[];
 }
 
-type ExtendedList = List & { coordinates: ListCoordinates };
+type ExtendedUserList = Required<UserList>;
+
+type WithCoordinates = { coordinates: ListCoordinates };
+type ListWithCoordinates = UserList & WithCoordinates;

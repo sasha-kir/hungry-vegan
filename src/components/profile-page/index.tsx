@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { ResponseStatus } from 'api';
-import { FancyButton, FormWrapper, BeatLoader } from 'components/common';
+import { FancyButton, CardWrapper, BeatLoader } from 'components/common';
 import { useUserData } from 'hooks/useUserData';
 import UserInfoForm from './user-info-form';
 import errorIllustration from 'images/profile-empty.svg';
@@ -27,11 +27,11 @@ const ProfilePage = (): React.ReactElement => {
 
     return (
         <div className="page-wrapper user-info-wrapper">
-            <FormWrapper className="user-info-form-wrapper">
+            <CardWrapper className="user-info-form-wrapper">
                 <BeatLoader flag={responseStatus === ResponseStatus.pending} />
                 {responseStatus === ResponseStatus.error && renderErrorState()}
                 {responseStatus === ResponseStatus.success && renderUserInfo()}
-            </FormWrapper>
+            </CardWrapper>
         </div>
     );
 };

@@ -7,7 +7,7 @@ const PrivateRoute = ({ children, ...rest }: RouteProps): ReactElement => {
     return (
         <Route
             {...rest}
-            render={props =>
+            render={(props) =>
                 authToken ? (
                     children
                 ) : (

@@ -7,7 +7,7 @@ import { useAuth } from 'context/auth';
 type UpdateUser = (user: ExtendedUserData) => Promise<void>;
 type FetchUser = () => Promise<void>;
 type UserDetails = {
-    userInfo: ExtendedList;
+    userInfo: ExtendedUserData;
     isEmailEmpty: boolean;
     responseStatus: ResponseStatus;
 };
@@ -36,7 +36,7 @@ export function useUserData(): [UpdateUser, FetchUser, UserDetails] {
             if (locationStatus === ResponseStatus.success && location !== null) {
                 userData = { ...userData, location };
             }
-            setUserInfo(u => ({ ...u, ...userData }));
+            setUserInfo((u) => ({ ...u, ...userData }));
         }
         setResponseStatus(status);
     }, []);
@@ -47,7 +47,7 @@ export function useUserData(): [UpdateUser, FetchUser, UserDetails] {
             const { status, token, data: user } = await updateUser(updatedUserInfo);
             if (status === ResponseStatus.success && token !== null && user !== null) {
                 handleAuth(token);
-                setUserInfo(u => ({ ...u, ...user }));
+                setUserInfo((u) => ({ ...u, ...user }));
             }
             setResponseStatus(status);
         },

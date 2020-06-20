@@ -1,7 +1,7 @@
 import { api, ResponseStatus, DataResponse } from 'api';
 
 type ListsResponse = DataResponse<UserList[]>;
-type ListResponse = DataResponse<UserList>;
+type ListResponse = DataResponse<ExtendedUserList>;
 
 export const getUserLists = async (): Promise<ListsResponse> => {
     try {
@@ -17,9 +17,9 @@ export const getUserLists = async (): Promise<ListsResponse> => {
     }
 };
 
-export const getListData = async (listId: string): Promise<ListResponse> => {
+export const getListData = async (listName: string): Promise<ListResponse> => {
     try {
-        const { data } = await api.post('/list_data', { listId });
+        const { data } = await api.post('/list_data', { listName });
         return { status: ResponseStatus.success, data: data.data };
     } catch (error) {
         return { status: ResponseStatus.error, data: null };

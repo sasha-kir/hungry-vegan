@@ -51,6 +51,7 @@ const TableRow = ({
     };
 
     const foursquareUrl = `${list.url}?ref=${fsqClientId}`;
+    const listUrl = `/lists/${String(list.name).toLowerCase()}`;
 
     return (
         <div id={`row-wrapper-${listIndex}`} className="table-row-wrapper">
@@ -87,7 +88,7 @@ const TableRow = ({
                     </div>
                     <div className="col link-block link-block-right" data-label="Details">
                         {!isMobile && <FiMapPin />}
-                        <Link to="/">show details</Link>
+                        <Link to={listUrl}>show details</Link>
                     </div>
                 </div>
             </AnimateHeight>

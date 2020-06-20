@@ -4,7 +4,7 @@ import { useAuth } from 'context/auth';
 import config from 'config';
 import { ResponseStatus } from 'api';
 import AuthApi from 'api/auth';
-import { FoursquareButton, FormWrapper } from 'components/common';
+import { FoursquareButton, CardWrapper } from 'components/common';
 import './style.css';
 
 function FsqAuthPage(): ReactElement {
@@ -93,11 +93,11 @@ function FsqAuthPage(): ReactElement {
 
     return (
         <div className="page-wrapper">
-            <FormWrapper className="fsq-form-wrapper">
+            <CardWrapper className="fsq-form-wrapper">
                 {authStatus === ResponseStatus.pending && renderLoadingState()}
                 {authStatus === ResponseStatus.error && renderErrorState()}
                 {authStatus === ResponseStatus.idle && renderAuthForm()}
-            </FormWrapper>
+            </CardWrapper>
         </div>
     );
 }

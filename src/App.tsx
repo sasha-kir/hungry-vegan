@@ -7,6 +7,7 @@ import PublicHomePage from 'components/public-home-page';
 import LoginPage from 'components/login-page';
 import RegisterPage from 'components/register-page';
 import HomePage from 'components/home-page';
+import ListDetailsPage from 'components/list-details-page';
 import ProfilePage from 'components/profile-page';
 import FsqAuthPage from 'components/fsq-auth-page';
 import NotFoundPage from 'components/404-page';
@@ -37,6 +38,9 @@ const App: React.FC = () => {
                         </PrivateRoute>
                         <PrivateRoute exact path="/profile">
                             <ProfilePage />
+                        </PrivateRoute>
+                        <PrivateRoute path="/lists/:listName">
+                            <ListDetailsPage />
                         </PrivateRoute>
                         <Route exact path={['/fsq-login', ...Object.values(fsqPaths)]}>
                             <FsqAuthPage />

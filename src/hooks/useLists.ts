@@ -22,7 +22,7 @@ export function useLists(): [FetchLists, UpdateLists, ListsData] {
             },
             [[], []],
         );
-        const sortedLists = await sortByLocation(withLocation);
+        const sortedLists = await sortByLocation(withLocation as ListWithCoordinates[]);
         return [...sortedLists, ...noLocation];
     };
 
