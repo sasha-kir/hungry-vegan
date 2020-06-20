@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 import TableHeader from './table-header';
 import TableRow from './table-row';
+import { useFoursquareClientId } from 'hooks/useFoursquareClientId';
 import './style.css';
 
 interface ListsTableProps {
@@ -9,12 +10,13 @@ interface ListsTableProps {
 }
 
 const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLUListElement> => {
-    const initialLocations = lists.map(l => l.location);
+    const initialLocations = lists.map((l) => l.location);
     const [locations, setLocations] = useState<string[]>(initialLocations);
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
+    const fsqClientId = useFoursquareClientId();
 
     const recordCellData = (rowIndex, value): void => {
-        setLocations(currentLocations =>
+        setLocations((currentLocations) =>
             currentLocations.map((row, index) => {
                 if (index === rowIndex) return value;
                 return row;
@@ -54,6 +56,7 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
                         listIndex={index}
                         location={location}
                         recordData={recordCellData}
+                        fsqClientId={fsqClientId}
                     />
                 );
             })}

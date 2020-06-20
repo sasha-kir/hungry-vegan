@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useContext } from 'react';
 
@@ -11,7 +12,7 @@ interface AuthContextProps {
 const defaultValue: AuthContextProps = {
     authToken: null,
     foursquarePaths: {},
-    handleAuth: (token: string) => {},
+    handleAuth: (_token: string) => {},
     handleLogout: () => {},
 };
 

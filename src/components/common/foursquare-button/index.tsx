@@ -1,7 +1,7 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { FancyButton } from 'components/common';
-import AuthApi from 'api/auth';
+import { useFoursquareClientId } from 'hooks/useFoursquareClientId';
 import config from 'config';
 import './style.css';
 
@@ -15,16 +15,7 @@ const FoursquareButton = ({
     className,
     style,
 }: FsqButtonProps): ReactElement<HTMLButtonElement> => {
-    const [clientId, setClientId] = useState<string>('');
-
-    useEffect(() => {
-        const fetchAuthData = async () => {
-            const clientId = await AuthApi.getClientId();
-            setClientId(clientId);
-        };
-        fetchAuthData();
-    }, []);
-
+    const clientId = useFoursquareClientId();
     const foursquareUrl = 'https://foursquare.com/oauth2/authenticate';
     const redirectUrl: string = config.baseUrl + redirectPath;
 

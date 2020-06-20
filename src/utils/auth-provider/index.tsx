@@ -8,7 +8,8 @@ interface AuthProviderProps {
 }
 
 const AuthProvider = ({ children, foursquarePaths }: AuthProviderProps) => {
-    const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('token'));
+    const initialToken = () => localStorage.getItem('token');
+    const [authToken, setAuthToken] = useState<string | null>(initialToken);
 
     const handleAuth = (token: string): void => {
         localStorage.setItem('token', token);
@@ -16,18 +17,18 @@ const AuthProvider = ({ children, foursquarePaths }: AuthProviderProps) => {
     };
 
     const handleLogout = (): void => {
-        localStorage.clear();
+        localStorage.removeItem('token');
         setAuthToken(null);
     };
 
-    api.interceptors.request.use(request => {
+    api.interceptors.request.use((request) => {
         request.headers['Authentication'] = localStorage.getItem('token');
         return request;
     });
 
     api.interceptors.response.use(
-        response => response,
-        error => {
+        (response) => response,
+        (error) => {
             switch (error.response?.status) {
                 case 401:
                     handleLogout();

@@ -47,7 +47,6 @@
 .responsive-table .link-block a {
     font-size: 16px;
     margin-top: initial;
-    text-decoration: none;
 }
 
 .responsive-table .table-row-open .toggle-icon,
@@ -73,10 +72,6 @@
     .responsive-table .table-row-details {
         display: block;
         padding: initial;
-    }
-
-    .responsive-table .table-row-details svg {
-        display: none;
     }
 
     .responsive-table .link-block {

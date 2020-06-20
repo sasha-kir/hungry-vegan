@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useMediaPredicate } from 'react-media-hook';
 import AnimateHeight from 'react-animate-height';
 import { EditableCell } from 'components/common';
-import { FiChevronDown, FiMapPin } from 'react-icons/fi';
+import { FiChevronDown, FiMapPin, FiExternalLink } from 'react-icons/fi';
 import { IoLogoFoursquare } from 'react-icons/io';
 import './style.css';
 
@@ -13,6 +13,7 @@ interface TableRowProps {
     list: UserList;
     listIndex: number;
     location: string;
+    fsqClientId: string;
     recordData(index: number, value: string): void;
 }
 
@@ -21,6 +22,7 @@ const TableRow = ({
     list,
     listIndex,
     location,
+    fsqClientId,
     recordData,
 }: TableRowProps): ReactElement => {
     const noLocation = location.length <= 1;
@@ -47,6 +49,8 @@ const TableRow = ({
               )
             : null;
     };
+
+    const foursquareUrl = `${list.url}?ref=${fsqClientId}`;
 
     return (
         <div id={`row-wrapper-${listIndex}`} className="table-row-wrapper">
@@ -77,11 +81,12 @@ const TableRow = ({
             <AnimateHeight duration={300} height={detailsHeight}>
                 <div className="table-row-details">
                     <div className="col link-block link-block-left" data-label="Original list">
-                        <IoLogoFoursquare />
-                        <a href={list.url}>open in Foursquare</a>
+                        {!isMobile && <IoLogoFoursquare />}
+                        <a href={foursquareUrl}>open in Foursquare</a>
+                        {isMobile && <FiExternalLink />}
                     </div>
                     <div className="col link-block link-block-right" data-label="Details">
-                        <FiMapPin />
+                        {!isMobile && <FiMapPin />}
                         <Link to="/">show details</Link>
                     </div>
                 </div>
