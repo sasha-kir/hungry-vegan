@@ -2,7 +2,7 @@ nav {
     display: flex;
     background: rgba(0, 0, 0, 0.2);
     height: 60px;
-    min-width: 550px;
+    min-width: var(--navbar-min-width);
     border-radius: 3px;
     margin: 30px 50px 15px;
     color: var(--main-light);

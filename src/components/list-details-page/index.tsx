@@ -10,14 +10,18 @@ const ListDetailsPage: React.FC = () => {
     const { status, list: listDetails } = useListDetails(listName);
 
     const renderItem = (item) => {
-        return <div key={item.id}>{item.name}</div>;
+        return (
+            <div className="list-item" key={item.id}>
+                {item.name}
+            </div>
+        );
     };
 
     const renderDetails = () => {
         const listItems = listDetails.items;
         return (
             <>
-                <h1>{listName}</h1>
+                <h1 className="list-name">{listName}</h1>
                 <div>{listItems.map((item) => renderItem(item))}</div>
             </>
         );
@@ -28,8 +32,8 @@ const ListDetailsPage: React.FC = () => {
     };
 
     return (
-        <div className="page-wrapper">
-            <CardWrapper>
+        <div className="page-wrapper list-page-wrapper">
+            <CardWrapper className="list-container-wrapper">
                 <BeatLoader flag={status === ResponseStatus.pending} />
                 {status === ResponseStatus.success && renderDetails()}
                 {status === ResponseStatus.error && renderError()}

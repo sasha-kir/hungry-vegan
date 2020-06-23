@@ -1,0 +1,168 @@
+/* adapted from https://codepen.io/faaezahmd/full/dJeRex */
+.responsive-table li {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 20px;
+    padding: 25px 50px;
+    color: var(--main-dark);
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.responsive-table .col {
+    position: relative;
+}
+
+.responsive-table .col-with-icon {
+    display: flex;
+}
+
+.responsive-table .col-3,
+.responsive-table .col-4 {
+    justify-self: center;
+}
+
+.responsive-table .table-icon {
+    padding: 0 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.responsive-table .table-icon:hover {
+    color: var(--main-green);
+}
+
+.responsive-table .table-header {
+    background-color: var(--main-highlight);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    position: relative;
+    margin-bottom: 15px;
+    border-radius: 3px;
+}
+
+.table-header .tooltip {
+    display: none;
+    background-color: var(--main-light);
+    color: var(--main-dark);
+    padding: 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    text-transform: initial;
+    position: absolute;
+    top: 7px;
+    left: 130px;
+    max-width: 115px;
+    z-index: 5;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.table-icon:hover ~ .tooltip {
+    display: block;
+}
+
+.responsive-table .table-row-wrapper {
+    display: grid;
+    grid-template-rows: auto auto;
+    background-color: var(--main-light);
+    border-radius: 3px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.responsive-table .table-row-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 25px 50px;
+}
+
+.responsive-table .table-row-details svg {
+    font-size: 18px;
+    color: var(--main-dark);
+    padding: 0 10px;
+}
+
+.responsive-table .table-row-wrapper:hover {
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
+}
+
+.responsive-table .table-row-disabled {
+    background-color: var(--light-gray);
+    box-shadow: none;
+}
+
+.responsive-table .table-row-open {
+    background-color: var(--pastel-green);
+}
+
+.responsive-table .link-block-left {
+    justify-self: end;
+    padding-right: 30px;
+    border-right: 2px solid var(--main-dark);
+}
+
+.responsive-table .link-block-right {
+    justify-self: start;
+    padding-left: 30px;
+}
+
+.responsive-table .link-block a {
+    font-size: 16px;
+    margin-top: initial;
+}
+
+.responsive-table .table-row-open .toggle-icon,
+.responsive-table .table-row-open ~ .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.responsive-table .table-row-open .toggle-icon:hover {
+    color: var(--main-light);
+}
+
+@media all and (max-width: 900px) {
+    .responsive-table li {
+        display: block;
+    }
+    .responsive-table .col {
+        display: flex;
+        padding: 10px 0;
+    }
+    .responsive-table .col:before {
+        color: var(--dark-gray);
+        padding-right: 10px;
+        content: attr(data-label);
+        flex-basis: 50%;
+        text-align: right;
+    }
+    .responsive-table .table-icon {
+        margin-left: auto;
+    }
+    .responsive-table .table-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .responsive-table .table-header .col {
+        display: none;
+    }
+    .responsive-table .table-row .editable-cell {
+        position: relative;
+        margin-bottom: -15px;
+    }
+    .responsive-table .table-row {
+        background: var(--main-light);
+        padding-bottom: initial;
+    }
+    .responsive-table .table-row-details {
+        display: block;
+        padding: initial;
+    }
+    .responsive-table .link-block {
+        border: none;
+        padding: initial;
+    }
+    .responsive-table .toggle-icon {
+        margin: 15px auto;
+    }
+}

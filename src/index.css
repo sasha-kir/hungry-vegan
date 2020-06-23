@@ -11,6 +11,7 @@
     --dark-gray: #939393;
     --error: #cc0000;
     --secondary-error: #ffcccc;
+    --navbar-min-width: 550px;
 }
 
 * {

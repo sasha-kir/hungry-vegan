@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 import { ExtendedUserData } from 'api/user';
 import { FormInput } from 'components/common';
-import FormHeader from './form-header';
-import ProfileActions from './form-actions';
+import FormHeader from './UserFormHeader';
+import ProfileActions from './UserFormActions';
 import { emailPattern } from 'utils/validation/patterns';
 import illustration from 'images/watering-plant.svg';
 import './style.css';
@@ -24,7 +24,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
 
     const setFormValues = useCallback(
         (userData: ExtendedUserData): void => {
-            const formValues = Object.keys(userData).map(key => ({
+            const formValues = Object.keys(userData).map((key) => ({
                 [key]: userData[key],
             }));
             setValue(formValues);
@@ -65,7 +65,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
         if (isFormValid) {
             const updatedValues = watch();
             const isDirty = Object.keys(updatedValues).some(
-                key => user[key] !== updatedValues[key],
+                (key) => user[key] !== updatedValues[key],
             );
             if (isDirty) {
                 await updateData({ ...user, ...updatedValues });

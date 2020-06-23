@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import { FancyButton } from 'components/common';
-import './style.css';
 
 interface ProfileActionsProps {
     isEditingMode: boolean;

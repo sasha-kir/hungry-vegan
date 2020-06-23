@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
-import TableHeader from './table-header';
-import TableRow from './table-row';
+import TableHeader from './TableHeader';
+import TableRow from './TableRow';
 import { useFoursquareClientId } from 'hooks/useFoursquareClientId';
 import './style.css';
 

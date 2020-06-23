@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { ResponseStatus } from 'api';
 import { FancyButton, CardWrapper, BeatLoader } from 'components/common';
 import { useUserData } from 'hooks/useUserData';
-import UserInfoForm from './user-info-form';
+import UserInfoForm from './components/user-info-form';
 import errorIllustration from 'images/profile-empty.svg';
 import './style.css';
 

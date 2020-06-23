@@ -1,7 +1,7 @@
 .user-info-wrapper {
     justify-items: initial;
     margin: 0 50px 30px;
-    min-width: 550px;
+    min-width: var(--navbar-min-width);
 }
 
 .user-info-form-wrapper {

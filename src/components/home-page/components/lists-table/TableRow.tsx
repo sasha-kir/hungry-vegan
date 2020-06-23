@@ -6,7 +6,6 @@ import AnimateHeight from 'react-animate-height';
 import { EditableCell } from 'components/common';
 import { FiChevronDown, FiMapPin, FiExternalLink } from 'react-icons/fi';
 import { IoLogoFoursquare } from 'react-icons/io';
-import './style.css';
 
 interface TableRowProps {
     isEditingMode: boolean;

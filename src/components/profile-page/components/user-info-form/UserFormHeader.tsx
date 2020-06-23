@@ -1,6 +1,5 @@
 import React, { ReactElement, memo } from 'react';
 import { UserData } from 'api/user';
-import './style.css';
 
 interface ProfileHeaderProps {
     user: UserData;

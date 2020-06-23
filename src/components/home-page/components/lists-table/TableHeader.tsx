@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import { FiInfo, FiEdit2, FiSave } from 'react-icons/fi';
-import './style.css';
 
 interface TableHeaderProps {
     isEditingMode: boolean;

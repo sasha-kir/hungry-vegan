@@ -4,7 +4,7 @@ import { ResponseStatus } from 'api';
 import { useLists } from 'hooks/useLists';
 import { useAuth } from 'context/auth';
 import { FoursquareButton, CardWrapper, FancyButton } from 'components/common';
-import ListsTable from './lists-table';
+import ListsTable from './components/lists-table';
 import listsPlaceholder from 'images/checklist.svg';
 import './style.css';
 
