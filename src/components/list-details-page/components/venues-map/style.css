@@ -1,0 +1,8 @@
+.venues-map {
+    display: flex;
+    justify-content: end;
+}
+
+.venues-map a {
+    font-size: inherit;
+}

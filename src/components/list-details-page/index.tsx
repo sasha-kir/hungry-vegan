@@ -1,8 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { YMaps } from 'react-yandex-maps';
 import { ResponseStatus } from 'api';
 import { CardWrapper, BeatLoader } from 'components/common';
 import { useListDetails } from 'hooks/useListDetails';
+import YandexMap from './components/venues-map';
+
 import './style.css';
 
 const ListDetailsPage: React.FC = () => {
@@ -22,7 +25,10 @@ const ListDetailsPage: React.FC = () => {
         return (
             <>
                 <h1 className="list-name">{listName}</h1>
-                <div>{listItems.map((item) => renderItem(item))}</div>
+                <div className="list-container">
+                    <div className="list-venues">{listItems.map((item) => renderItem(item))}</div>
+                    <YandexMap location={listDetails.coordinates} />
+                </div>
             </>
         );
     };
@@ -32,13 +38,15 @@ const ListDetailsPage: React.FC = () => {
     };
 
     return (
-        <div className="page-wrapper list-page-wrapper">
-            <CardWrapper className="list-container-wrapper">
-                <BeatLoader flag={status === ResponseStatus.pending} />
-                {status === ResponseStatus.success && renderDetails()}
-                {status === ResponseStatus.error && renderError()}
-            </CardWrapper>
-        </div>
+        <YMaps query={{ lang: 'en_RU' }}>
+            <div className="page-wrapper list-page-wrapper">
+                <CardWrapper className="list-container-wrapper">
+                    <BeatLoader flag={status === ResponseStatus.pending} />
+                    {status === ResponseStatus.success && renderDetails()}
+                    {status === ResponseStatus.error && renderError()}
+                </CardWrapper>
+            </div>
+        </YMaps>
     );
 };
 
