@@ -15,13 +15,15 @@ const VenuesListItemEdit = ({ item }: EditItemProps) => {
                 <Controller
                     as={FormInput}
                     name="instagram"
+                    label="instagram"
                     control={control}
                     defaultValue={item.instagram || ''}
                     setValue={setValue}
                 />
                 <Controller
                     as={FormInput}
-                    name="only delivery"
+                    name="onlyDelivery"
+                    label="only delivery"
                     type="checkbox"
                     control={control}
                     defaultValue={item.onlyDelivery}
@@ -29,7 +31,8 @@ const VenuesListItemEdit = ({ item }: EditItemProps) => {
                 />
                 <Controller
                     as={FormInput}
-                    name="only takeaway"
+                    name="onlyTakeaway"
+                    label="only takeaway"
                     type="checkbox"
                     control={control}
                     defaultValue={item.onlyTakeaway}
@@ -37,7 +40,8 @@ const VenuesListItemEdit = ({ item }: EditItemProps) => {
                 />
                 <Controller
                     as={FormInput}
-                    name="maybe closed"
+                    name="maybeClosed"
+                    label="maybe closed"
                     type="checkbox"
                     control={control}
                     defaultValue={item.maybeClosed}

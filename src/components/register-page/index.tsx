@@ -13,7 +13,7 @@ const RegisterPage = (): ReactElement => {
     const [isError, setError] = useState<boolean>(false);
     const { handleAuth } = useAuth();
     const history = useHistory();
-    const { handleSubmit, clearError, setValue, control, errors } = useForm();
+    const { handleSubmit, clearErrors, setValue, control, errors } = useForm();
 
     const onSubmit = async (formData) => {
         const { status, data: token } = await AuthApi.register(formData);
@@ -27,7 +27,7 @@ const RegisterPage = (): ReactElement => {
 
     const clearInputError = (): void => {
         if (Object.keys(errors).length !== 0) {
-            clearError();
+            clearErrors();
         }
         if (isError) setError(false);
     };
@@ -52,6 +52,7 @@ const RegisterPage = (): ReactElement => {
                     <Controller
                         as={FormInput}
                         name="username"
+                        label="username"
                         control={control}
                         rules={{
                             required: 'Required field',
@@ -64,6 +65,7 @@ const RegisterPage = (): ReactElement => {
                     <Controller
                         as={FormInput}
                         name="email"
+                        label="email"
                         control={control}
                         rules={{
                             required: 'Required field',
@@ -76,6 +78,7 @@ const RegisterPage = (): ReactElement => {
                     <Controller
                         as={FormInput}
                         name="password"
+                        label="password"
                         type="password"
                         control={control}
                         rules={{

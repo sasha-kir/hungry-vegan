@@ -13,7 +13,7 @@ const LoginPage = (): ReactElement => {
     const { handleAuth } = useAuth();
     const history = useHistory();
     const location = useLocation();
-    const { handleSubmit, clearError, setValue, control, errors } = useForm();
+    const { handleSubmit, clearErrors, setValue, control, errors } = useForm();
 
     const onSubmit = async (formData) => {
         const { status, data: token } = await AuthApi.loginWithCredentials(formData);
@@ -31,7 +31,7 @@ const LoginPage = (): ReactElement => {
 
     const clearInputError = (): void => {
         if (Object.keys(errors).length !== 0) {
-            clearError();
+            clearErrors();
         }
         if (isError) setError(false);
     };
@@ -52,6 +52,7 @@ const LoginPage = (): ReactElement => {
                     <Controller
                         as={FormInput}
                         name="username"
+                        label="username"
                         control={control}
                         rules={{ required: 'Required field' }}
                         setValue={setValue}
@@ -61,6 +62,7 @@ const LoginPage = (): ReactElement => {
                     <Controller
                         as={FormInput}
                         name="password"
+                        label="password"
                         type="password"
                         control={control}
                         rules={{ required: 'Required field' }}

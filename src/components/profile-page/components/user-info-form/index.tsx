@@ -19,15 +19,14 @@ interface UserFormProps {
 const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactElement => {
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
     const [isEmailEmpty, setEmailEmpty] = useState<boolean>(emptyEmail);
-    const { setValue, errors, control, watch, triggerValidation, clearError } = useForm();
+    const { setValue, errors, control, watch, trigger, clearErrors } = useForm();
     const history = useHistory();
 
     const setFormValues = useCallback(
         (userData: ExtendedUserData): void => {
-            const formValues = Object.keys(userData).map((key) => ({
-                [key]: userData[key],
-            }));
-            setValue(formValues);
+            Object.keys(userData).forEach((key) => {
+                setValue(key, userData[key]);
+            });
         },
         [setValue],
     );
@@ -48,7 +47,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
 
     const clearEmailError = (): void => {
         if (errors.email) {
-            clearError();
+            clearErrors();
         }
         if (isEmailEmpty) {
             setEmailEmpty(false);
@@ -61,7 +60,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
     };
 
     const handleSaveEdit = async (): Promise<void> => {
-        const isFormValid = await triggerValidation();
+        const isFormValid = await trigger();
         if (isFormValid) {
             const updatedValues = watch();
             const isDirty = Object.keys(updatedValues).some(
@@ -79,7 +78,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
         setFormValues(user);
         setEditingMode(false);
         if (Object.keys(errors).length !== 0) {
-            clearError();
+            clearErrors();
         }
         setEmailEmpty(emptyEmail);
     };
@@ -92,6 +91,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
                     <Controller
                         as={FormInput}
                         name="email"
+                        label="email"
                         control={control}
                         disabled={!isEditingMode}
                         rules={{
@@ -105,6 +105,7 @@ const UserInfoForm = ({ user, emptyEmail, updateData }: UserFormProps): ReactEle
                     <Controller
                         as={FormInput}
                         name="location"
+                        label="location"
                         control={control}
                         disabled={!isEditingMode}
                         setValue={setValue}

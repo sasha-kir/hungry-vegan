@@ -2,13 +2,20 @@ import React, { ReactElement } from 'react';
 import './style.css';
 
 interface FormInputProps extends React.HTMLProps<HTMLInputElement> {
-    name: string;
+    label: string;
     setValue(name: string, value: string): void;
     errorMessage?: string;
 }
 
 const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
-    const { name, setValue, errorMessage = '', type = 'text', value = '', disabled = false } = {
+    const {
+        label: name,
+        setValue,
+        errorMessage = '',
+        type = 'text',
+        value = '',
+        disabled = false,
+    } = {
         ...props,
     };
 
