@@ -41,8 +41,6 @@
 }
 
 .home-page-content .connect-btn {
-    color: var(--main-dark);
-    background-color: var(--main-highlight);
     justify-self: center;
     margin-top: 10px;
 }

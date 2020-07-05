@@ -1,9 +1,9 @@
 .fancy-btn {
-    background: var(--main-green);
-    color: var(--main-light);
+    background-color: var(--main-light);
+    color: var(--main-dark);
     letter-spacing: 0.05em;
     border-radius: 3px;
-    border: none;
+    border: 3px solid var(--main-green);
     outline: none;
     transition: all 0.2s ease;
     align-self: center;
@@ -23,11 +23,11 @@
 }
 
 .fancy-btn:hover {
-    background: var(--main-highlight);
-    color: var(--main-dark);
+    background-color: var(--main-green);
+    color: var(--main-light);
 }
 
 .fancy-btn:active {
-    box-shadow: 2px 2px var(--main-highlight);
+    box-shadow: 2px 2px var(--light-green);
     transform: translateY(4px);
 }

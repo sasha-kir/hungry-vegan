@@ -3,9 +3,11 @@ import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { useMediaPredicate } from 'react-media-hook';
 import AnimateHeight from 'react-animate-height';
-import { EditableCell } from 'components/common';
 import { FiChevronDown, FiMapPin, FiExternalLink } from 'react-icons/fi';
 import { IoLogoFoursquare } from 'react-icons/io';
+
+import { EditableCell } from 'components/common';
+import { formatDate } from 'utils/date';
 
 interface TableRowProps {
     isEditingMode: boolean;
@@ -30,7 +32,11 @@ const TableRow = ({
     const isMobile = useMediaPredicate('(max-width: 900px)');
 
     const toggleRow = () => {
-        isOpen ? setHeight(0) : setHeight(70);
+        if (!isOpen) {
+            isMobile ? setHeight(70) : setHeight(60);
+        } else {
+            setHeight(0);
+        }
         setOpen(!isOpen);
     };
 
@@ -74,15 +80,18 @@ const TableRow = ({
                     {list.itemsCount}
                 </div>
                 <div className="col col-4" data-label="Date created">
-                    {new Date(list.createdAt * 1000).toLocaleDateString('ru-RU')}
+                    {formatDate(list.createdAt)}
                 </div>
                 <div id={`desktop-icon-${listIndex}`} className="col-5"></div>
             </li>
+            {isOpen && <hr className="table-row-separator"></hr>}
             <AnimateHeight duration={300} height={detailsHeight}>
                 <div className="table-row-details">
                     <div className="col link-block link-block-left" data-label="Original list">
                         {!isMobile && <IoLogoFoursquare />}
-                        <a href={foursquareUrl}>open in Foursquare</a>
+                        <a href={foursquareUrl} rel="noopener noreferrer" target="_blank">
+                            open in Foursquare
+                        </a>
                         {isMobile && <FiExternalLink />}
                     </div>
                     <div className="col link-block link-block-right" data-label="Details">

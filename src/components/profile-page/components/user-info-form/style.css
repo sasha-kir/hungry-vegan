@@ -59,6 +59,7 @@
 
 .cancel-btn {
     background-color: var(--light-gray);
+    border: none;
     color: var(--main-dark);
 }
 

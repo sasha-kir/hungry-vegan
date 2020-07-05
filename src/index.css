@@ -1,12 +1,10 @@
 :root {
     --main-green: #19a186;
     --light-green: #5ebdaa;
-    --pastel-green: #98db7c;
     --main-light: #f5f5f5;
     --secondary-light: #e8e4e6;
     --main-dark: #001e1d;
-    --main-highlight: #f7e757;
-    --secondary-highlight: #a786df;
+    --highlight: #a786df;
     --light-gray: #d3d3d3;
     --dark-gray: #939393;
     --error: #cc0000;
@@ -24,7 +22,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--main-light);
-    /* background-image: linear-gradient(315deg, var(--main-highlight) 0%, var(--main-green) 74%); */
     background-image: url('images/vegan-food-small.jpg');
     background-size: cover;
     min-height: 100vh;

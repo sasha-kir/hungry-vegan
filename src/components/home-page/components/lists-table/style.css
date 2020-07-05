@@ -2,7 +2,7 @@
 .responsive-table li {
     display: grid;
     grid-template-columns: repeat(4, 1fr) 20px;
-    padding: 25px 50px;
+    padding: 20px 50px;
     color: var(--main-dark);
     font-size: 16px;
     box-sizing: border-box;
@@ -32,13 +32,14 @@
 }
 
 .responsive-table .table-header {
-    background-color: var(--main-highlight);
+    border: 3px solid var(--main-green);
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
     position: relative;
     margin-bottom: 15px;
     border-radius: 3px;
+    padding: 20px 50px;
 }
 
 .table-header .tooltip {
@@ -74,7 +75,7 @@
 .responsive-table .table-row-details {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 25px 50px;
+    padding: 20px 50px;
 }
 
 .responsive-table .table-row-details svg {
@@ -92,14 +93,15 @@
     box-shadow: none;
 }
 
-.responsive-table .table-row-open {
-    background-color: var(--pastel-green);
+.responsive-table .table-row-separator {
+    border-top: 2px solid var(--main-green);
+    margin: 0 30px;
 }
 
 .responsive-table .link-block-left {
     justify-self: end;
     padding-right: 30px;
-    border-right: 2px solid var(--main-dark);
+    /* border-right: 2px solid var(--main-dark); */
 }
 
 .responsive-table .link-block-right {
@@ -160,9 +162,11 @@
     }
     .responsive-table .link-block {
         border: none;
-        padding: initial;
     }
     .responsive-table .toggle-icon {
         margin: 15px auto;
+    }
+    .responsive-table .table-row-separator {
+        display: none;
     }
 }

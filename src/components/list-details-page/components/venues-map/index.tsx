@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, Clusterer, Placemark, ZoomControl } from 'react-yandex-maps';
+import { Map, Placemark, ZoomControl } from 'react-yandex-maps';
 
 import './style.css';
 
@@ -10,7 +10,8 @@ interface MapProps {
     selectItem(item: UserListItem): void;
 }
 
-const PLACEMARK_COLOR = '#19a186';
+const DEFAULT_COLOR = '#001e1d';
+const SELECTED_COLOR = '#19a186';
 
 const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: MapProps) => {
     const formatCoords = (location: ListCoordinates): [number, number] => [
@@ -33,7 +34,7 @@ const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: Ma
         const venueCoords = formatCoords(item.coordinates);
 
         const isSelected = item.id === currentSelection?.id;
-        const placemarkColor = isSelected ? '#a786df' : PLACEMARK_COLOR;
+        const placemarkColor = isSelected ? SELECTED_COLOR : DEFAULT_COLOR;
 
         return (
             <Placemark
@@ -64,15 +65,7 @@ const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: Ma
                     },
                 }}
             />
-            <Clusterer
-                options={{
-                    clusterIconColor: PLACEMARK_COLOR,
-                    minClusterSize: 3,
-                    hasBalloon: false,
-                }}
-            >
-                {listItems.map((item) => renderPlacemark(item))}
-            </Clusterer>
+            {listItems.map((item) => renderPlacemark(item))}
         </Map>
     );
 };
