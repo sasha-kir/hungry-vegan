@@ -1,0 +1,37 @@
+.venues-list {
+    height: calc(var(--list-container-height) - 50px);
+    overflow-y: scroll;
+}
+
+.venues-list .list-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--main-light);
+    border-radius: 3px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+    margin: 5px auto 15px 5px;
+    padding: 15px;
+    max-width: 300px;
+    cursor: pointer;
+}
+
+.venues-list .list-item.is-active {
+    background-color: var(--main-highlight);
+}
+
+.venues-list .list-tags {
+    display: flex;
+    align-self: center;
+}
+
+.venues-list .list-tags svg {
+    font-size: 20px;
+}
+
+.venues-list .list-tags .positive {
+    color: var(--main-green);
+}
+
+.venues-list .list-tags .warning {
+    color: var(--secondary-highlight);
+}

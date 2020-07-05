@@ -1,33 +1,48 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { YMaps } from 'react-yandex-maps';
+import { FiArrowLeft } from 'react-icons/fi';
 import { ResponseStatus } from 'api';
 import { CardWrapper, BeatLoader } from 'components/common';
 import { useListDetails } from 'hooks/useListDetails';
-import YandexMap from './components/venues-map';
+import VenuesList from './components/venues-list';
+import VenuesMap from './components/venues-map';
 
 import './style.css';
 
 const ListDetailsPage: React.FC = () => {
+    const [selectedItem, setSelectedItem] = useState<UserListItem | null>(null);
     const { listName } = useParams();
+    const history = useHistory();
     const { status, list: listDetails } = useListDetails(listName);
 
-    const renderItem = (item) => {
-        return (
-            <div className="list-item" key={item.id}>
-                {item.name}
-            </div>
-        );
+    const goBack = () => {
+        history.goBack();
     };
 
+    const selectItem = (item: UserListItem): void => {
+        setSelectedItem(item);
+    };
+
+    const mapCenter =
+        selectedItem === null ? listDetails?.coordinates : selectedItem.location.coordinates;
+    const shouldZoom = selectedItem === null ? false : true;
+
     const renderDetails = () => {
-        const listItems = listDetails.items;
         return (
             <>
-                <h1 className="list-name">{listName}</h1>
+                <div className="list-header">
+                    <FiArrowLeft onClick={goBack} />
+                    <h1 className="list-name">{listName}</h1>
+                </div>
+
                 <div className="list-container">
-                    <div className="list-venues">{listItems.map((item) => renderItem(item))}</div>
-                    <YandexMap location={listDetails.coordinates} />
+                    <VenuesList
+                        listItems={listDetails.items}
+                        selectItem={selectItem}
+                        currentSelection={selectedItem}
+                    />
+                    <VenuesMap location={mapCenter} venues={listDetails.items} zoom={shouldZoom} />
                 </div>
             </>
         );
@@ -38,7 +53,7 @@ const ListDetailsPage: React.FC = () => {
     };
 
     return (
-        <YMaps query={{ lang: 'en_RU' }}>
+        <YMaps query={{ lang: 'en_RU' }} preload>
             <div className="page-wrapper list-page-wrapper">
                 <CardWrapper className="list-container-wrapper">
                     <BeatLoader flag={status === ResponseStatus.pending} />

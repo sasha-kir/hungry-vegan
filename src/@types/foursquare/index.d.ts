@@ -12,8 +12,12 @@ interface UserListItem {
     id: string;
     name: string;
     addedAt: number;
+    updatedAt: number;
     location: VenueLocation;
+    coordinates: ListCoordinates;
     instagram: string | null;
+    onlyDelivery: boolean;
+    onlyTakeaway: boolean;
 }
 
 interface UserList {

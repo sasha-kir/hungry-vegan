@@ -1,6 +1,6 @@
 .venues-map {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .venues-map a {
