@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiTruck, FiShoppingBag } from 'react-icons/fi';
+import VenuesListItem from './VenuesListItem';
 import './style.css';
 
 interface VenuesListProps {
@@ -9,21 +9,21 @@ interface VenuesListProps {
 }
 
 const VenuesList = ({ listItems, selectItem, currentSelection }: VenuesListProps) => {
-    const renderItem = (item) => {
-        const isSelected = currentSelection?.id === item.id;
-        const className = isSelected ? 'list-item is-active' : 'list-item';
-        return (
-            <div className={className} key={item.id} onClick={() => selectItem(item)}>
-                {item.name}
-                <div className="list-tags">
-                    {item.onlyDelivery && <FiTruck className="warning" />}
-                    {item.onlyTakeaway && <FiShoppingBag className="positive" />}
-                </div>
-            </div>
-        );
-    };
-
-    return <div className="venues-list">{listItems.map((item) => renderItem(item))}</div>;
+    return (
+        <div className="venues-list">
+            {listItems.map((item) => {
+                const isSelected = currentSelection?.id === item.id;
+                return (
+                    <VenuesListItem
+                        key={item.id}
+                        item={item}
+                        isSelected={isSelected}
+                        selectItem={selectItem}
+                    />
+                );
+            })}
+        </div>
+    );
 };
 
 export default VenuesList;

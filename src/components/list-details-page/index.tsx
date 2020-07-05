@@ -24,10 +24,6 @@ const ListDetailsPage: React.FC = () => {
         setSelectedItem(item);
     };
 
-    const mapCenter =
-        selectedItem === null ? listDetails?.coordinates : selectedItem.location.coordinates;
-    const shouldZoom = selectedItem === null ? false : true;
-
     const renderDetails = () => {
         return (
             <>
@@ -38,11 +34,16 @@ const ListDetailsPage: React.FC = () => {
 
                 <div className="list-container">
                     <VenuesList
-                        listItems={listDetails.items}
+                        listItems={listDetails?.items}
                         selectItem={selectItem}
                         currentSelection={selectedItem}
                     />
-                    <VenuesMap location={mapCenter} venues={listDetails.items} zoom={shouldZoom} />
+                    <VenuesMap
+                        listLocation={listDetails?.coordinates}
+                        listItems={listDetails?.items}
+                        selectItem={selectItem}
+                        currentSelection={selectedItem}
+                    />
                 </div>
             </>
         );

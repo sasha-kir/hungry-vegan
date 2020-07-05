@@ -1,31 +1,48 @@
 import React from 'react';
-import { Map, Placemark } from 'react-yandex-maps';
+import { Map, Clusterer, Placemark, ZoomControl } from 'react-yandex-maps';
 
 import './style.css';
 
 interface MapProps {
-    location: ListCoordinates | null;
-    venues: UserListItem[];
-    zoom: boolean;
+    listLocation: ListCoordinates | null;
+    listItems: UserListItem[];
+    currentSelection: UserListItem | null;
+    selectItem(item: UserListItem): void;
 }
 
-const VenuesMap = ({ location, venues, zoom }: MapProps) => {
-    const mapCoords = location ? [location.latitude, location.longitude] : [55.684758, 37.738521];
+const PLACEMARK_COLOR = '#19a186';
 
-    const renderPlacemark = (venue: UserListItem) => {
-        const venueCoords = venue.location.coordinates;
-        const coordsArray = [venueCoords.latitude, venueCoords.longitude];
+const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: MapProps) => {
+    const formatCoords = (location: ListCoordinates): [number, number] => [
+        location.latitude,
+        location.longitude,
+    ];
 
-        const isSelected = coordsArray[0] === mapCoords[0] && coordsArray[1] === mapCoords[1];
-        const placemarkColor = isSelected ? '#a786df' : '#19a186';
+    const shouldZoom = currentSelection === null ? false : true;
+
+    let mapCoords: [number, number];
+    if (currentSelection) {
+        mapCoords = formatCoords(currentSelection.coordinates);
+    } else if (listLocation) {
+        mapCoords = formatCoords(listLocation);
+    } else {
+        mapCoords = formatCoords(listItems[0].coordinates);
+    }
+
+    const renderPlacemark = (item: UserListItem) => {
+        const venueCoords = formatCoords(item.coordinates);
+
+        const isSelected = item.id === currentSelection?.id;
+        const placemarkColor = isSelected ? '#a786df' : PLACEMARK_COLOR;
 
         return (
             <Placemark
-                key={1}
+                key={item.id}
+                onClick={() => selectItem(item)}
                 modules={['geoObject.addon.hint']}
-                geometry={coordsArray}
+                geometry={venueCoords}
                 properties={{
-                    hintContent: venue.name,
+                    hintContent: item.name,
                 }}
                 options={{
                     preset: 'islands#dotIcon',
@@ -36,8 +53,26 @@ const VenuesMap = ({ location, venues, zoom }: MapProps) => {
     };
 
     return (
-        <Map className="venues-map" state={{ center: mapCoords, zoom: zoom ? 14 : 10 }}>
-            {venues.map((venue) => renderPlacemark(venue))}
+        <Map className="venues-map" state={{ center: mapCoords, zoom: shouldZoom ? 14 : 10 }}>
+            <ZoomControl
+                options={{
+                    size: 'small',
+                    position: {
+                        left: 'auto',
+                        right: 20,
+                        top: 200,
+                    },
+                }}
+            />
+            <Clusterer
+                options={{
+                    clusterIconColor: PLACEMARK_COLOR,
+                    minClusterSize: 3,
+                    hasBalloon: false,
+                }}
+            >
+                {listItems.map((item) => renderPlacemark(item))}
+            </Clusterer>
         </Map>
     );
 };
