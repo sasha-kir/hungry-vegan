@@ -12,7 +12,7 @@ const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
         ...props,
     };
 
-    const handleInput = event => {
+    const handleInput = (event) => {
         setValue(name, event.target.value);
     };
 
@@ -25,6 +25,10 @@ const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
 
     if (props.onFocus !== undefined) {
         inputAttributes['onFocus'] = props.onFocus;
+    }
+
+    if (type === 'checkbox') {
+        inputAttributes['checked'] = props.checked;
     }
 
     return (

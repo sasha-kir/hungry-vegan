@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, ReactElement } from 'react';
-import { FiTruck, FiShoppingBag } from 'react-icons/fi';
+import React, { useState, useEffect, useRef, ReactElement } from 'react';
+import { FiEdit2, FiSave, FiXCircle, FiBox, FiShoppingBag, FiAlertTriangle } from 'react-icons/fi';
 import { formatDate } from 'utils/date';
+import VenuesListItemEdit from './VenuesListItemEdit';
 
 interface ListItemProps {
     item: UserListItem;
@@ -9,6 +10,8 @@ interface ListItemProps {
 }
 
 const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
+    const [isEditingMode, setEditingMode] = useState<boolean>(false);
+    const isFullView = isSelected && !isEditingMode;
     const itemClassName = isSelected ? 'list-item is-active' : 'list-item';
     const itemRef = useRef<HTMLDivElement>(null);
 
@@ -24,16 +27,35 @@ const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
         </a>
     );
 
+    const toggleEdit = () => {
+        setEditingMode(!isEditingMode);
+    };
+
+    const renderEditIcons = () => {
+        return isEditingMode ? (
+            <div className="list-item-stop-edit">
+                <FiXCircle className="cancel" onClick={toggleEdit} />
+                <FiSave className="save" />
+            </div>
+        ) : (
+            <FiEdit2 className="list-item-start-edit" onClick={toggleEdit} />
+        );
+    };
+
     return (
         <div className="list-item-wrapper">
             <div className={itemClassName} ref={itemRef} onClick={() => selectItem(item)}>
                 {item.name}
-                <div className="list-item-tags">
-                    {item.onlyDelivery && <FiTruck className="warning" />}
-                    {item.onlyTakeaway && <FiShoppingBag className="positive" />}
-                </div>
+                {isSelected && renderEditIcons()}
+                {!isEditingMode && (
+                    <div className="list-item-tags">
+                        {item.onlyDelivery && <FiBox className="negative" />}
+                        {item.onlyTakeaway && <FiShoppingBag className="positive" />}
+                        {item.maybeClosed && <FiAlertTriangle className="negative" />}
+                    </div>
+                )}
             </div>
-            {isSelected && (
+            {isFullView && (
                 <div className="list-item-details">
                     <ul>
                         <li data-label="City">{item.location.city || '—'}</li>
@@ -46,6 +68,7 @@ const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
                     </ul>
                 </div>
             )}
+            {isEditingMode && <VenuesListItemEdit item={item} />}
         </div>
     );
 };

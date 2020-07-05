@@ -18,6 +18,7 @@ interface UserListItem {
     instagram: string | null;
     onlyDelivery: boolean;
     onlyTakeaway: boolean;
+    maybeClosed: boolean;
 }
 
 interface UserList {
