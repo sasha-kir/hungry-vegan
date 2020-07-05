@@ -7,7 +7,9 @@ interface EditItemProps {
 }
 
 const VenuesListItemEdit = ({ item }: EditItemProps) => {
-    const { setValue, control } = useForm();
+    const { setValue, control, watch } = useForm();
+
+    console.log(watch());
 
     return (
         <div className="list-item-edit">
@@ -22,7 +24,8 @@ const VenuesListItemEdit = ({ item }: EditItemProps) => {
                 />
                 <Controller
                     as={FormInput}
-                    name="onlyDelivery"
+                    isToggle={true}
+                    name="only delivery"
                     label="only delivery"
                     type="checkbox"
                     control={control}
@@ -31,7 +34,8 @@ const VenuesListItemEdit = ({ item }: EditItemProps) => {
                 />
                 <Controller
                     as={FormInput}
-                    name="onlyTakeaway"
+                    isToggle={true}
+                    name="only takeaway"
                     label="only takeaway"
                     type="checkbox"
                     control={control}
@@ -40,8 +44,10 @@ const VenuesListItemEdit = ({ item }: EditItemProps) => {
                 />
                 <Controller
                     as={FormInput}
-                    name="maybeClosed"
+                    isToggle={true}
+                    name="maybe closed"
                     label="maybe closed"
+                    labelClassName="warning"
                     type="checkbox"
                     control={control}
                     defaultValue={item.maybeClosed}

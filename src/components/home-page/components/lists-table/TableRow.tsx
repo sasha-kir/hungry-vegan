@@ -26,7 +26,7 @@ const TableRow = ({
     fsqClientId,
     recordData,
 }: TableRowProps): ReactElement => {
-    const noLocation = location.length <= 1;
+    const noLocation = !location.length;
     const [isOpen, setOpen] = useState<boolean>(false);
     const [detailsHeight, setHeight] = useState<number>(0);
     const isMobile = useMediaPredicate('(max-width: 900px)');
@@ -61,10 +61,10 @@ const TableRow = ({
     return (
         <div id={`row-wrapper-${listIndex}`} className="table-row-wrapper">
             <li className={rowClasses.join(' ')}>
-                <div className="col col-1" data-label="List">
+                <div className="col col-1" data-label="list">
                     {list.name}
                 </div>
-                <div className="col col-2" data-label="Location">
+                <div className="col col-2" data-label="location">
                     {isEditingMode ? (
                         <EditableCell
                             value={location}
@@ -73,13 +73,13 @@ const TableRow = ({
                             recordData={recordData}
                         />
                     ) : (
-                        location
+                        location || '—'
                     )}
                 </div>
                 <div className="col col-3" data-label="# of places">
                     {list.itemsCount}
                 </div>
-                <div className="col col-4" data-label="Date created">
+                <div className="col col-4" data-label="date created">
                     {formatDate(list.createdAt)}
                 </div>
                 <div id={`desktop-icon-${listIndex}`} className="col-5"></div>
@@ -87,14 +87,14 @@ const TableRow = ({
             {isOpen && <hr className="table-row-separator"></hr>}
             <AnimateHeight duration={300} height={detailsHeight}>
                 <div className="table-row-details">
-                    <div className="col link-block link-block-left" data-label="Original list">
+                    <div className="col link-block link-block-left" data-label="original list">
                         {!isMobile && <IoLogoFoursquare />}
                         <a href={foursquareUrl} rel="noopener noreferrer" target="_blank">
                             open in Foursquare
                         </a>
                         {isMobile && <FiExternalLink />}
                     </div>
-                    <div className="col link-block link-block-right" data-label="Details">
+                    <div className="col link-block link-block-right" data-label="details">
                         {!isMobile && <FiMapPin />}
                         <Link to={listUrl}>show details</Link>
                     </div>

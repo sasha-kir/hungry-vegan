@@ -47,14 +47,13 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
         <ul className="responsive-table">
             <TableHeader isEditingMode={isEditingMode} saveEdit={saveEdit} startEdit={startEdit} />
             {lists.map((list, index) => {
-                const location = locations[index] || '-';
                 return (
                     <TableRow
                         key={list.id}
                         isEditingMode={isEditingMode}
                         list={list}
                         listIndex={index}
-                        location={location}
+                        location={locations[index]}
                         recordData={recordCellData}
                         fsqClientId={fsqClientId}
                     />

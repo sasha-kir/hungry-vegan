@@ -1,13 +1,13 @@
 .editable-cell {
-    background-color: var(--main-light);
+    background-color: transparent;
     position: absolute;
     top: -8px;
     left: -5px;
-    border: 1px solid var(--light-gray);
-    border-radius: 5px;
     padding: 5px 10px;
     outline: none;
     font-size: 14px;
+    border: none;
+    border-bottom: 2px solid var(--dark-gray);
 }
 
 .editable-cell:focus {
