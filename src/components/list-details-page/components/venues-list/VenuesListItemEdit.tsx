@@ -7,9 +7,7 @@ interface EditItemProps {
 }
 
 const VenuesListItemEdit = ({ item }: EditItemProps) => {
-    const { setValue, control, watch } = useForm();
-
-    console.log(watch());
+    const { setValue, control } = useForm();
 
     return (
         <div className="list-item-edit">

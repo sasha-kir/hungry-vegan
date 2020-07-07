@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useRef, ReactElement } from 'react';
-import { FiEdit2, FiSave, FiXCircle, FiBox, FiShoppingBag, FiAlertTriangle } from 'react-icons/fi';
-import { formatDate } from 'utils/date';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { FiEdit2, FiCheck, FiX, FiBox, FiShoppingBag, FiAlertTriangle } from 'react-icons/fi';
+import VenuesListItemInfo from './VenuesListItemInfo';
 import VenuesListItemEdit from './VenuesListItemEdit';
+
+enum ListItemState {
+    preview,
+    fullInfo,
+    editingMode,
+}
 
 interface ListItemProps {
     item: UserListItem;
@@ -10,32 +16,42 @@ interface ListItemProps {
 }
 
 const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
-    const [isEditingMode, setEditingMode] = useState<boolean>(false);
-    const isFullView = isSelected && !isEditingMode;
+    const getInitialState = useCallback(
+        () => (isSelected ? ListItemState.fullInfo : ListItemState.preview),
+        [isSelected],
+    );
+    const [itemState, setItemState] = useState<ListItemState>(getInitialState);
+    const isEditingMode = itemState === ListItemState.editingMode;
     const itemClassName = isSelected ? 'list-item is-active' : 'list-item';
     const itemRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (!isEditingMode || (!isSelected && isEditingMode)) {
+            setItemState(getInitialState);
+        }
+    }, [isSelected, isEditingMode, getInitialState]);
+
+    useEffect(() => {
         if (isSelected) {
-            itemRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => {
+                itemRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
     }, [isSelected]);
 
-    const instagramLink = (handle: string): ReactElement<HTMLLinkElement> => (
-        <a href={`https://instagram.com/${handle}`} rel="noopener noreferrer" target="_blank">
-            {handle}
-        </a>
-    );
-
     const toggleEdit = () => {
-        setEditingMode(!isEditingMode);
+        if (itemState === ListItemState.editingMode) {
+            setItemState(getInitialState);
+        } else {
+            setItemState(ListItemState.editingMode);
+        }
     };
 
     const renderEditIcons = () => {
         return isEditingMode ? (
             <div className="list-item-stop-edit">
-                <FiXCircle className="cancel" onClick={toggleEdit} />
-                <FiSave className="save" />
+                <FiX className="cancel" onClick={toggleEdit} />
+                <FiCheck className="save" />
             </div>
         ) : (
             <FiEdit2 className="list-item-start-edit" onClick={toggleEdit} />
@@ -55,19 +71,7 @@ const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
                     </div>
                 )}
             </div>
-            {isFullView && (
-                <div className="list-item-details">
-                    <ul>
-                        <li data-label="city">{item.location.city || '—'}</li>
-                        <li data-label="address">{item.location.address || '—'}</li>
-                        <li data-label="instagram">
-                            {item.instagram ? instagramLink(item.instagram) : '—'}
-                        </li>
-                        <li data-label="date added">{formatDate(item.addedAt)}</li>
-                        <li data-label="date updated">{formatDate(item.updatedAt)}</li>
-                    </ul>
-                </div>
-            )}
+            {itemState === ListItemState.fullInfo && <VenuesListItemInfo item={item} />}
             {isEditingMode && <VenuesListItemEdit item={item} />}
         </div>
     );
