@@ -1,0 +1,19 @@
+.loading-error {
+    display: grid;
+    grid-template-rows: 4fr 1fr 1.5fr;
+    align-items: center;
+    justify-items: center;
+    color: var(--main-dark);
+    margin-top: 20px;
+}
+
+.loading-error .error-message {
+    align-self: end;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+}
+
+.loading-error img {
+    height: 270px;
+}

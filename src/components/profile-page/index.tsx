@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { ResponseStatus } from 'api';
-import { FancyButton, CardWrapper, BeatLoader } from 'components/common';
+import { CardWrapper, BeatLoader, LoadingError } from 'components/common';
 import { useUserData } from 'hooks/useUserData';
 import UserInfoForm from './components/user-info-form';
 import errorIllustration from 'images/profile-empty.svg';
@@ -14,15 +14,7 @@ const ProfilePage = (): React.ReactElement => {
     };
 
     const renderErrorState = (): ReactElement => {
-        return (
-            <div className="user-info-error">
-                <img src={errorIllustration} alt="personal profile card" />
-                <div className="error-message">Something went wrong!</div>
-                <FancyButton styleType="small" onClick={fetchData}>
-                    retry
-                </FancyButton>
-            </div>
-        );
+        return <LoadingError illustration={errorIllustration} retryMethod={fetchData} />;
     };
 
     return (

@@ -67,6 +67,10 @@
     align-self: center;
 }
 
+.venues-list .list-item-tags svg {
+    padding: 0 3px;
+}
+
 .venues-list .list-item-start-edit,
 .venues-list .list-item-stop-edit {
     color: var(--main-dark);

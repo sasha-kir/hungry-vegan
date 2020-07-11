@@ -9,26 +9,6 @@
     height: 500px;
 }
 
-.user-info-error {
-    display: grid;
-    grid-template-rows: 4fr 1fr 1.5fr;
-    align-items: center;
-    justify-items: center;
-    color: var(--main-dark);
-    margin-top: 20px;
-}
-
-.user-info-error .error-message {
-    align-self: end;
-    font-weight: bold;
-    font-size: 20px;
-    letter-spacing: 0.05em;
-}
-
-.user-info-error img {
-    height: 270px;
-}
-
 @media only screen and (max-width: 1200px) {
     .user-info-form-wrapper {
         padding: 30px 100px;

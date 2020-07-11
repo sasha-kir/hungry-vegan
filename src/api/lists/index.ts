@@ -34,3 +34,12 @@ export const updateUserLists = async (lists: UserList[]): Promise<ListsResponse>
         return { status: ResponseStatus.error, data: null };
     }
 };
+
+export const updateListItem = async (venueDetails: UserListItem): Promise<ListResponse> => {
+    try {
+        const { data } = await api.post('/update_venue_details', { ...venueDetails });
+        return { status: ResponseStatus.success, data: data.data };
+    } catch (error) {
+        return { status: ResponseStatus.error, data: null };
+    }
+};

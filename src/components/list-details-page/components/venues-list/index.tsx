@@ -6,9 +6,10 @@ interface VenuesListProps {
     listItems: UserListItem[];
     currentSelection: UserListItem | null;
     selectItem(item: UserListItem): void;
+    updateItem(item: UserListItem): void;
 }
 
-const VenuesList = ({ listItems, selectItem, currentSelection }: VenuesListProps) => {
+const VenuesList = ({ listItems, selectItem, updateItem, currentSelection }: VenuesListProps) => {
     return (
         <div className="venues-list">
             {listItems.map((item) => {
@@ -19,6 +20,7 @@ const VenuesList = ({ listItems, selectItem, currentSelection }: VenuesListProps
                         item={item}
                         isSelected={isSelected}
                         selectItem={selectItem}
+                        updateItem={updateItem}
                     />
                 );
             })}

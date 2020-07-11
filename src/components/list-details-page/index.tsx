@@ -3,18 +3,19 @@ import { useParams, useHistory } from 'react-router-dom';
 import { YMaps } from 'react-yandex-maps';
 import { FiArrowLeft } from 'react-icons/fi';
 import { ResponseStatus } from 'api';
-import { CardWrapper, BeatLoader } from 'components/common';
+import { CardWrapper, BeatLoader, LoadingError } from 'components/common';
 import { useListDetails } from 'hooks/useListDetails';
 import VenuesList from './components/venues-list';
 import VenuesMap from './components/venues-map';
 
+import errorIllustration from 'images/pizza.svg';
 import './style.css';
 
 const ListDetailsPage: React.FC = () => {
     const [selectedItem, setSelectedItem] = useState<UserListItem | null>(null);
     const { listName } = useParams();
     const history = useHistory();
-    const { status, list: listDetails } = useListDetails(listName);
+    const [fetchList, updateItem, { status, list: listDetails }] = useListDetails(listName);
 
     const goBack = () => {
         history.goBack();
@@ -37,6 +38,7 @@ const ListDetailsPage: React.FC = () => {
                         listItems={listDetails?.items}
                         selectItem={selectItem}
                         currentSelection={selectedItem}
+                        updateItem={updateItem}
                     />
                     <VenuesMap
                         listLocation={listDetails?.coordinates}
@@ -50,7 +52,13 @@ const ListDetailsPage: React.FC = () => {
     };
 
     const renderError = () => {
-        return <h1>Error</h1>;
+        return (
+            <LoadingError
+                illustration={errorIllustration}
+                retryMethod={fetchList}
+                retryMethodParam={listName}
+            />
+        );
     };
 
     return (

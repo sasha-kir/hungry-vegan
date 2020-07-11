@@ -4,5 +4,14 @@ import FormInput from './form-input';
 import CardWrapper from './card-wrapper';
 import EditableCell from './editable-cell';
 import BeatLoader from './beat-loader';
+import LoadingError from './loading-error';
 
-export { FancyButton, FoursquareButton, FormInput, CardWrapper, EditableCell, BeatLoader };
+export {
+    FancyButton,
+    FoursquareButton,
+    FormInput,
+    CardWrapper,
+    EditableCell,
+    BeatLoader,
+    LoadingError,
+};

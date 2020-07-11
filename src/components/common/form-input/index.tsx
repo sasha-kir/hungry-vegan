@@ -23,6 +23,14 @@ const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
         ...props,
     };
 
+    const prepareLabel = (name: string): string => {
+        return name
+            .split(/([A-Z][a-z]+)/)
+            .filter((v) => v)
+            .join(' ')
+            .toLowerCase();
+    };
+
     const labelStyle = disabled ? 'is-disabled' + labelClassName : labelClassName;
 
     const handleInput = (event) => {
@@ -50,7 +58,7 @@ const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
 
     return (
         <div className={`form-input-wrapper ${isToggle ? 'toggle-wrapper' : ''}`}>
-            <label className={labelStyle}>{name}</label>
+            <label className={labelStyle}>{prepareLabel(name)}</label>
             <input onChange={handleInput} {...inputAttributes} data-testid={`${name}-input`} />
             {Boolean(errorMessage) && (
                 <div className="input-error" data-testid={`${name}-input-error`}>

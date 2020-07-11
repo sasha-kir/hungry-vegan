@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { FiEdit2, FiCheck, FiX, FiBox, FiShoppingBag, FiAlertTriangle } from 'react-icons/fi';
+import { FiEdit2, FiBox, FiShoppingBag, FiAlertTriangle } from 'react-icons/fi';
 import VenuesListItemInfo from './VenuesListItemInfo';
 import VenuesListItemEdit from './VenuesListItemEdit';
 
@@ -13,9 +13,10 @@ interface ListItemProps {
     item: UserListItem;
     isSelected: boolean;
     selectItem(item: UserListItem): void;
+    updateItem(item: UserListItem): void;
 }
 
-const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
+const VenuesListItem = ({ item, isSelected, selectItem, updateItem }: ListItemProps) => {
     const getInitialState = useCallback(
         () => (isSelected ? ListItemState.fullInfo : ListItemState.preview),
         [isSelected],
@@ -47,32 +48,31 @@ const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
         }
     };
 
-    const renderEditIcons = () => {
-        return isEditingMode ? (
-            <div className="list-item-stop-edit">
-                <FiX className="cancel" onClick={toggleEdit} />
-                <FiCheck className="save" />
-            </div>
-        ) : (
-            <FiEdit2 className="list-item-start-edit" onClick={toggleEdit} />
-        );
+    const saveEdit = (updatedItem: UserListItem) => {
+        toggleEdit();
+        updateItem(updatedItem);
     };
 
     return (
         <div className="list-item-wrapper">
-            <div className={itemClassName} ref={itemRef} onClick={() => selectItem(item)}>
-                {item.name}
-                {isSelected && renderEditIcons()}
-                {!isEditingMode && (
-                    <div className="list-item-tags">
-                        {item.onlyDelivery && <FiBox className="negative" />}
-                        {item.onlyTakeaway && <FiShoppingBag className="positive" />}
-                        {item.maybeClosed && <FiAlertTriangle className="negative" />}
+            {isEditingMode ? (
+                <VenuesListItemEdit item={item} toggleEdit={toggleEdit} saveEdit={saveEdit} />
+            ) : (
+                <>
+                    <div className={itemClassName} ref={itemRef} onClick={() => selectItem(item)}>
+                        {item.name}
+                        {isSelected && (
+                            <FiEdit2 className="list-item-start-edit" onClick={toggleEdit} />
+                        )}
+                        <div className="list-item-tags">
+                            {item.onlyDelivery && <FiBox className="negative" />}
+                            {item.onlyTakeaway && <FiShoppingBag className="positive" />}
+                            {item.maybeClosed && <FiAlertTriangle className="negative" />}
+                        </div>
                     </div>
-                )}
-            </div>
-            {itemState === ListItemState.fullInfo && <VenuesListItemInfo item={item} />}
-            {isEditingMode && <VenuesListItemEdit item={item} />}
+                    {isSelected && <VenuesListItemInfo item={item} />}
+                </>
+            )}
         </div>
     );
 };

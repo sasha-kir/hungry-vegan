@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { ResponseStatus } from 'api';
 import { useLists } from 'hooks/useLists';
 import { useAuth } from 'context/auth';
-import { FoursquareButton, CardWrapper, FancyButton } from 'components/common';
+import { FoursquareButton, CardWrapper, LoadingError } from 'components/common';
 import ListsTable from './components/lists-table';
 import listsPlaceholder from 'images/checklist.svg';
 import './style.css';
@@ -42,11 +42,7 @@ const HomePage: React.FC = () => {
     const renderError = (): ReactElement => {
         return (
             <CardWrapper className="error-wrapper">
-                <img src={listsPlaceholder} alt="checklist" />
-                <div className="error-message">Error fetching lists</div>
-                <FancyButton styleType="small" onClick={fetchLists}>
-                    retry
-                </FancyButton>
+                <LoadingError illustration={listsPlaceholder} retryMethod={fetchLists} />
             </CardWrapper>
         );
     };
