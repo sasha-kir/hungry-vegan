@@ -47,7 +47,7 @@
         "@types/react-router-dom": "5.1.5",
         "@types/testing-library__jest-dom": "5.9.1",
         "@types/testing-library__react": "10.0.1",
-        "@typescript-eslint/parser": "3.6.0",
+        "@typescript-eslint/parser": "3.6.1",
         "eslint-config-prettier": "6.11.0",
         "eslint-plugin-import": "2.22.0",
         "eslint-plugin-prettier": "3.1.4",
