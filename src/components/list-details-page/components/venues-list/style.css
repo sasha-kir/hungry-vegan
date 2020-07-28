@@ -19,6 +19,10 @@
     cursor: pointer;
 }
 
+.venues-list .list-item a {
+    margin-top: 0;
+}
+
 .venues-list .list-item.is-active,
 .venues-list .list-item-details,
 .venues-list .list-item-edit {

@@ -5,8 +5,8 @@ import { useFoursquareClientId } from 'hooks/useFoursquareClientId';
 import './style.css';
 
 interface ListsTableProps {
-    lists: UserList[];
-    updateLists(lists: UserList[]): Promise<void>;
+    lists: PublicList[];
+    updateLists?(lists: PublicList[]): Promise<void>;
 }
 
 const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLUListElement> => {
@@ -29,14 +29,16 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
     };
 
     const saveEdit = (): void => {
-        if (!locations.every((location, index) => initialLocations[index] === location)) {
-            const listsForUpdate = lists.map((list, index) => ({
-                ...list,
-                location: locations[index],
-            }));
-            updateLists(listsForUpdate);
+        if (updateLists) {
+            if (!locations.every((location, index) => initialLocations[index] === location)) {
+                const listsForUpdate = lists.map((list, index) => ({
+                    ...list,
+                    location: locations[index],
+                }));
+                updateLists(listsForUpdate);
+            }
+            setEditingMode(false);
         }
-        setEditingMode(false);
     };
 
     if (lists.length === 0) {

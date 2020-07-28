@@ -3,8 +3,7 @@ import React, { ReactElement } from 'react';
 import { ResponseStatus } from 'api';
 import { useLists } from 'hooks/useLists';
 import { useAuth } from 'context/auth';
-import { FoursquareButton, CardWrapper, LoadingError } from 'components/common';
-import ListsTable from './components/lists-table';
+import { FoursquareButton, CardWrapper, LoadingError, ListsTable } from 'components/common';
 import listsPlaceholder from 'images/checklist.svg';
 import './style.css';
 

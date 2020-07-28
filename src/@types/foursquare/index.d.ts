@@ -21,15 +21,18 @@ interface UserListItem {
     maybeClosed: boolean;
 }
 
-interface UserList {
+interface PublicList {
     id: string;
     name: string;
-    url: string;
     location: string;
     coordinates: ListCoordinates | null;
-    createdAt: number;
     updatedAt: number;
     itemsCount: number;
+}
+
+interface UserList extends PublicList {
+    url: string;
+    createdAt: number;
     items?: UserListItem[];
 }
 

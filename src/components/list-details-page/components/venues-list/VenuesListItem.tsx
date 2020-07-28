@@ -53,6 +53,12 @@ const VenuesListItem = ({ item, isSelected, selectItem, updateItem }: ListItemPr
         updateItem(updatedItem);
     };
 
+    const venueLink = (itemId: string, itemName: string) => (
+        <a href={`https://foursquare.com/v/${itemId}`} rel="noopener noreferrer" target="_blank">
+            {itemName}
+        </a>
+    );
+
     return (
         <div className="list-item-wrapper">
             {isEditingMode ? (
@@ -60,7 +66,7 @@ const VenuesListItem = ({ item, isSelected, selectItem, updateItem }: ListItemPr
             ) : (
                 <>
                     <div className={itemClassName} ref={itemRef} onClick={() => selectItem(item)}>
-                        {item.name}
+                        {isSelected ? venueLink(item.id, item.name) : item.name}
                         {isSelected && (
                             <FiEdit2 className="list-item-start-edit" onClick={toggleEdit} />
                         )}

@@ -5,6 +5,7 @@ import CardWrapper from './card-wrapper';
 import EditableCell from './editable-cell';
 import BeatLoader from './beat-loader';
 import LoadingError from './loading-error';
+import ListsTable from './lists-table';
 
 export {
     FancyButton,
@@ -14,4 +15,5 @@ export {
     EditableCell,
     BeatLoader,
     LoadingError,
+    ListsTable,
 };

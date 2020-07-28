@@ -1,17 +1,12 @@
 import React, { ReactElement } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useAuth } from 'context/auth';
 import logo from 'images/logo.png';
 import './style.css';
 
 const NavigationBar = (): ReactElement => {
-    const history = useHistory();
     const { authToken, handleLogout } = useAuth();
-
-    const handleLogoClick = (): void => {
-        history.push('/');
-    };
 
     const renderNavLinks = (): ReactElement<HTMLDivElement> => {
         const className = 'nav-links';
@@ -36,7 +31,9 @@ const NavigationBar = (): ReactElement => {
     return (
         <nav>
             <div className="nav-highlight">
-                <img className="logo" onClick={handleLogoClick} src={logo} alt="carrot logo" />
+                <Link to="/">
+                    <img className="logo" src={logo} alt="carrot logo" />
+                </Link>
             </div>
             {renderNavLinks()}
         </nav>

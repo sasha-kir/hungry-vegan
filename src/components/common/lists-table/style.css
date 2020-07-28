@@ -6,6 +6,7 @@
     color: var(--main-dark);
     font-size: 16px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .responsive-table .col {
@@ -120,7 +121,7 @@
 }
 
 .responsive-table .table-row-open .toggle-icon:hover {
-    color: var(--main-light);
+    color: var(--main-green);
 }
 
 @media all and (max-width: 900px) {
