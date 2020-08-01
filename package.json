@@ -5,7 +5,7 @@
     "dependencies": {
         "axios": "0.19.2",
         "react": "16.13.1",
-        "react-animate-height": "2.0.22",
+        "react-animate-height": "2.0.23",
         "react-dom": "16.13.1",
         "react-hook-form": "6.2.0",
         "react-icons": "3.10.0",
