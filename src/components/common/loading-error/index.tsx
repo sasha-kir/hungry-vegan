@@ -5,13 +5,13 @@ import './style.css';
 
 interface LoadingErrorProps {
     illustration: string;
-    retryMethod(param?: string): void;
-    retryMethodParam?: string;
+    retryMethod(...params: string[]): void;
+    retryMethodParams?: string[];
 }
 
-const LoadingError = ({ illustration, retryMethod, retryMethodParam }: LoadingErrorProps) => {
+const LoadingError = ({ illustration, retryMethod, retryMethodParams = [] }: LoadingErrorProps) => {
     const handleClick = () => {
-        retryMethodParam ? retryMethod(retryMethodParam) : retryMethod();
+        retryMethodParams.length ? retryMethod(...retryMethodParams) : retryMethod();
     };
 
     return (

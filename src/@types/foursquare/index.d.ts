@@ -24,6 +24,7 @@ interface UserListItem {
 interface PublicList {
     id: string;
     name: string;
+    owner: string;
     location: string;
     coordinates: ListCoordinates | null;
     updatedAt: number;

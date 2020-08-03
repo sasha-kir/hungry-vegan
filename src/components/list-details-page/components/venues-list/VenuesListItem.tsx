@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FiEdit2, FiBox, FiShoppingBag, FiAlertTriangle } from 'react-icons/fi';
 import VenuesListItemInfo from './VenuesListItemInfo';
 import VenuesListItemEdit from './VenuesListItemEdit';
+import { useAuth } from 'context/auth';
+import { externalVenueLink } from 'utils/links';
 
 enum ListItemState {
     preview,
@@ -17,6 +19,7 @@ interface ListItemProps {
 }
 
 const VenuesListItem = ({ item, isSelected, selectItem, updateItem }: ListItemProps) => {
+    const { authToken } = useAuth();
     const getInitialState = useCallback(
         () => (isSelected ? ListItemState.fullInfo : ListItemState.preview),
         [isSelected],
@@ -53,12 +56,6 @@ const VenuesListItem = ({ item, isSelected, selectItem, updateItem }: ListItemPr
         updateItem(updatedItem);
     };
 
-    const venueLink = (itemId: string, itemName: string) => (
-        <a href={`https://foursquare.com/v/${itemId}`} rel="noopener noreferrer" target="_blank">
-            {itemName}
-        </a>
-    );
-
     return (
         <div className="list-item-wrapper">
             {isEditingMode ? (
@@ -66,8 +63,8 @@ const VenuesListItem = ({ item, isSelected, selectItem, updateItem }: ListItemPr
             ) : (
                 <>
                     <div className={itemClassName} ref={itemRef} onClick={() => selectItem(item)}>
-                        {isSelected ? venueLink(item.id, item.name) : item.name}
-                        {isSelected && (
+                        {isSelected ? externalVenueLink(item.id, item.name) : item.name}
+                        {authToken && isSelected && (
                             <FiEdit2 className="list-item-start-edit" onClick={toggleEdit} />
                         )}
                         <div className="list-item-tags">

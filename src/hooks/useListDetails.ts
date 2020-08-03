@@ -4,13 +4,16 @@ import { getListData, updateListItem } from 'api/lists';
 import { sortByLocation } from 'utils/location';
 
 type UpdateListItem = (item: UserListItem) => Promise<void>;
-type FetchList = (listName: string) => Promise<void>;
+type FetchList = (listOwner: string, listName: string) => Promise<void>;
 type ListDetails = {
     list: ExtendedUserList;
     status: ResponseStatus;
 };
 
-export function useListDetails(listName: string): [FetchList, UpdateListItem, ListDetails] {
+export function useListDetails(
+    listOwner: string,
+    listName: string,
+): [FetchList, UpdateListItem, ListDetails] {
     const [list, setList] = useState<ExtendedUserList>();
     const [responseStatus, setResponseStatus] = useState<ResponseStatus>(ResponseStatus.idle);
 
@@ -29,9 +32,9 @@ export function useListDetails(listName: string): [FetchList, UpdateListItem, Li
         setResponseStatus(status);
     }, []);
 
-    const fetch = useCallback(async (listName): Promise<void> => {
+    const fetch = useCallback(async (listOwner: string, listName: string): Promise<void> => {
         setResponseStatus(ResponseStatus.pending);
-        const { status, data: listDetails } = await getListData(listName);
+        const { status, data: listDetails } = await getListData(listOwner, listName);
         if (status === ResponseStatus.success && listDetails !== null) {
             const sortedItems = await sortItems(listDetails.items);
             setList({ ...listDetails, items: sortedItems });
@@ -40,8 +43,8 @@ export function useListDetails(listName: string): [FetchList, UpdateListItem, Li
     }, []);
 
     useEffect(() => {
-        fetch(listName);
-    }, [fetch, listName]);
+        fetch(listOwner, listName);
+    }, [fetch, listOwner, listName]);
 
     return [fetch, updateVenue, { status: responseStatus, list: list as ExtendedUserList }];
 }

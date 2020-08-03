@@ -13,16 +13,19 @@ import './style.css';
 
 const ListDetailsPage: React.FC = () => {
     const [selectedItem, setSelectedItem] = useState<UserListItem | null>(null);
-    const { listName } = useParams();
+    const { listOwner, listName } = useParams();
     const history = useHistory();
-    const [fetchList, updateItem, { status, list: listDetails }] = useListDetails(listName);
+    const [fetchList, updateItem, { status, list: listDetails }] = useListDetails(
+        listOwner,
+        listName,
+    );
 
     const goBack = () => {
         history.goBack();
     };
 
     const selectItem = (item: UserListItem): void => {
-        setSelectedItem(item);
+        item.id === selectedItem?.id ? setSelectedItem(null) : setSelectedItem(item);
     };
 
     const renderDetails = () => {
@@ -56,7 +59,7 @@ const ListDetailsPage: React.FC = () => {
             <LoadingError
                 illustration={errorIllustration}
                 retryMethod={fetchList}
-                retryMethodParam={listName}
+                retryMethodParams={[listOwner, listName]}
             />
         );
     };

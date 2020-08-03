@@ -1,17 +1,12 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { formatDate } from 'utils/date';
+import { instagramLink } from 'utils/links';
 
 interface ItemInfoProps {
     item: UserListItem;
 }
 
 const VenuesListItemInfo = ({ item }: ItemInfoProps) => {
-    const instagramLink = (handle: string): ReactElement<HTMLLinkElement> => (
-        <a href={`https://instagram.com/${handle}`} rel="noopener noreferrer" target="_blank">
-            {handle}
-        </a>
-    );
-
     return (
         <div className="list-item-details">
             <ul>

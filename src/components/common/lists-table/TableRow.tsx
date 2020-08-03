@@ -9,6 +9,7 @@ import { IoLogoFoursquare } from 'react-icons/io';
 import { EditableCell } from 'components/common';
 import { useAuth } from 'context/auth';
 import { formatDate } from 'utils/date';
+import { externalListLink } from 'utils/links';
 
 interface TableRowProps {
     isEditingMode: boolean;
@@ -60,8 +61,9 @@ const TableRow = ({
             : null;
     };
 
-    const foursquareUrl = `http://foursquare.com/list/${list.id}?ref=${fsqClientId}`;
-    const listUrl = `/lists/${String(list.name).toLowerCase()}`;
+    const getListUrl = () => {
+        return `${list.owner}/lists/${String(list.name).toLowerCase()}`;
+    };
 
     return (
         <div id={`row-wrapper-${listIndex}`} className="table-row-wrapper">
@@ -94,14 +96,12 @@ const TableRow = ({
                 <div className="table-row-details">
                     <div className="col link-block link-block-left" data-label="original list">
                         {!isMobile && <IoLogoFoursquare />}
-                        <a href={foursquareUrl} rel="noopener noreferrer" target="_blank">
-                            open in Foursquare
-                        </a>
+                        {externalListLink(list.id, fsqClientId, 'open in Foursquare')}
                         {isMobile && <FiExternalLink />}
                     </div>
                     <div className="col link-block link-block-right" data-label="details">
                         {!isMobile && <FiMapPin />}
-                        <Link to={listUrl}>show details</Link>
+                        <Link to={getListUrl()}>show details</Link>
                     </div>
                 </div>
             </AnimateHeight>

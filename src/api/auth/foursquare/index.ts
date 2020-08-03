@@ -1,4 +1,4 @@
-import { authApi, api, ResponseStatus, DataResponse } from 'api';
+import { publicApi, api, ResponseStatus, DataResponse } from 'api';
 
 type ConnectResponse = DataResponse<string>;
 
@@ -20,7 +20,7 @@ export const foursquareLogin = async (
     redirectUrl: string,
 ): Promise<LoginResponse> => {
     try {
-        const { data } = await authApi.post('/foursquare_login', {
+        const { data } = await publicApi.post('/foursquare_login', {
             code,
             redirectUrl,
         });

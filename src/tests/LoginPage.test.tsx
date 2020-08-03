@@ -1,5 +1,5 @@
 import React from 'react';
-import { authApi } from 'api';
+import { publicApi } from 'api';
 import { fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { renderWithRouter } from './test-utils/renderUtils';
@@ -7,13 +7,14 @@ import LoginPage from 'components/login-page';
 
 const mockHistoryPush = jest.fn();
 jest.mock('react-router-dom', () => ({
+    // @ts-ignore
     ...jest.requireActual('react-router-dom'),
     useHistory: () => ({
         push: mockHistoryPush,
     }),
 }));
 
-const apiMock = jest.spyOn(authApi, 'post');
+const apiMock = jest.spyOn(publicApi, 'post');
 
 const setup = async () => {
     const page = renderWithRouter(<LoginPage />, { route: '/login' });

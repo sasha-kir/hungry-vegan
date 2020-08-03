@@ -22,7 +22,7 @@
     height: 40px;
 }
 
-.fancy-btn:hover {
+.fancy-btn:hover, .fancy-btn:focus {
     background-color: var(--main-green);
     color: var(--main-light);
 }

@@ -1,4 +1,4 @@
-import { api, ResponseStatus, DataResponse } from 'api';
+import { publicApi, api, ResponseStatus, DataResponse } from 'api';
 
 type ListsResponse = DataResponse<UserList[]>;
 type PublicListsResponse = DataResponse<PublicList[]>;
@@ -20,7 +20,7 @@ export const getUserLists = async (): Promise<ListsResponse> => {
 
 export const getPublicLists = async (): Promise<PublicListsResponse> => {
     try {
-        const { data } = await api.get('/public_lists');
+        const { data } = await publicApi.get('/public_lists');
         return { status: ResponseStatus.success, data: data.data };
     } catch (error) {
         switch (error.response?.status) {
@@ -32,9 +32,9 @@ export const getPublicLists = async (): Promise<PublicListsResponse> => {
     }
 };
 
-export const getListData = async (listName: string): Promise<ListResponse> => {
+export const getListData = async (owner: string, listName: string): Promise<ListResponse> => {
     try {
-        const { data } = await api.post('/list_data', { listName });
+        const { data } = await publicApi.post('/public_list_data', { owner, listName });
         return { status: ResponseStatus.success, data: data.data };
     } catch (error) {
         return { status: ResponseStatus.error, data: null };

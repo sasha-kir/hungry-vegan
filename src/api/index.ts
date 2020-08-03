@@ -15,7 +15,7 @@ export type DataResponse<T> = {
     data: T | null;
 };
 
-export const authApi = axios.create({
+export const publicApi = axios.create({
     baseURL: config.apiUrl,
 });
 

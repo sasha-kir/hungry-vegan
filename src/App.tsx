@@ -27,6 +27,9 @@ const App: React.FC = () => {
                         <Route exact path="/">
                             <PublicHomePage />
                         </Route>
+                        <Route exact path="/:listOwner/lists/:listName">
+                            <ListDetailsPage />
+                        </Route>
                         <Route exact path="/login">
                             <LoginPage />
                         </Route>
@@ -38,9 +41,6 @@ const App: React.FC = () => {
                         </PrivateRoute>
                         <PrivateRoute exact path="/profile">
                             <ProfilePage />
-                        </PrivateRoute>
-                        <PrivateRoute path="/lists/:listName">
-                            <ListDetailsPage />
                         </PrivateRoute>
                         <Route exact path={['/fsq-login', ...Object.values(fsqPaths)]}>
                             <FsqAuthPage />
