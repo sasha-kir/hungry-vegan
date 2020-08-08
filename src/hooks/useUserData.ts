@@ -1,15 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
-import { ResponseStatus } from 'api';
-import { ExtendedUserData, getUser, updateUser, getUserLocation } from 'api/user';
+import { useState, useEffect } from 'react';
+import { useQuery, useMutation, queryCache, QueryStatus } from 'react-query';
+
+import { UserData, ExtendedUserData, getUser, updateUser, getUserLocation } from 'api/user';
 import { useAuth } from 'context/auth';
 
-type UpdateUser = (user: ExtendedUserData) => Promise<void>;
-type FetchUser = () => Promise<void>;
-type UserDetails = {
-    userInfo: ExtendedUserData;
-    isEmailEmpty: boolean;
-    responseStatus: ResponseStatus;
+type UpdateUser = (user: ExtendedUserData) => Promise<UserData | undefined>;
+type UserInfo = {
+    data?: ExtendedUserData;
+    status: QueryStatus;
+    refetch(): void;
 };
 
 const defaultInfo: ExtendedUserData = {
@@ -20,46 +19,67 @@ const defaultInfo: ExtendedUserData = {
     location: '',
 };
 
-export function useUserData(): [UpdateUser, FetchUser, UserDetails] {
-    const [userInfo, setUserInfo] = useState<ExtendedUserData>(defaultInfo);
-    const [responseStatus, setResponseStatus] = useState<ResponseStatus>(ResponseStatus.idle);
-    const [isEmailEmpty, setEmailEmpty] = useState<boolean>(false);
-    const location = useLocation();
+const useUserInfo = () => {
+    const fetchData = async (): Promise<ExtendedUserData | undefined> => {
+        const user = await getUser();
+        if (!user) {
+            return undefined;
+        }
+
+        const locationData = await getUserLocation();
+        let userInfo: ExtendedUserData = { ...user };
+        if (locationData) {
+            userInfo = { ...userInfo, location: locationData || '' };
+        }
+
+        return userInfo;
+    };
+
+    return useQuery('userData', fetchData);
+};
+
+const useUpdateUser = () => {
     const { handleAuth } = useAuth();
 
-    const fetch = useCallback(async (): Promise<void> => {
-        setResponseStatus(ResponseStatus.pending);
-        const { status, data: user } = await getUser();
-        const { status: locationStatus, data: location } = await getUserLocation();
-        if (status === ResponseStatus.success && user !== null) {
-            let userData: ExtendedUserData = { ...user };
-            if (locationStatus === ResponseStatus.success && location !== null) {
-                userData = { ...userData, location };
-            }
-            setUserInfo((u) => ({ ...u, ...userData }));
+    const update = async (updatedUserInfo: ExtendedUserData): Promise<UserData | undefined> => {
+        const { token, data: user } = await updateUser(updatedUserInfo);
+        if (!token || !user) {
+            return undefined;
         }
-        setResponseStatus(status);
-    }, []);
+        handleAuth(token);
+        return user;
+    };
 
-    const update = useCallback(
-        async (updatedUserInfo: ExtendedUserData): Promise<void> => {
-            setResponseStatus(ResponseStatus.pending);
-            const { status, token, data: user } = await updateUser(updatedUserInfo);
-            if (status === ResponseStatus.success && token !== null && user !== null) {
-                handleAuth(token);
-                setUserInfo((u) => ({ ...u, ...user }));
-            }
-            setResponseStatus(status);
+    return useMutation(update, {
+        onSuccess: (data) => {
+            queryCache.setQueryData('userData', (current: ExtendedUserData | undefined) => {
+                const user = current ? current : defaultInfo;
+                return data ? { ...user, ...data } : user;
+            });
         },
-        [handleAuth],
-    );
+    });
+};
+
+export function useUserData(): [UpdateUser, UserInfo] {
+    const [status, setStatus] = useState<QueryStatus>(QueryStatus.Idle);
+
+    const { data, status: queryStatus, refetch } = useUserInfo();
+    const [updateData, { status: mutationStatus }] = useUpdateUser();
 
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const emptyEmail = Boolean(searchParams.get('empty_email'));
-        setEmailEmpty(emptyEmail);
-        fetch();
-    }, [fetch, location.search]);
+        if (queryStatus === QueryStatus.Loading || mutationStatus === QueryStatus.Loading) {
+            setStatus(QueryStatus.Loading);
+            return;
+        }
+        if (queryStatus === QueryStatus.Error || mutationStatus === QueryStatus.Error) {
+            setStatus(QueryStatus.Error);
+            return;
+        }
+        if (queryStatus === QueryStatus.Success || mutationStatus === QueryStatus.Success) {
+            setStatus(QueryStatus.Success);
+            return;
+        }
+    }, [queryStatus, mutationStatus]);
 
-    return [update, fetch, { userInfo, isEmailEmpty, responseStatus }];
+    return [updateData, { data, status, refetch }];
 }

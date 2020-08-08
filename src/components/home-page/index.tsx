@@ -1,15 +1,15 @@
 import React, { ReactElement } from 'react';
 
-import { ResponseStatus } from 'api';
 import { useLists } from 'hooks/useLists';
 import { useAuth } from 'context/auth';
 import { FoursquareButton, CardWrapper, LoadingError, ListsTable } from 'components/common';
 import listsPlaceholder from 'images/checklist.svg';
 import './style.css';
+import { QueryStatus } from 'react-query';
 
 const HomePage: React.FC = () => {
     const { foursquarePaths } = useAuth();
-    const [fetchLists, updateLists, { lists, status }] = useLists();
+    const [updateLists, { data: lists, status, refetch }] = useLists();
 
     const renderFoursquareAuth = (): ReactElement => {
         return (
@@ -41,7 +41,7 @@ const HomePage: React.FC = () => {
     const renderError = (): ReactElement => {
         return (
             <CardWrapper className="error-wrapper">
-                <LoadingError illustration={listsPlaceholder} retryMethod={fetchLists} />
+                <LoadingError illustration={listsPlaceholder} retryMethod={refetch} />
             </CardWrapper>
         );
     };
@@ -49,10 +49,10 @@ const HomePage: React.FC = () => {
     return (
         <div className="page-wrapper home-page-wrapper">
             <div className="home-page-content">
-                {status === ResponseStatus.pending && renderLoading()}
-                {status === ResponseStatus.success && renderLists()}
-                {status === ResponseStatus.rejected && renderFoursquareAuth()}
-                {status === ResponseStatus.error && renderError()}
+                {status === QueryStatus.Loading && renderLoading()}
+                {status === QueryStatus.Success && renderLists()}
+                {status === 'rejected' && renderFoursquareAuth()}
+                {status === QueryStatus.Error && renderError()}
             </div>
         </div>
     );

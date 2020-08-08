@@ -15,12 +15,12 @@ const FoursquareButton = ({
     className,
     style,
 }: FsqButtonProps): ReactElement<HTMLButtonElement> => {
-    const clientId = useFoursquareClientId();
+    const { data: clientId } = useFoursquareClientId();
     const foursquareUrl = 'https://foursquare.com/oauth2/authenticate';
     const redirectUrl: string = config.baseUrl + redirectPath;
 
     const authUrl = new URL(foursquareUrl);
-    authUrl.searchParams.append('client_id', clientId);
+    authUrl.searchParams.append('client_id', clientId || '');
     authUrl.searchParams.append('response_type', 'code');
     authUrl.searchParams.append('redirect_uri', redirectUrl);
 

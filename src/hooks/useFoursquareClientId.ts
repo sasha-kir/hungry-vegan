@@ -1,20 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
 import AuthApi from 'api/auth';
 
-export function useFoursquareClientId(): string {
-    const initialClientId = () => localStorage.getItem('clientId') || '';
-    const [clientId, setClientId] = useState<string>(initialClientId);
+export function useFoursquareClientId() {
+    const fetchData = async (): Promise<string> => {
+        let clientId = localStorage.getItem('clientId') || '';
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const clientId = await AuthApi.getClientId();
-            localStorage.setItem('clientId', clientId);
-            setClientId(clientId);
-        };
         if (!clientId) {
-            fetchData();
+            clientId = await AuthApi.getClientId();
+            localStorage.setItem('clientId', clientId);
         }
-    }, [clientId]);
+        return clientId;
+    };
 
-    return clientId;
+    return useQuery('foursquareClientId', fetchData, { retry: 3 });
 }

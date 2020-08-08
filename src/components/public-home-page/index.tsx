@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Redirect } from 'react-router-dom';
+import { QueryStatus } from 'react-query';
 
-import { ResponseStatus } from 'api';
 import { useAuth } from 'context/auth';
 import { usePublicLists } from 'hooks/usePublicLists';
 import { CardWrapper, LoadingError, ListsTable } from 'components/common';
@@ -10,7 +10,7 @@ import './style.css';
 
 const PublicHomePage = (): ReactElement => {
     const { authToken } = useAuth();
-    const [fetchLists, { lists, status }] = usePublicLists();
+    const { data: lists, status, refetch } = usePublicLists();
 
     if (authToken !== null) {
         return <Redirect to="/home" />;
@@ -43,7 +43,7 @@ const PublicHomePage = (): ReactElement => {
     const renderError = (): ReactElement => {
         return (
             <CardWrapper className="error-wrapper">
-                <LoadingError illustration={listsPlaceholder} retryMethod={fetchLists} />
+                <LoadingError illustration={listsPlaceholder} retryMethod={refetch} />
             </CardWrapper>
         );
     };
@@ -51,10 +51,10 @@ const PublicHomePage = (): ReactElement => {
     return (
         <div className="page-wrapper home-page-wrapper">
             <div className="home-page-content">
-                {status === ResponseStatus.idle && renderDefault()}
-                {status === ResponseStatus.pending && renderLoading()}
-                {status === ResponseStatus.success && renderLists()}
-                {status === ResponseStatus.error && renderError()}
+                {status === QueryStatus.Idle && renderDefault()}
+                {status === QueryStatus.Loading && renderLoading()}
+                {status === QueryStatus.Success && renderLists()}
+                {status === QueryStatus.Error && renderError()}
             </div>
         </div>
     );

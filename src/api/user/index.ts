@@ -1,4 +1,4 @@
-import { api, ResponseStatus, DataResponse } from 'api';
+import { api } from 'api';
 import { fetchUserLocation } from 'utils/location';
 
 export interface UserData {
@@ -10,36 +10,23 @@ export interface UserData {
 
 export type ExtendedUserData = UserData & { location?: string };
 
-type UserDataResponse = DataResponse<UserData>;
-type UserLocationResponse = DataResponse<string>;
-interface UpdatedUserResponse extends UserDataResponse {
-    token: string | null;
+interface UpdatedUserResponse {
+    data: UserData | undefined;
+    token: string | undefined;
 }
 
-export const getUser = async (): Promise<UserDataResponse> => {
-    try {
-        const { data } = await api.get('/user_data');
-        return { status: ResponseStatus.success, data: data.user };
-    } catch (error) {
-        return { status: ResponseStatus.error, data: null };
-    }
+export const getUser = async (): Promise<UserData | undefined> => {
+    const { data } = await api.get('/user_data');
+    return data?.user;
 };
 
-export const getUserLocation = async (): Promise<UserLocationResponse> => {
-    try {
-        const coords = await fetchUserLocation();
-        const { data } = await api.post('/user_location', coords);
-        return { status: ResponseStatus.success, data: data.location };
-    } catch (error) {
-        return { status: ResponseStatus.error, data: null };
-    }
+export const getUserLocation = async (): Promise<string | undefined> => {
+    const coords = await fetchUserLocation();
+    const { data } = await api.post('/user_location', coords);
+    return data?.location;
 };
 
 export const updateUser = async (userData: UserData): Promise<UpdatedUserResponse> => {
-    try {
-        const { data } = await api.post('/update_user', userData);
-        return { status: ResponseStatus.success, data: data.user, token: data.token };
-    } catch (error) {
-        return { status: ResponseStatus.error, data: null, token: null };
-    }
+    const { data } = await api.post('/update_user', userData);
+    return { data: data?.user, token: data?.token };
 };

@@ -1,54 +1,85 @@
-import { useState, useEffect, useCallback } from 'react';
-import { ResponseStatus } from 'api';
-import { getUserLists, updateUserLists } from 'api/lists';
+import { useState, useEffect } from 'react';
+import { useQuery, useMutation, queryCache, QueryStatus } from 'react-query';
+import { getUserLists, updateUserLists, ListsQueryResponse } from 'api/lists';
 import { sortByLocation } from 'utils/location';
 
-type UpdateLists = (lists: UserList[]) => Promise<void>;
-type FetchLists = () => Promise<void>;
-type ListsData = {
-    lists: UserList[];
-    status: ResponseStatus;
+type ListsStatus = QueryStatus | 'rejected';
+
+type UpdateLists = (lists: UserList[]) => Promise<UserList[] | undefined>;
+type ListsInfo = {
+    data?: UserList[];
+    status: ListsStatus;
+    refetch(): void;
 };
 
-export function useLists(): [FetchLists, UpdateLists, ListsData] {
-    const [lists, setLists] = useState<UserList[]>([]);
-    const [responseStatus, setResponseStatus] = useState<ResponseStatus>(ResponseStatus.idle);
+const partitionLists = async (userLists: UserList[]): Promise<UserList[]> => {
+    const [noLocation, withLocation] = userLists.reduce(
+        (res: UserList[][], list) => {
+            list.coordinates === null ? res[0].push(list) : res[1].push(list);
+            return res;
+        },
+        [[], []],
+    );
+    const sortedLists = await sortByLocation(withLocation as ListWithCoordinates[]);
+    return [...sortedLists, ...noLocation];
+};
 
-    const partitionLists = async (userLists: UserList[]): Promise<UserList[]> => {
-        const [noLocation, withLocation] = userLists.reduce(
-            (res: UserList[][], list) => {
-                list.coordinates === null ? res[0].push(list) : res[1].push(list);
-                return res;
-            },
-            [[], []],
-        );
-        const sortedLists = await sortByLocation(withLocation as ListWithCoordinates[]);
-        return [...sortedLists, ...noLocation];
+const useListsData = () => {
+    const fetchData = async (): Promise<ListsQueryResponse> => {
+        const { rejected, data: userLists } = await getUserLists();
+        if (!userLists) {
+            return { rejected, data: [] };
+        }
+        const partitionedLists = await partitionLists(userLists);
+        return { rejected, data: partitionedLists };
     };
 
-    const update = useCallback(async (lists: UserList[]) => {
-        setResponseStatus(ResponseStatus.pending);
-        const { status, data: userLists } = await updateUserLists(lists);
-        if (status === ResponseStatus.success && userLists !== null) {
-            const partitionedLists = await partitionLists(userLists);
-            setLists(partitionedLists);
-        }
-        setResponseStatus(status);
-    }, []);
+    return useQuery('userLists', fetchData);
+};
 
-    const fetch = useCallback(async (): Promise<void> => {
-        setResponseStatus(ResponseStatus.pending);
-        const { status, data: userLists } = await getUserLists();
-        if (status === ResponseStatus.success && userLists !== null) {
-            const partitionedLists = await partitionLists(userLists);
-            setLists(partitionedLists);
+const useUpdateLists = () => {
+    const updateLists = async (lists: UserList[]): Promise<UserList[]> => {
+        const userLists = await updateUserLists(lists);
+        if (!userLists) {
+            return [];
         }
-        setResponseStatus(status);
-    }, []);
+        const partitionedLists = await partitionLists(userLists);
+        return partitionedLists;
+    };
+
+    return useMutation(updateLists, {
+        onSuccess: (data) => {
+            queryCache.setQueryData('userLists', { rejected: false, data });
+        },
+    });
+};
+
+export function useLists(): [UpdateLists, ListsInfo] {
+    const [status, setStatus] = useState<ListsStatus>(QueryStatus.Idle);
+
+    const { data, status: queryStatus, refetch } = useListsData();
+    const [updateLists, { status: mutationStatus }] = useUpdateLists();
+
+    const rejected = data?.rejected || false;
 
     useEffect(() => {
-        fetch();
-    }, [fetch]);
+        if (queryStatus === QueryStatus.Loading || mutationStatus === QueryStatus.Loading) {
+            setStatus(QueryStatus.Loading);
+            return;
+        }
+        if (queryStatus === QueryStatus.Error || mutationStatus === QueryStatus.Error) {
+            setStatus(QueryStatus.Error);
+            return;
+        }
+        if (rejected) {
+            setStatus('rejected');
+            return;
+        }
+        if (queryStatus === QueryStatus.Success || mutationStatus === QueryStatus.Success) {
+            setStatus(QueryStatus.Success);
+            return;
+        }
+    }, [queryStatus, mutationStatus, rejected]);
 
-    return [fetch, update, { status: responseStatus, lists }];
+    return [updateLists, { data: data?.data, status, refetch }];
 }

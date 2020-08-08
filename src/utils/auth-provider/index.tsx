@@ -1,4 +1,5 @@
 import React, { useState, ReactNode } from 'react';
+import { queryCache } from 'react-query';
 import { AuthContext } from 'context/auth';
 import { api } from 'api';
 
@@ -19,6 +20,8 @@ const AuthProvider = ({ children, foursquarePaths }: AuthProviderProps) => {
     const handleLogout = (): void => {
         localStorage.removeItem('token');
         setAuthToken(null);
+        queryCache.removeQueries('userLists');
+        queryCache.removeQueries('userData');
     };
 
     api.interceptors.request.use((request) => {

@@ -17,9 +17,9 @@ export function useListDataQuery({ listOwner, listName }: ListIdentifier) {
         _key: string,
         { listOwner, listName }: ListIdentifier,
     ): Promise<UserList | null> => {
-        const { data: listDetails } = await getListData(listOwner, listName);
+        const listDetails = await getListData(listOwner, listName);
 
-        if (listDetails === null) {
+        if (!listDetails) {
             return null;
         }
 
@@ -31,9 +31,9 @@ export function useListDataQuery({ listOwner, listName }: ListIdentifier) {
 }
 
 export const useListItemMutation = () => {
-    const updateItem = async (itemDetails: UserListItem) => {
-        const { data: listDetails } = await updateListItem(itemDetails);
-        if (listDetails === null) {
+    const updateItem = async (itemDetails: UserListItem): Promise<UserList | null> => {
+        const listDetails = await updateListItem(itemDetails);
+        if (!listDetails) {
             return null;
         }
         const sortedItems = await sortItems(listDetails.items);

@@ -5,15 +5,15 @@ import { useFoursquareClientId } from 'hooks/useFoursquareClientId';
 import './style.css';
 
 interface ListsTableProps {
-    lists: PublicList[];
-    updateLists?(lists: PublicList[]): Promise<void>;
+    lists?: PublicList[];
+    updateLists?(lists: UserList[]): Promise<UserList[] | undefined>;
 }
 
 const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLUListElement> => {
-    const initialLocations = lists.map((l) => l.location);
+    const initialLocations = lists ? lists.map((l) => l?.location) : [];
     const [locations, setLocations] = useState<string[]>(initialLocations);
     const [isEditingMode, setEditingMode] = useState<boolean>(false);
-    const fsqClientId = useFoursquareClientId();
+    const { data: fsqClientId } = useFoursquareClientId();
 
     const recordCellData = (rowIndex, value): void => {
         setLocations((currentLocations) =>
@@ -29,19 +29,19 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
     };
 
     const saveEdit = (): void => {
-        if (updateLists) {
+        if (lists && updateLists) {
             if (!locations.every((location, index) => initialLocations[index] === location)) {
                 const listsForUpdate = lists.map((list, index) => ({
                     ...list,
                     location: locations[index],
                 }));
-                updateLists(listsForUpdate);
+                updateLists(listsForUpdate as UserList[]);
             }
             setEditingMode(false);
         }
     };
 
-    if (lists.length === 0) {
+    if (!lists?.length) {
         return <p style={{ color: 'black', textAlign: 'center' }}>No lists yet</p>;
     }
 
@@ -57,7 +57,7 @@ const ListsTable = ({ lists, updateLists }: ListsTableProps): ReactElement<HTMLU
                         listIndex={index}
                         location={locations[index]}
                         recordData={recordCellData}
-                        fsqClientId={fsqClientId}
+                        fsqClientId={fsqClientId || ''}
                     />
                 );
             })}
