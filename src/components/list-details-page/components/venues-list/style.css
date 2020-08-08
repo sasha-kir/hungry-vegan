@@ -1,3 +1,7 @@
+.venues-list-container {
+    position: relative;
+}
+
 .venues-list {
     height: calc(var(--list-container-height) - 50px);
     overflow-y: scroll;
@@ -13,6 +17,7 @@
 
 .venues-list .list-item {
     display: flex;
+    position: relative;
     justify-content: space-between;
     background-color: var(--main-light);
     padding: 15px;
@@ -23,14 +28,15 @@
     margin-top: 0;
 }
 
-.venues-list .list-item.is-active,
-.venues-list .list-item-details,
-.venues-list .list-item-edit {
-    border: 3px solid var(--main-green);
-    padding: 12px;
+.venues-list .list-item-error {
+    display: flex;
+    border: 3px solid var(--error);
+    padding: 15px;
 }
 
 .venues-list .list-item.is-active {
+    border: 3px solid var(--main-green);
+    padding: 12px;
     border-bottom: 0;
     font-weight: bold;
     cursor: initial;
@@ -38,6 +44,8 @@
 
 .venues-list .list-item-details,
 .venues-list .list-item-edit {
+    border: 3px solid var(--main-green);
+    padding: 12px;
     min-height: 100px;
     border-top: 0;
 }
@@ -66,15 +74,36 @@
     letter-spacing: initial;
 }
 
+/* icons with tooltip */
 .venues-list .list-item-tags {
     display: flex;
     align-self: center;
 }
 
-.venues-list .list-item-tags svg {
+.venues-list .list-item-icon {
     padding: 0 3px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
+.venues-list .list-item-icon:hover ~ .tooltip {
+    display: block;
+}
+
+.venues-list .list-item-wrapper:last-child .list-item-icon:hover ~ .tooltip {
+    top: auto !important;
+    bottom: 0px !important;
+}
+
+.venues-list .list-item-icon.positive {
+    color: var(--main-green);
+}
+
+.venues-list .list-item-icon.negative {
+    color: var(--main-dark);
+}
+
+/* editing actions icons */
 .venues-list .list-item-start-edit,
 .venues-list .list-item-stop-edit {
     color: var(--main-dark);
@@ -108,18 +137,7 @@
     padding: 0 20px;
 }
 
-.venues-list .list-item-tags svg {
-    font-size: 20px;
-}
-
-.venues-list .list-item-tags .positive {
-    color: var(--main-green);
-}
-
-.venues-list .list-item-tags .negative {
-    color: var(--main-dark);
-}
-
+/* editing view */
 .venues-list .list-item-edit .form-input-wrapper {
     height: auto;
     display: grid;

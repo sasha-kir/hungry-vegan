@@ -5,20 +5,15 @@ import './style.css';
 
 interface LoadingErrorProps {
     illustration: string;
-    retryMethod(...params: string[]): void;
-    retryMethodParams?: string[];
+    retryMethod(): void;
 }
 
-const LoadingError = ({ illustration, retryMethod, retryMethodParams = [] }: LoadingErrorProps) => {
-    const handleClick = () => {
-        retryMethodParams.length ? retryMethod(...retryMethodParams) : retryMethod();
-    };
-
+const LoadingError = ({ illustration, retryMethod }: LoadingErrorProps) => {
     return (
         <div className="loading-error">
             <img src={illustration} alt="grey error illustration" />
             <div className="error-message">Something went wrong!</div>
-            <FancyButton styleType="small" onClick={handleClick}>
+            <FancyButton styleType="small" onClick={retryMethod}>
                 retry
             </FancyButton>
         </div>

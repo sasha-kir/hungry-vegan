@@ -4,8 +4,8 @@ import { Map, Placemark, ZoomControl } from 'react-yandex-maps';
 import './style.css';
 
 interface MapProps {
-    listLocation: ListCoordinates | null;
-    listItems: UserListItem[];
+    listLocation?: ListCoordinates | null;
+    listItems?: UserListItem[];
     currentSelection: UserListItem | null;
     selectItem(item: UserListItem): void;
 }
@@ -21,12 +21,12 @@ const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: Ma
 
     const shouldZoom = currentSelection === null ? false : true;
 
-    let mapCoords: [number, number];
+    let mapCoords: [number, number] = [0, 0];
     if (currentSelection) {
         mapCoords = formatCoords(currentSelection.coordinates);
     } else if (listLocation) {
         mapCoords = formatCoords(listLocation);
-    } else {
+    } else if (listItems?.length) {
         mapCoords = formatCoords(listItems[0].coordinates);
     }
 
@@ -65,7 +65,7 @@ const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: Ma
                     },
                 }}
             />
-            {listItems.map((item) => renderPlacemark(item))}
+            {listItems && listItems.map((item) => renderPlacemark(item))}
         </Map>
     );
 };

@@ -33,12 +33,8 @@ export const getPublicLists = async (): Promise<PublicListsResponse> => {
 };
 
 export const getListData = async (owner: string, listName: string): Promise<ListResponse> => {
-    try {
-        const { data } = await publicApi.post('/public_list_data', { owner, listName });
-        return { status: ResponseStatus.success, data: data.data };
-    } catch (error) {
-        return { status: ResponseStatus.error, data: null };
-    }
+    const { data } = await publicApi.post('/public_list_data', { owner, listName });
+    return { status: ResponseStatus.success, data: data.data };
 };
 
 export const updateUserLists = async (lists: UserList[]): Promise<ListsResponse> => {
@@ -51,10 +47,6 @@ export const updateUserLists = async (lists: UserList[]): Promise<ListsResponse>
 };
 
 export const updateListItem = async (venueDetails: UserListItem): Promise<ListResponse> => {
-    try {
-        const { data } = await api.post('/update_venue_details', { ...venueDetails });
-        return { status: ResponseStatus.success, data: data.data };
-    } catch (error) {
-        return { status: ResponseStatus.error, data: null };
-    }
+    const { data } = await api.post('/update_venue_details', { ...venueDetails });
+    return { status: ResponseStatus.success, data: data.data };
 };

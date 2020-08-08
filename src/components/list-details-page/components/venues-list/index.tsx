@@ -1,29 +1,33 @@
 import React from 'react';
-import VenuesListItem from './VenuesListItem';
+import VenuesListItem from './venues-list-item';
 import './style.css';
 
 interface VenuesListProps {
-    listItems: UserListItem[];
+    listItems?: UserListItem[];
     currentSelection: UserListItem | null;
-    selectItem(item: UserListItem): void;
-    updateItem(item: UserListItem): void;
+    selectItem(item: UserListItem | null): void;
 }
 
-const VenuesList = ({ listItems, selectItem, updateItem, currentSelection }: VenuesListProps) => {
+const VenuesList = ({ listItems, selectItem, currentSelection }: VenuesListProps) => {
     return (
-        <div className="venues-list">
-            {listItems.map((item) => {
-                const isSelected = currentSelection?.id === item.id;
-                return (
-                    <VenuesListItem
-                        key={item.id}
-                        item={item}
-                        isSelected={isSelected}
-                        selectItem={selectItem}
-                        updateItem={updateItem}
-                    />
-                );
-            })}
+        <div className="venues-list-container">
+            <div className="venues-list">
+                {listItems?.length ? (
+                    listItems.map((item) => {
+                        const isSelected = currentSelection?.id === item.id;
+                        return (
+                            <VenuesListItem
+                                key={item.id}
+                                item={item}
+                                isSelected={isSelected}
+                                selectItem={selectItem}
+                            />
+                        );
+                    })
+                ) : (
+                    <div>No items on this list yet</div>
+                )}
+            </div>
         </div>
     );
 };

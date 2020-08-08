@@ -38,7 +38,7 @@ const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
     };
 
     const handleToggle = () => {
-        setValue(name, !props.checked);
+        setValue(name, !value);
     };
 
     const inputAttributes = {
@@ -53,7 +53,7 @@ const FormInput = (props: FormInputProps): ReactElement<HTMLDivElement> => {
     }
 
     if (type === 'checkbox') {
-        inputAttributes['checked'] = props.checked;
+        inputAttributes['checked'] = value;
     }
 
     return (

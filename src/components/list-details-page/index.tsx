@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { QueryStatus } from 'react-query';
 import { YMaps } from 'react-yandex-maps';
 import { FiArrowLeft } from 'react-icons/fi';
-import { ResponseStatus } from 'api';
 import { CardWrapper, BeatLoader, LoadingError } from 'components/common';
-import { useListDetails } from 'hooks/useListDetails';
+import { useListDataQuery } from 'hooks/useListDetails';
 import VenuesList from './components/venues-list';
 import VenuesMap from './components/venues-map';
 
@@ -15,17 +15,15 @@ const ListDetailsPage: React.FC = () => {
     const [selectedItem, setSelectedItem] = useState<UserListItem | null>(null);
     const { listOwner, listName } = useParams();
     const history = useHistory();
-    const [fetchList, updateItem, { status, list: listDetails }] = useListDetails(
-        listOwner,
-        listName,
-    );
+
+    const { status, data: listDetails, refetch } = useListDataQuery({ listOwner, listName });
 
     const goBack = () => {
         history.goBack();
     };
 
-    const selectItem = (item: UserListItem): void => {
-        item.id === selectedItem?.id ? setSelectedItem(null) : setSelectedItem(item);
+    const selectItem = (item: UserListItem | null): void => {
+        setSelectedItem(item);
     };
 
     const renderDetails = () => {
@@ -41,7 +39,6 @@ const ListDetailsPage: React.FC = () => {
                         listItems={listDetails?.items}
                         selectItem={selectItem}
                         currentSelection={selectedItem}
-                        updateItem={updateItem}
                     />
                     <VenuesMap
                         listLocation={listDetails?.coordinates}
@@ -55,22 +52,16 @@ const ListDetailsPage: React.FC = () => {
     };
 
     const renderError = () => {
-        return (
-            <LoadingError
-                illustration={errorIllustration}
-                retryMethod={fetchList}
-                retryMethodParams={[listOwner, listName]}
-            />
-        );
+        return <LoadingError illustration={errorIllustration} retryMethod={refetch} />;
     };
 
     return (
         <YMaps query={{ lang: 'en_RU' }} preload>
             <div className="page-wrapper list-page-wrapper">
                 <CardWrapper className="list-container-wrapper">
-                    <BeatLoader flag={status === ResponseStatus.pending} />
-                    {status === ResponseStatus.success && renderDetails()}
-                    {status === ResponseStatus.error && renderError()}
+                    <BeatLoader flag={status === QueryStatus.Loading} />
+                    {status === QueryStatus.Success && renderDetails()}
+                    {status === QueryStatus.Error && renderError()}
                 </CardWrapper>
             </div>
         </YMaps>

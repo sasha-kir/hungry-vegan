@@ -1,50 +1,51 @@
-import { useState, useEffect, useCallback } from 'react';
-import { ResponseStatus } from 'api';
+import { useQuery, useMutation, queryCache } from 'react-query';
 import { getListData, updateListItem } from 'api/lists';
 import { sortByLocation } from 'utils/location';
 
-type UpdateListItem = (item: UserListItem) => Promise<void>;
-type FetchList = (listOwner: string, listName: string) => Promise<void>;
-type ListDetails = {
-    list: ExtendedUserList;
-    status: ResponseStatus;
+interface ListIdentifier {
+    listOwner: string;
+    listName: string;
+}
+
+const sortItems = async (items: UserListItem[]): Promise<UserListItem[]> => {
+    const sorted = await sortByLocation(items);
+    return sorted;
 };
 
-export function useListDetails(
-    listOwner: string,
-    listName: string,
-): [FetchList, UpdateListItem, ListDetails] {
-    const [list, setList] = useState<ExtendedUserList>();
-    const [responseStatus, setResponseStatus] = useState<ResponseStatus>(ResponseStatus.idle);
+export function useListDataQuery({ listOwner, listName }: ListIdentifier) {
+    const fetchListData = async (
+        _key: string,
+        { listOwner, listName }: ListIdentifier,
+    ): Promise<UserList | null> => {
+        const { data: listDetails } = await getListData(listOwner, listName);
 
-    const sortItems = async (items: UserListItem[]): Promise<UserListItem[]> => {
-        const sorted = await sortByLocation(items);
-        return sorted;
+        if (listDetails === null) {
+            return null;
+        }
+
+        const sortedItems = await sortItems(listDetails.items);
+        return { ...listDetails, items: sortedItems };
     };
 
-    const updateVenue = useCallback(async (venueDetails: UserListItem) => {
-        setResponseStatus(ResponseStatus.pending);
-        const { status, data: listDetails } = await updateListItem(venueDetails);
-        if (status === ResponseStatus.success && listDetails !== null) {
-            const sortedItems = await sortItems(listDetails.items);
-            setList({ ...listDetails, items: sortedItems });
-        }
-        setResponseStatus(status);
-    }, []);
-
-    const fetch = useCallback(async (listOwner: string, listName: string): Promise<void> => {
-        setResponseStatus(ResponseStatus.pending);
-        const { status, data: listDetails } = await getListData(listOwner, listName);
-        if (status === ResponseStatus.success && listDetails !== null) {
-            const sortedItems = await sortItems(listDetails.items);
-            setList({ ...listDetails, items: sortedItems });
-        }
-        setResponseStatus(status);
-    }, []);
-
-    useEffect(() => {
-        fetch(listOwner, listName);
-    }, [fetch, listOwner, listName]);
-
-    return [fetch, updateVenue, { status: responseStatus, list: list as ExtendedUserList }];
+    return useQuery(['listDetails', { listOwner, listName }], fetchListData);
 }
+
+export const useListItemMutation = () => {
+    const updateItem = async (itemDetails: UserListItem) => {
+        const { data: listDetails } = await updateListItem(itemDetails);
+        if (listDetails === null) {
+            return null;
+        }
+        const sortedItems = await sortItems(listDetails.items);
+        return { ...listDetails, items: sortedItems };
+    };
+
+    return useMutation(updateItem, {
+        onSuccess: (data) => {
+            queryCache.setQueryData(
+                ['listDetails', { listOwner: data?.owner, listName: data?.name }],
+                data,
+            );
+        },
+    });
+};

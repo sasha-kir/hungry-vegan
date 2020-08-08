@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { FiInfo, FiEdit2, FiSave } from 'react-icons/fi';
 import { useAuth } from 'context/auth';
+import { Tooltip } from 'components/common';
 
 interface TableHeaderProps {
     isEditingMode: boolean;
@@ -24,7 +25,9 @@ const TableHeader = ({ isEditingMode, startEdit, saveEdit }: TableHeaderProps): 
             <div className="col-1 col-with-icon">
                 <div className="col">List</div>
                 <FiInfo className="table-icon" />
-                <div className="tooltip">sorted by closest to your location</div>
+                <Tooltip top="2px" left="130px">
+                    sorted by closest to your location
+                </Tooltip>
             </div>
             <div className="col-2 col-with-icon">
                 <div className="col">Location</div>

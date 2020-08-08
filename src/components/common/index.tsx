@@ -6,6 +6,7 @@ import EditableCell from './editable-cell';
 import BeatLoader from './beat-loader';
 import LoadingError from './loading-error';
 import ListsTable from './lists-table';
+import Tooltip from './tooltip';
 
 export {
     FancyButton,
@@ -16,4 +17,5 @@ export {
     BeatLoader,
     LoadingError,
     ListsTable,
+    Tooltip,
 };

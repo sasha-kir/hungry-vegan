@@ -5,7 +5,7 @@ import { FormInput } from 'components/common';
 
 interface EditItemProps {
     item: UserListItem;
-    toggleEdit(): void;
+    toggleEdit(e): void;
     saveEdit(item: UserListItem): void;
 }
 
