@@ -37,10 +37,18 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: inherit;
-    padding: 0 10px;
+    color: var(--main-dark);
+    padding: 5px 10px;
+    margin: auto 10px;
+    background-color: var(--main-light);
+    border-radius: 2px;
+    font-size: 18px;
+    box-shadow: 0 10px 6px 0 rgba(0, 0, 0, 0.2);
 }
 
-.nav-links a:hover {
-    text-decoration: underline;
+.nav-links a:hover,
+.nav-links a.active {
+    text-decoration: none;
+    color: var(--main-light);
+    background-color: var(--main-green);
 }

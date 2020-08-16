@@ -1,11 +1,10 @@
 import React, { ReactElement } from 'react';
-
+import { QueryStatus } from 'react-query';
 import { useLists } from 'hooks/useLists';
 import { useAuth } from 'context/auth';
 import { FoursquareButton, CardWrapper, LoadingError, ListsTable } from 'components/common';
 import listsPlaceholder from 'images/checklist.svg';
 import './style.css';
-import { QueryStatus } from 'react-query';
 
 const HomePage: React.FC = () => {
     const { foursquarePaths } = useAuth();
@@ -48,7 +47,7 @@ const HomePage: React.FC = () => {
 
     return (
         <div className="page-wrapper home-page-wrapper">
-            <div className="home-page-content">
+            <div className="lists-content">
                 {status === QueryStatus.Loading && renderLoading()}
                 {status === QueryStatus.Success && renderLists()}
                 {status === 'rejected' && renderFoursquareAuth()}

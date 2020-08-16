@@ -2,26 +2,26 @@
     height: auto;
 }
 
-.home-page-content {
+.lists-content {
     margin: 0 0 50px;
     width: 100%;
     display: grid;
 }
 
-.home-page-content .foursquare-wrapper,
-.home-page-content .error-wrapper,
-.home-page-content .loading-wrapper {
+.lists-content .foursquare-wrapper,
+.lists-content .error-wrapper,
+.lists-content .loading-wrapper {
     margin: 0 50px;
 }
 
-.home-page-content .foursquare-message {
+.lists-content .foursquare-message {
     color: var(--main-dark);
     font-size: 20px;
     margin-bottom: 10px;
     text-align: center;
 }
 
-.home-page-content .error-wrapper {
+.lists-content .error-wrapper {
     display: grid;
     align-items: center;
     justify-items: center;
@@ -29,23 +29,23 @@
     padding: 40px;
 }
 
-.home-page-content .error-wrapper img {
+.lists-content .error-wrapper img {
     height: 270px;
 }
 
-.home-page-content .error-message {
+.lists-content .error-message {
     color: var(--main-dark);
     font-weight: bold;
     font-size: 20px;
     text-align: center;
 }
 
-.home-page-content .connect-btn {
+.lists-content .connect-btn {
     justify-self: center;
     margin-top: 10px;
 }
 
-.home-page-content .connect-btn:hover {
+.lists-content .connect-btn:hover {
     color: var(--main-light);
     background-color: var(--main-green);
 }
@@ -55,11 +55,11 @@
     padding: 20px;
 }
 
-.home-page-content .loading-wrapper {
+.lists-content .loading-wrapper {
     padding: 15px;
 }
 
-.home-page-content .loading-bar {
+.lists-content .loading-bar {
     background-color: var(--main-green);
     color: var(--main-light);
     font-weight: bold;
@@ -73,7 +73,7 @@
 }
 
 /* https://css-tricks.com/books/fundamental-css-tactics/striped-barberpole-animation/ */
-.home-page-content .loading-bar {
+.lists-content .loading-bar {
     background-image: repeating-linear-gradient(
         -45deg,
         transparent,

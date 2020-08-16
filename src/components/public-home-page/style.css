@@ -1,7 +1,33 @@
+.public-home-wrapper {
+    margin: 0 50px;
+}
+
+.public-home-wrapper a {
+    font-size: inherit;
+}
+
 .public-home-wrapper .heading {
-    color: var(--main-light);
-    font-size: 4em;
+    color: var(--main-green);
+    font-size: 3.5em;
+    text-align: center;
     text-transform: uppercase;
     font-family: 'Frijole', sans-serif;
-    text-shadow: 10px 10px rgba(0, 0, 0, 0.75);
+    text-shadow: 10px 3px rgba(0, 0, 0, 0.75);
+}
+
+.public-home-wrapper .content {
+    color: var(--main-dark);
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    align-self: center;
+    width: 70%;
+    letter-spacing: 0.05rem;
+}
+
+.public-home-wrapper .content p {
+    padding: 10px 0;
+}
+
+.public-home-wrapper .content a {
+    color: var(--main-green);
 }

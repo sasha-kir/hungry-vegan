@@ -5,7 +5,8 @@
             "updateTypes": ["minor", "patch", "pin", "digest"],
             "automerge": true,
             "automergeType": "branch",
-            "requiredStatusChecks": null
+            "requiredStatusChecks": null,
+            "ignoreDeps": ["react-query"]
         }
     ]
 }

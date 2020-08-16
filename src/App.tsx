@@ -5,6 +5,7 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { PrivateRoute, AuthProvider } from 'utils';
 import NavigationBar from 'components/navigation-bar';
 import PublicHomePage from 'components/public-home-page';
+import PublicListsPage from 'components/public-lists-page';
 import LoginPage from 'components/login-page';
 import RegisterPage from 'components/register-page';
 import HomePage from 'components/home-page';
@@ -35,6 +36,9 @@ const App: React.FC = () => {
                         <Switch>
                             <Route exact path="/">
                                 <PublicHomePage />
+                            </Route>
+                            <Route exact path="/lists">
+                                <PublicListsPage />
                             </Route>
                             <Route exact path="/:listOwner/lists/:listName">
                                 <ListDetailsPage />

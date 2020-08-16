@@ -32,3 +32,8 @@ export const instagramLink = (handle: string): ReactElement<HTMLLinkElement> => 
     const url = `https://instagram.com/${handle}`;
     return externalLink(url, handle);
 };
+
+export const cityGuideLink = (): ReactElement<HTMLLinkElement> => {
+    const url = 'https://foursquare.com/city-guide';
+    return externalLink(url, 'Foursquare CityGuide');
+};

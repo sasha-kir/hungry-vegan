@@ -22,9 +22,16 @@
     height: 40px;
 }
 
-.fancy-btn:hover, .fancy-btn:focus {
+.fancy-btn:hover,
+.fancy-btn:focus {
     background-color: var(--main-green);
     color: var(--main-light);
+}
+
+.fancy-btn:hover a,
+.fancy-btn:hover a:hover {
+    text-decoration: none;
+    color: inherit;
 }
 
 .fancy-btn:active {
