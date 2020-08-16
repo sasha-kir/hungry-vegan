@@ -11,6 +11,7 @@ enum ListItemState {
     fullInfo,
     editingMode,
     error,
+    updating,
 }
 
 interface ListItemProps {
@@ -20,7 +21,7 @@ interface ListItemProps {
 }
 
 const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
-    const [updateItem, { status }] = useListItemMutation();
+    const [updateItem, { status, reset }] = useListItemMutation();
 
     const getInitialState = useCallback(
         () => (isSelected ? ListItemState.fullInfo : ListItemState.preview),
@@ -35,6 +36,9 @@ const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
         }
         if (status === QueryStatus.Error) {
             setItemState(ListItemState.error);
+        }
+        if (status === QueryStatus.Loading) {
+            setItemState(ListItemState.updating);
         }
     }, [isSelected, isEditingMode, getInitialState, status]);
 
@@ -52,12 +56,13 @@ const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
     };
 
     const saveEdit = async (updatedItem: UserListItem) => {
-        setItemState(getInitialState);
         await updateItem(updatedItem);
+        setItemState(getInitialState);
     };
 
     const renderError = () => {
         const handleClick = () => {
+            reset();
             setItemState(ListItemState.fullInfo);
         };
         return (
@@ -66,6 +71,10 @@ const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
                 <AiOutlineRollback onClick={handleClick} className="list-item-icon" />
             </div>
         );
+    };
+
+    const renderLoading = () => {
+        return <div className="list-item-loading">Loading...</div>;
     };
 
     return (
@@ -82,6 +91,7 @@ const VenuesListItem = ({ item, isSelected, selectItem }: ListItemProps) => {
                 />
             )}
             {itemState === ListItemState.error && renderError()}
+            {itemState === ListItemState.updating && renderLoading()}
         </div>
     );
 };

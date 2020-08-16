@@ -64,7 +64,7 @@ export function useUserData(): [UpdateUser, UserInfo] {
     const [status, setStatus] = useState<QueryStatus>(QueryStatus.Idle);
 
     const { data, status: queryStatus, refetch } = useUserInfo();
-    const [updateData, { status: mutationStatus }] = useUpdateUser();
+    const [updateData, { status: mutationStatus, reset: resetUpdate }] = useUpdateUser();
 
     useEffect(() => {
         if (queryStatus === QueryStatus.Loading || mutationStatus === QueryStatus.Loading) {
@@ -81,5 +81,10 @@ export function useUserData(): [UpdateUser, UserInfo] {
         }
     }, [queryStatus, mutationStatus]);
 
-    return [updateData, { data, status, refetch }];
+    const refetchUser = () => {
+        resetUpdate();
+        refetch();
+    };
+
+    return [updateData, { data, status, refetch: refetchUser }];
 }

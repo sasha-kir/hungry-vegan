@@ -12,9 +12,10 @@ interface EditItemProps {
 const VenuesListItemEdit = ({ item, toggleEdit, saveEdit }: EditItemProps) => {
     const { setValue, getValues, control } = useForm();
 
-    const handleSave = () => {
+    const handleSave = (e) => {
         const updatedValues = getValues();
-        saveEdit({ ...item, ...updatedValues });
+        const isDirty = Object.keys(updatedValues).some((key) => item[key] !== updatedValues[key]);
+        isDirty ? saveEdit({ ...item, ...updatedValues }) : toggleEdit(e);
     };
 
     return (

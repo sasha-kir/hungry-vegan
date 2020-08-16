@@ -9,12 +9,12 @@ interface IconWithTooltipProps {
 
 const IconWithTooltip = ({ icon, tooltipText }: IconWithTooltipProps): ReactElement => {
     return (
-        <>
+        <div className="list-item-icon-container">
             {icon}
-            <Tooltip top="1px" right="50px">
+            <Tooltip top="-10px" right="30px">
                 {tooltipText}
             </Tooltip>
-        </>
+        </div>
     );
 };
 

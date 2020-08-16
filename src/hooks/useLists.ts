@@ -58,7 +58,7 @@ export function useLists(): [UpdateLists, ListsInfo] {
     const [status, setStatus] = useState<ListsStatus>(QueryStatus.Idle);
 
     const { data, status: queryStatus, refetch } = useListsData();
-    const [updateLists, { status: mutationStatus }] = useUpdateLists();
+    const [updateLists, { status: mutationStatus, reset: resetUpdate }] = useUpdateLists();
 
     const rejected = data?.rejected || false;
 
@@ -81,5 +81,10 @@ export function useLists(): [UpdateLists, ListsInfo] {
         }
     }, [queryStatus, mutationStatus, rejected]);
 
-    return [updateLists, { data: data?.data, status, refetch }];
+    const retryQuery = () => {
+        resetUpdate();
+        refetch();
+    };
+
+    return [updateLists, { data: data?.data, status, refetch: retryQuery }];
 }

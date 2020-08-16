@@ -17,7 +17,6 @@
 
 .venues-list .list-item {
     display: flex;
-    position: relative;
     justify-content: space-between;
     background-color: var(--main-light);
     padding: 15px;
@@ -31,6 +30,12 @@
 .venues-list .list-item-error {
     display: flex;
     border: 3px solid var(--error);
+    padding: 15px;
+}
+
+.venues-list .list-item-loading {
+    display: flex;
+    border: 3px solid var(--main-green);
     padding: 15px;
 }
 
@@ -80,19 +85,23 @@
     align-self: center;
 }
 
+.venues-list .list-item-icon-container {
+    position: relative;
+}
+
 .venues-list .list-item-icon {
     padding: 0 3px;
     font-size: 20px;
     cursor: pointer;
 }
 
-.venues-list .list-item-icon:hover ~ .tooltip {
+.venues-list .list-item-icon:hover + .tooltip {
     display: block;
 }
 
 .venues-list .list-item-wrapper:last-child .list-item-icon:hover ~ .tooltip {
     top: auto !important;
-    bottom: 0px !important;
+    bottom: -10px !important;
 }
 
 .venues-list .list-item-icon.positive {

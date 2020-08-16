@@ -17,6 +17,7 @@ const ProfilePage = (): React.ReactElement => {
     const [updateData, { data: userInfo, status, refetch }] = useUserData();
 
     const renderUserInfo = (): ReactElement => {
+        console.log(userInfo, status);
         return (
             <UserInfoForm
                 user={userInfo as ExtendedUserData}
