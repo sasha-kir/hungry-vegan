@@ -10,7 +10,7 @@
         "react-hook-form": "6.4.0",
         "react-icons": "3.10.0",
         "react-media-hook": "0.4.7",
-        "react-query": "2.5.7-tsnext.1",
+        "react-query": "2.5.14",
         "react-router-dom": "5.2.0",
         "react-scripts": "3.4.3",
         "react-spinners": "0.9.0",
