@@ -1,6 +1,7 @@
 {
     "name": "hungry-vegan",
     "version": "0.1.0",
+    "homepage": "https://sasha-kir.com/hungry-vegan",
     "private": true,
     "dependencies": {
         "axios": "0.19.2",
