@@ -6,7 +6,12 @@
             "automerge": true,
             "automergeType": "branch",
             "requiredStatusChecks": null,
-            "ignoreDeps": ["react-query"]
+            "packageRules": [
+                {
+                    "packagePatterns": ["react-query"],
+                    "enabled": false
+                }
+            ]
         }
     ]
 }
