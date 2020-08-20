@@ -11,9 +11,14 @@ import VenuesMap from './components/venues-map';
 import errorIllustration from 'images/pizza.svg';
 import './style.css';
 
+interface ListPageParams {
+    listOwner: string;
+    listName: string;
+}
+
 const ListDetailsPage: React.FC = () => {
     const [selectedItem, setSelectedItem] = useState<UserListItem | null>(null);
-    const { listOwner, listName } = useParams();
+    const { listOwner, listName } = useParams<ListPageParams>();
     const history = useHistory();
 
     const { status, data: listDetails, refetch } = useListDataQuery({ listOwner, listName });
