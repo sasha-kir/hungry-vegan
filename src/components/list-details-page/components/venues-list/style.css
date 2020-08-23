@@ -10,7 +10,6 @@
 .venues-list .list-item-wrapper {
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
     margin: 5px auto 15px 5px;
-    min-width: 300px;
     margin-right: 10px;
     border-radius: 3px;
 }

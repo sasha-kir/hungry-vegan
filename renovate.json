@@ -1,6 +1,6 @@
 {
     "extends": ["config:base"],
-    "ignoreDeps": "react-query",
+    "ignoreDeps": ["react-query"],
     "packageRules": [
         {
             "updateTypes": ["minor", "patch", "pin", "digest"],

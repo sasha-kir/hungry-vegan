@@ -23,7 +23,7 @@ const NavigationBar = (): ReactElement => {
         return (
             <div className={className}>
                 <NavLink to="/register">register</NavLink>
-                <NavLink to="/login">log in</NavLink>
+                <NavLink to="/login">login</NavLink>
             </div>
         );
     };
