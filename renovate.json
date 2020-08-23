@@ -1,17 +1,12 @@
 {
     "extends": ["config:base"],
+    "ignoreDeps": "react-query",
     "packageRules": [
         {
             "updateTypes": ["minor", "patch", "pin", "digest"],
             "automerge": true,
             "automergeType": "branch",
-            "requiredStatusChecks": null,
-            "packageRules": [
-                {
-                    "packagePatterns": ["react-query"],
-                    "enabled": false
-                }
-            ]
+            "requiredStatusChecks": null
         }
     ]
 }
