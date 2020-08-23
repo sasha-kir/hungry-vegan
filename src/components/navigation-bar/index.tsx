@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
+import { IoMdExit } from 'react-icons/io';
+import { useMediaPredicate } from 'react-media-hook';
 
 import { useAuth } from 'context/auth';
 import logo from 'images/logo.png';
@@ -7,6 +9,7 @@ import './style.css';
 
 const NavigationBar = (): ReactElement => {
     const { authToken, handleLogout } = useAuth();
+    const isMobile = useMediaPredicate('(max-width: 550px)');
 
     const renderNavLinks = (): ReactElement<HTMLDivElement> => {
         const className = 'nav-links';
@@ -15,14 +18,14 @@ const NavigationBar = (): ReactElement => {
                 <div className={className}>
                     <NavLink to="/profile">profile</NavLink>
                     <NavLink exact={true} to="/" onClick={handleLogout}>
-                        log out
+                        {isMobile ? <IoMdExit /> : 'log out'}
                     </NavLink>
                 </div>
             );
         }
         return (
             <div className={className}>
-                <NavLink to="/register">register</NavLink>
+                <NavLink to="/lists">lists</NavLink>
                 <NavLink to="/login">login</NavLink>
             </div>
         );

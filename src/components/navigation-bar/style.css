@@ -36,6 +36,7 @@ nav {
 }
 
 .nav-links a {
+    display: inline-flex;
     text-decoration: none;
     color: var(--main-dark);
     padding: 5px 20px;
@@ -44,6 +45,10 @@ nav {
     border-radius: 2px;
     font-size: 18px;
     box-shadow: 0 10px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.nav-links a svg {
+    font-size: 22px;
 }
 
 .nav-links a:hover,

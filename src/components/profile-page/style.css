@@ -22,4 +22,7 @@
         height: auto;
         min-height: 200px;
     }
+    .user-info-editing-btn {
+        max-width: 120px;
+    }
 }

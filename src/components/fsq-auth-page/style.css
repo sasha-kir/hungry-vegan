@@ -10,3 +10,14 @@
     letter-spacing: 0.05em;
     align-self: center;
 }
+
+@media (max-width: 550px) {
+    .fsq-form-wrapper {
+        padding: 20px;
+        width: auto;
+    }
+    .foursquare-btn {
+        width: 100%;
+        max-width: 240px;
+    }
+}

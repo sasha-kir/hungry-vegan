@@ -17,3 +17,9 @@
 .loading-error img {
     height: 270px;
 }
+
+@media (max-width: 550px) {
+    .loading-error img {
+        height: 220px;
+    }
+}

@@ -13,3 +13,9 @@
 .login-btn {
     box-sizing: border-box;
 }
+
+@media (max-width: 550px) {
+    .login-form-wrapper {
+        padding: 20px;
+    }
+}

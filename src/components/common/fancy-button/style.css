@@ -38,3 +38,9 @@
     box-shadow: 2px 2px var(--light-green);
     transform: translateY(4px);
 }
+
+@media (max-width: 550px) {
+    .fancy-btn-normal {
+        width: 100%;
+    }
+}
