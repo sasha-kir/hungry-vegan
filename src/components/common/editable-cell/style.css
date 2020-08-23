@@ -8,6 +8,7 @@
     font-size: 14px;
     border: none;
     border-bottom: 2px solid var(--dark-gray);
+    border-radius: 0;
 }
 
 .editable-cell:focus {

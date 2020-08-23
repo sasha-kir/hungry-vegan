@@ -1,5 +1,5 @@
-import React from 'react';
-import { Map, Placemark, ZoomControl } from 'react-yandex-maps';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Map, Placemark, ZoomControl, GeolocationControl } from 'react-yandex-maps';
 
 import './style.css';
 
@@ -14,12 +14,19 @@ const DEFAULT_COLOR = '#001e1d';
 const SELECTED_COLOR = '#19a186';
 
 const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: MapProps) => {
+    const initialZoom = useCallback(() => {
+        return currentSelection === null ? false : true;
+    }, [currentSelection]);
+    const [shouldZoom, setShouldZoom] = useState<boolean>(initialZoom);
+
+    useEffect(() => {
+        setShouldZoom(initialZoom);
+    }, [initialZoom]);
+
     const formatCoords = (location: ListCoordinates): [number, number] => [
         location.latitude,
         location.longitude,
     ];
-
-    const shouldZoom = currentSelection === null ? false : true;
 
     let mapCoords: [number, number] = [0, 0];
     if (currentSelection) {
@@ -29,6 +36,10 @@ const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: Ma
     } else if (listItems?.length) {
         mapCoords = formatCoords(listItems[0].coordinates);
     }
+
+    const handleUserLocation = () => {
+        setShouldZoom(true);
+    };
 
     const renderPlacemark = (item: UserListItem) => {
         const venueCoords = formatCoords(item.coordinates);
@@ -54,7 +65,11 @@ const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: Ma
     };
 
     return (
-        <Map className="venues-map" state={{ center: mapCoords, zoom: shouldZoom ? 14 : 10 }}>
+        <Map
+            className="venues-map"
+            state={{ center: mapCoords, zoom: shouldZoom ? 13 : 10 }}
+            modules={['geolocation']}
+        >
             <ZoomControl
                 options={{
                     size: 'small',
@@ -66,6 +81,10 @@ const VenuesMap = ({ listLocation, listItems, currentSelection, selectItem }: Ma
                 }}
             />
             {listItems && listItems.map((item) => renderPlacemark(item))}
+            <GeolocationControl
+                options={{ float: 'right' }}
+                onLocationChange={handleUserLocation}
+            />
         </Map>
     );
 };

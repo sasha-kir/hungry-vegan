@@ -8,12 +8,6 @@
     display: grid;
 }
 
-.lists-content .foursquare-wrapper,
-.lists-content .error-wrapper,
-.lists-content .loading-wrapper {
-    margin: 0 50px;
-}
-
 .lists-content .foursquare-message {
     color: var(--main-dark);
     font-size: 20px;
@@ -51,7 +45,6 @@
 }
 
 .lists-wrapper {
-    margin: 0 50px;
     padding: 20px;
 }
 

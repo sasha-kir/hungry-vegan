@@ -4,10 +4,10 @@
 
 .list-container-wrapper {
     --list-container-height: 500px;
-    margin: 0 50px 10px;
+    margin-bottom: 10px;
     padding-left: 15px;
     min-width: var(--navbar-min-width);
-    height: var(--list-container-height);
+    height: 500px;
     color: var(--main-dark);
 }
 
@@ -31,4 +31,32 @@
     font-size: 20px;
     padding: 0 10px;
     cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .list-container-wrapper {
+        --list-container-height: 255px;
+        padding-right: 10px;
+        height: auto;
+    }
+    .list-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: max-content max-content;
+    }
+    .list-container-wrapper .list-name {
+        margin-bottom: 5px;
+    }
+    .venues-list-container {
+        height: var(--list-container-height);
+    }
+    .venues-list {
+        height: var(--list-container-height);
+    }
+    .venues-map {
+        height: 200px;
+        margin-left: 5px;
+        margin-right: 10px;
+        border-radius: 3px;
+        overflow: hidden;
+    }
 }

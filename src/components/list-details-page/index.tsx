@@ -61,7 +61,7 @@ const ListDetailsPage: React.FC = () => {
     };
 
     return (
-        <YMaps query={{ lang: 'en_RU' }} preload>
+        <YMaps query={{ lang: 'en_RU', apikey: process.env.REACT_APP_YANDEX_API_KEY }} preload>
             <div className="page-wrapper list-page-wrapper">
                 <CardWrapper className="list-container-wrapper">
                     <BeatLoader flag={status === QueryStatus.Loading} />

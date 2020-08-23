@@ -9,7 +9,8 @@
     --dark-gray: #939393;
     --error: #cc0000;
     --secondary-error: #ffcccc;
-    --navbar-min-width: 550px;
+    --navbar-min-width: 250px;
+    --default-side-margin: 50px;
 }
 
 * {
@@ -49,4 +50,14 @@ button {
 ol,
 ul {
     list-style: none;
+}
+
+@media (max-width: 550px) {
+    :root {
+        --default-side-margin: 10px;
+    }
+    #root {
+        overflow-x: hidden;
+        height: max-content;
+    }
 }

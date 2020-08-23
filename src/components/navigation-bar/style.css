@@ -4,7 +4,7 @@ nav {
     height: 60px;
     min-width: var(--navbar-min-width);
     border-radius: 3px;
-    margin: 30px 50px 15px;
+    margin: 30px var(--default-side-margin) 15px;
     color: var(--main-light);
     font-size: 20px;
     letter-spacing: 0.05rem;
@@ -38,7 +38,7 @@ nav {
 .nav-links a {
     text-decoration: none;
     color: var(--main-dark);
-    padding: 5px 10px;
+    padding: 5px 20px;
     margin: auto 10px;
     background-color: var(--main-light);
     border-radius: 2px;

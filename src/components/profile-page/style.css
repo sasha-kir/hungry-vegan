@@ -1,6 +1,6 @@
 .user-info-wrapper {
     justify-items: initial;
-    margin: 0 50px 30px;
+    margin-bottom: 30px;
     min-width: var(--navbar-min-width);
 }
 
@@ -13,5 +13,13 @@
     .user-info-form-wrapper {
         padding: 30px 100px;
         gap: 0;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .user-info-form-wrapper {
+        padding: 30px 0 0;
+        height: auto;
+        min-height: 200px;
     }
 }

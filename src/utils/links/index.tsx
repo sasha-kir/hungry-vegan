@@ -22,10 +22,10 @@ export const externalVenueLink = (
 export const externalListLink = (
     listId: string,
     fsqClientId: string,
-    text: string,
+    content: ReactElement | string,
 ): ReactElement<HTMLLinkElement> => {
     const url = `http://foursquare.com/list/${listId}?ref=${fsqClientId}`;
-    return externalLink(url, text);
+    return externalLink(url, content);
 };
 
 export const instagramLink = (handle: string): ReactElement<HTMLLinkElement> => {

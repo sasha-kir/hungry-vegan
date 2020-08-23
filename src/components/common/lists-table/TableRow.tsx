@@ -96,8 +96,9 @@ const TableRow = ({
                 <div className="table-row-details">
                     <div className="col link-block link-block-left" data-label="original list">
                         {!isMobile && <IoLogoFoursquare />}
-                        {externalListLink(list.id, fsqClientId, 'open in Foursquare')}
-                        {isMobile && <FiExternalLink />}
+                        {isMobile
+                            ? externalListLink(list.id, fsqClientId, <FiExternalLink />)
+                            : externalListLink(list.id, fsqClientId, 'open on Foursquare')}
                     </div>
                     <div className="col link-block link-block-right" data-label="details">
                         {!isMobile && <FiMapPin />}

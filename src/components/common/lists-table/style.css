@@ -95,7 +95,7 @@
 }
 
 .responsive-table .link-block a {
-    font-size: 16px;
+    font-size: inherit;
     margin-top: initial;
 }
 
@@ -111,10 +111,18 @@
 @media all and (max-width: 900px) {
     .responsive-table li {
         display: block;
+        padding: 10px 50px;
     }
     .responsive-table .col {
         display: flex;
         padding: 10px 0;
+    }
+    .responsive-table .col-1 {
+        display: none;
+    }
+    .responsive-table .col-2 {
+        flex-direction: column;
+        align-items: center;
     }
     .responsive-table .col:before {
         color: var(--dark-gray);
@@ -123,19 +131,23 @@
         flex-basis: 50%;
         text-align: right;
     }
+    .responsive-table .col-2::before {
+        padding-right: 0;
+    }
     .responsive-table .table-icon {
-        margin-left: auto;
+        padding: 0;
     }
     .responsive-table .table-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
     .responsive-table .table-header .col {
         display: none;
     }
     .responsive-table .table-row .editable-cell {
         position: relative;
-        margin-bottom: -15px;
+        margin-top: 15px;
+        text-align: center;
     }
     .responsive-table .table-row {
         background: var(--main-light);

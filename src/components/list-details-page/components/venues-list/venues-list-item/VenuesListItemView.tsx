@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { FiEdit2 } from 'react-icons/fi';
 
 import { useAuth } from 'context/auth';
-import { formatDate } from 'utils/date';
+import { formatDate, timeSince } from 'utils/date';
 import { instagramLink, externalVenueLink } from 'utils/links';
 import { DeliveryIcon, TakeawayIcon, ClosedIcon } from '../icons';
 
@@ -36,7 +36,7 @@ const VenuesListItemView = ({ item, isSelected, toggleSelection, toggleEdit }: I
                         {item.instagram ? instagramLink(item.instagram) : '—'}
                     </li>
                     <li data-label="date added">{formatDate(item.addedAt)}</li>
-                    <li data-label="date updated">{formatDate(item.updatedAt)}</li>
+                    <li data-label="date updated">{timeSince(item.updatedAt)}</li>
                 </ul>
             </div>
         );

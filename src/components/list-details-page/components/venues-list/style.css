@@ -50,7 +50,7 @@
 .venues-list .list-item-details,
 .venues-list .list-item-edit {
     border: 3px solid var(--main-green);
-    padding: 12px;
+    padding: 0 12px;
     min-height: 100px;
     border-top: 0;
 }

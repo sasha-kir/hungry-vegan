@@ -18,6 +18,7 @@
     background-color: transparent;
     color: var(--main-dark);
     box-sizing: border-box;
+    border-radius: 0;
     font-size: 1.2rem;
     letter-spacing: 0.05em;
     padding: 10px;
