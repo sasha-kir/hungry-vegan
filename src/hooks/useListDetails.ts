@@ -1,5 +1,5 @@
 import { useQuery, useMutation, queryCache } from 'react-query';
-import { getListData, updateListItem } from 'api/lists';
+import { getListData, updateListItem, invalidateListData } from 'api/lists';
 import { sortByLocation } from 'utils/location';
 
 interface ListIdentifier {
@@ -49,3 +49,16 @@ export const useListItemMutation = () => {
         },
     });
 };
+
+export function useListDataRefresh() {
+    const invalidateListDetails = async ({
+        listOwner,
+        listName,
+    }: ListIdentifier): Promise<boolean | null> => {
+        const success = await invalidateListData(listOwner, listName);
+        queryCache.invalidateQueries('listDetails');
+        return Boolean(success);
+    };
+
+    return useMutation(invalidateListDetails);
+}

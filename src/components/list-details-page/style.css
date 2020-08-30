@@ -27,6 +27,11 @@
     align-items: baseline;
 }
 
+.list-header .list-refresh {
+    margin-left: auto;
+    padding: 0;
+}
+
 .list-header svg {
     font-size: 20px;
     padding: 0 10px;
@@ -58,5 +63,8 @@
         margin-right: 10px;
         border-radius: 3px;
         overflow: hidden;
+    }
+    .list-header {
+        margin-right: 15px;
     }
 }

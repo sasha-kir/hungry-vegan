@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { QueryStatus } from 'react-query';
 import { YMaps } from 'react-yandex-maps';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiRefreshCcw } from 'react-icons/fi';
+
 import { CardWrapper, BeatLoader, LoadingError } from 'components/common';
-import { useListDataQuery } from 'hooks/useListDetails';
+import { useListDataQuery, useListDataRefresh } from 'hooks/useListDetails';
 import VenuesList from './components/venues-list';
 import VenuesMap from './components/venues-map';
 
@@ -22,9 +23,14 @@ const ListDetailsPage: React.FC = () => {
     const history = useHistory();
 
     const { status, data: listDetails, refetch } = useListDataQuery({ listOwner, listName });
+    const [refreshData] = useListDataRefresh();
 
     const goBack = () => {
         history.goBack();
+    };
+
+    const refreshList = () => {
+        refreshData({ listOwner, listName });
     };
 
     const selectItem = (item: UserListItem | null): void => {
@@ -37,6 +43,7 @@ const ListDetailsPage: React.FC = () => {
                 <div className="list-header">
                     <FiArrowLeft onClick={goBack} />
                     <h1 className="list-name">{listName}</h1>
+                    <FiRefreshCcw className="list-refresh" onClick={refreshList} />
                 </div>
 
                 <div className="list-container">

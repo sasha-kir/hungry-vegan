@@ -41,3 +41,11 @@ export const updateListItem = async (
     const { data } = await api.post('/update_venue_details', { ...venueDetails });
     return data?.data;
 };
+
+export const invalidateListData = async (
+    owner: string,
+    listName: string,
+): Promise<boolean | undefined> => {
+    const { data } = await api.post('/invalidate_list_data', { owner, listName });
+    return data?.info;
+};
