@@ -1,18 +1,7 @@
 import React from 'react';
 import { ReactQueryConfigProvider } from 'react-query';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-
-import { PrivateRoute, AuthProvider } from 'utils';
-import NavigationBar from 'components/navigation-bar';
-import PublicHomePage from 'components/public-home-page';
-import PublicListsPage from 'components/public-lists-page';
-import LoginPage from 'components/login-page';
-import RegisterPage from 'components/register-page';
-import HomePage from 'components/home-page';
-import ListDetailsPage from 'components/list-details-page';
-import ProfilePage from 'components/profile-page';
-import FsqAuthPage from 'components/fsq-auth-page';
-import NotFoundPage from 'components/404-page';
+import { AuthProvider } from 'utils';
+import Routes from 'routes';
 
 const queryConfig = {
     queries: {
@@ -31,38 +20,7 @@ const App: React.FC = () => {
         <div className="body">
             <ReactQueryConfigProvider config={queryConfig}>
                 <AuthProvider foursquarePaths={fsqPaths}>
-                    <Router basename="/hungry-vegan">
-                        <NavigationBar />
-                        <Switch>
-                            <Route exact path="/">
-                                <PublicHomePage />
-                            </Route>
-                            <Route exact path="/lists">
-                                <PublicListsPage />
-                            </Route>
-                            <Route exact path="/:listOwner/lists/:listName">
-                                <ListDetailsPage />
-                            </Route>
-                            <Route exact path="/login">
-                                <LoginPage />
-                            </Route>
-                            <Route exact path="/register">
-                                <RegisterPage />
-                            </Route>
-                            <PrivateRoute exact path="/home">
-                                <HomePage />
-                            </PrivateRoute>
-                            <PrivateRoute exact path="/profile">
-                                <ProfilePage />
-                            </PrivateRoute>
-                            <Route exact path={['/fsq-login', ...Object.values(fsqPaths)]}>
-                                <FsqAuthPage />
-                            </Route>
-                            <Route>
-                                <NotFoundPage />
-                            </Route>
-                        </Switch>
-                    </Router>
+                    <Routes foursquarePaths={fsqPaths} />
                 </AuthProvider>
             </ReactQueryConfigProvider>
         </div>

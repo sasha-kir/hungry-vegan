@@ -6,6 +6,9 @@
     margin: 0 var(--default-side-margin);
     border-radius: 3px;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+    visibility: hidden;
+    animation: fadein 0.2s;
+    animation-fill-mode: forwards;
 }
 
 .card-wrapper a {
@@ -19,4 +22,15 @@
 
 .card-wrapper a:hover {
     text-decoration: underline;
+}
+
+@keyframes fadein {
+    from {
+        visibility: visible;
+        opacity: 0;
+    }
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
 }
