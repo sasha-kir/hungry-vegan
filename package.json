@@ -8,7 +8,7 @@
         "react": "16.13.1",
         "react-animate-height": "2.0.23",
         "react-dom": "16.13.1",
-        "react-hook-form": "6.8.3",
+        "react-hook-form": "6.8.4",
         "react-icons": "3.11.0",
         "react-media-hook": "0.4.7",
         "react-query": "2.5.7-tsnext.1",
