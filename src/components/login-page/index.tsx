@@ -12,7 +12,7 @@ const LoginPage = (): ReactElement => {
     const [isError, setError] = useState<boolean>(false);
     const { handleAuth } = useAuth();
     const history = useHistory();
-    const location = useLocation();
+    const location = useLocation<{ from: object }>();
     const { handleSubmit, clearErrors, setValue, control, errors } = useForm();
 
     const onSubmit = async (formData) => {
@@ -24,7 +24,7 @@ const LoginPage = (): ReactElement => {
         handleAuth(token);
         let referer = '/home';
         if (location.state) {
-            referer = location.state['from']['pathname'] || '/home';
+            referer = location.state.from?.['pathname'] || '/home';
         }
         history.push(referer);
     };

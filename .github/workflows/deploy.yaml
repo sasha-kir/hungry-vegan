@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
         - name: Build hungry-vegan app
           uses: appleboy/ssh-action@master
@@ -23,7 +22,7 @@ jobs:
                 make deploy
 
   send_email:
-    name: Send email on failure
+    name: send email on failure
     needs: build
     runs-on: ubuntu-latest
     if: always()
