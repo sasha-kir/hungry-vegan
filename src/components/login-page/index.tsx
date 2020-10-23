@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from 'react';
+
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -12,7 +13,7 @@ const LoginPage = (): ReactElement => {
     const [isError, setError] = useState<boolean>(false);
     const { handleAuth } = useAuth();
     const history = useHistory();
-    const location = useLocation<{ from: object }>();
+    const location = useLocation<{ from: Record<string, unknown> }>();
     const { handleSubmit, clearErrors, setValue, control, errors } = useForm();
 
     const onSubmit = async (formData) => {
@@ -24,7 +25,7 @@ const LoginPage = (): ReactElement => {
         handleAuth(token);
         let referer = '/home';
         if (location.state) {
-            referer = location.state.from?.['pathname'] || '/home';
+            referer = (location.state.from?.['pathname'] as string) || '/home';
         }
         history.push(referer);
     };

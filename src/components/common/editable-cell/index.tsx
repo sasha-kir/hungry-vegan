@@ -12,8 +12,8 @@ interface EditableCellProps {
 const EditableCell = ({ value: initialValue, placeholder, row, recordData }: EditableCellProps) => {
     const [value, setValue] = useState(initialValue);
 
-    const onChange = e => {
-        setValue(e.target.value);
+    const onChange = (e) => {
+        setValue(e?.target?.value);
     };
 
     const onBlur = () => {
