@@ -4,7 +4,7 @@
     "homepage": "https://sasha-kir.com/hungry-vegan",
     "private": true,
     "dependencies": {
-        "axios": "0.21.0",
+        "axios": "0.21.1",
         "react": "17.0.1",
         "react-animate-height": "2.0.23",
         "react-dom": "17.0.1",
